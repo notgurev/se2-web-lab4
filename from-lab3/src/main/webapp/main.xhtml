@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Main page</title>
+    <h:outputStylesheet name="styles.css"/>
+    <h:outputStylesheet name="css/primeflex.css"/>
+</h:head>
+<h:body>
+    <div class="p-grid">
+        <div class="p-col">
+            <p:panel header="Canvas">
+                <div id="graph-picture">
+                    <canvas id="background-canvas" style="z-index: 0" width="500" height="500">
+                        Canvas not supported
+                    </canvas>
+                    <canvas id="foreground-canvas" style="z-index: 1" width="500" height="500">
+                        Canvas not supported
+                    </canvas>
+                    <canvas id="aim-canvas" style="z-index: 2" width="500" height="500">
+                        Canvas not supported
+                    </canvas>
+                </div>
+                <h:form id="hidden-canvas-form">
+                    <h:inputHidden value="#{hits.canvasX}" id="hidden-x"/>
+                    <h:inputHidden value="#{hits.canvasY}" id="hidden-y">
+                        <f:validator validatorId="rangeValidatorY"/>
+                    </h:inputHidden>
+                    <h:inputHidden value="#{hits.canvasR}" id="hidden-r"/>
+                    <div style="display: flex; align-items: center">
+                        <h:outputText value="R:" style="margin-right: 10px"/>
+                        <h:outputText id="r-value-text" value="1.0" style="margin-right: 20px"/>
+                        <p:slider for="hidden-r" step="0.5" minValue="1" maxValue="3" onSlideEnd="sliderChange()"
+                                  style="margin-top: 10px; flex-grow: 100"/>
+                    </div>
+                    <p:remoteCommand name="submitCanvasClick" update="results-table" action="#{hits.submitCanvasClickHit}"
+                    oncomplete="redrawPoints()"/>
+                </h:form>
+                <div style="display: flex; justify-content: center; margin-top: 15px">
+                    <input type="checkbox" id="checkbox-limit-with-matching-r" onchange="redrawPoints()">
+                        Only display with corresponding radius
+                    </input>
+                </div>
+            </p:panel>
+        </div>
+        <div class="p-col">
+            <p:panel header="Manual inputs">
+                <h:form id="manual-input-form">
+                    <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                    <div class="manual-input-block" id="x-checkboxes-block">
+                        <h:outputText value="X:"/>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[0]}"/>-4</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[1]}"/>-3</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[2]}"/>-2</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[3]}"/>-1</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[4]}"/>0</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[5]}"/>1</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[6]}"/>2</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[7]}"/>3</div>
+                        <div><h:selectBooleanCheckbox value="#{hits.manualInputXs[8]}"/>4</div>
+                    </div>
+                    <div class="manual-input-block" id="y-input-text-block">
+                        <h:outputLabel id="y-input-text-label" for="y-input-text" value="Y:" style="margin-right: 20px"/>
+                        <p:inputText id="y-input-text" value="#{hits.y}" required="true" style="flex-grow: 200"
+                                     requiredMessage="Please enter the Y coordinate!"
+                                     converterMessage="Y must be a number in range (-3 ... 3)"
+                                     validatorMessage="Y must be in range (-3 ... 3)">
+                            <f:validator validatorId="rangeValidatorY"/>
+                        </p:inputText>
+                        <p:watermark for="@previous" value="(-3 ... 3)"/>
+                    </div>
+                    <div class="manual-input-block" id="r-command-buttons-block">
+                        <h:outputText value="R:" style="margin-right: 20px"/>
+                        <div style="display: flex; justify-content: space-between; flex-grow: 200">
+                            <p:commandButton value=" 1 " update="results-table"
+                                             action="#{hits.submitManualInputHit( 1 )}" oncomplete="redrawPoints()"/>
+                            <p:commandButton value="1.5" update="results-table"
+                                             action="#{hits.submitManualInputHit(1.5)}" oncomplete="redrawPoints()"/>
+                            <p:commandButton value=" 2 " update="results-table"
+                                             action="#{hits.submitManualInputHit( 2 )}" oncomplete="redrawPoints()"/>
+                            <p:commandButton value="2.5" update="results-table"
+                                             action="#{hits.submitManualInputHit(2.5)}" oncomplete="redrawPoints()"/>
+                            <p:commandButton value=" 3 " update="results-table"
+                                             action="#{hits.submitManualInputHit( 3 )}" oncomplete="redrawPoints()"/>
+                        </div>
+                    </div>
+                </h:form>
+                <div style="display: flex; justify-content: center">
+                    <h:form>
+                        <p:commandButton value=" Clear " update="results-table" action="#{hits.clear}"
+                                         oncomplete="redrawPoints()" style="margin-right: 10px"/>
+                    </h:form>
+                    <p:button outcome="start" value="Back to start page" style="margin-left: 10px"/>
+                </div>
+            </p:panel>
+        </div>
+        <div class="p-col">
+            <p:panel header="Results">
+                <p:dataTable id="results-table"  var="hitEntry" value="#{hits.hitBeansList}">
+                    <p:column style="text-align: center;" headerText="X">
+                        <h:outputText value="#{hitEntry.x}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" headerText="Y">
+                        <h:outputText value="#{hitEntry.y}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" headerText="R">
+                        <h:outputText value="#{hitEntry.r}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" headerText="Result">
+                        <h:outputText value="#{hitEntry.fancySuccessful}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </div>
+    </div>
+
+</h:body>
+<h:outputScript name="js/canvas.js"/>
+</html>

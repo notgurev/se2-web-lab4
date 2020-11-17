@@ -1,0 +1,44 @@
+/* Не факт что пригодится, просто оставлю тут */
+
+:root {
+    --main-font-color: #ffffff;
+    --secondary-font-color: #747f8d;
+    --edges-background-color: #202225;
+    --main-background-color: #2f3136;
+    --blocks-background-color: #36393f;
+    --special-button-color: #43b581;
+    --special-button-color-hover: #107c4c;
+    --special-button-color-active: #014a28;
+    --warning-color: #ff0000;
+}
+
+/*
+    https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+
+.container {
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#graph-picture {
+    position: relative;
+    min-width: 500px;
+    min-height: 500px;
+    height: 500px;
+    width: 500px;
+}
+
+#graph-picture canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.manual-input-block {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    align-items: center;
+}
