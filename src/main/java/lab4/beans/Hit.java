@@ -8,19 +8,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-//@Entity
-//@NoArgsConstructor
+@Entity
+@NoArgsConstructor
 public class Hit implements Serializable {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-//    @Column(name = "x", nullable = false)
+    @Column(name = "x", nullable = false)
     private int x;
-//    @Column(name = "y", nullable = false)
+    @Column(name = "y", nullable = false)
     private Float y;
-//    @Column(name = "r", nullable = false)
+    @Column(name = "r", nullable = false)
     private float r;
-//    @Column(name = "success", nullable = false)
+    @Column(name = "success", nullable = false)
     private boolean successful;
 
     public Hit(int x, Float y, float r) {

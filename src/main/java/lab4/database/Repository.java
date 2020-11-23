@@ -1,4 +1,4 @@
-package lab3.database;
+package lab4.database;
 
 import java.util.List;
 

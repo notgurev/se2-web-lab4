@@ -1,9 +1,9 @@
-package lab3.database;
+package lab4.database.hits;
 
-import lab3.beans.Hit;
+import lab4.beans.Hit;
+import lab4.database.Repository;
 
 import javax.enterprise.inject.Default;
-import javax.faces.bean.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
