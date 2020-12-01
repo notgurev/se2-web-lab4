@@ -15,13 +15,13 @@ public class LoginResource {
     }
 
     @POST
-    @Path("/login") // todo no additional path
+    @Path("/login")
     public Response login() {
         return Response.ok().build();
     }
 
     @POST
-    @Path("register") // todo no additional path
+    @Path("register")
     public Response register() {
         return Response.ok().build();
     }
