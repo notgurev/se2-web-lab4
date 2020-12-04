@@ -5,6 +5,7 @@ import lab4.database.UserRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 /**
@@ -24,7 +25,7 @@ public class AuthService {
      * @param password password to check
      * @return AuthResult with token if correct / AuthResult with errorMessage if not
      */
-    public AuthResult login(String username, String password) {
+    public AuthResult login(@NotNull String username, @NotNull String password) {
         final Optional<User> optionalUser = users.getByUsername(username);
         if (optionalUser.isPresent()) {
             if (optionalUser.get().getPassword().equals(password)) { // todo encoded password
@@ -44,8 +45,9 @@ public class AuthService {
      * @param password password to register
      * @return AuthResult with token if successful / AuthResult with errorMessage if not
      */
-    public AuthResult register(String username, String password) {
+    public AuthResult register(@NotNull String username, @NotNull String password) {
         if (users.checkIfUserExists(username)) {
+            System.out.println("user exists!!!");
             return AuthResult.message("User already exists"); // todo username & password limitations
         } else {
             users.add(new User(username, password));
