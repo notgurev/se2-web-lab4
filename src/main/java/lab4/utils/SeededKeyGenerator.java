@@ -10,10 +10,14 @@ public class SeededKeyGenerator {
     private SecureRandom secureRandom;
 
     public SeededKeyGenerator() {
+        this("HmacSHA256");
+    }
+
+    public SeededKeyGenerator(String algorithm) {
         try {
-            keyGenerator = KeyGenerator.getInstance("AES");
+            keyGenerator = KeyGenerator.getInstance(algorithm);
             secureRandom = new SecureRandom();
-            keyGenerator.init(secureRandom);
+            keyGenerator.init(256, secureRandom);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
