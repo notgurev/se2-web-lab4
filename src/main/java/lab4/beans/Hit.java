@@ -24,7 +24,7 @@ public class Hit implements Serializable {
     private boolean successful;
 
     @ManyToOne
-    @JoinColumn(name = "owner", referencedColumnName = "login")
+    @JoinColumn(name = "owner", referencedColumnName = "username")
     private User owner;
 
     public Hit(int x, Float y, float r) {
