@@ -1,6 +1,5 @@
 package lab4.services.auth;
 
-import io.jsonwebtoken.Jwts;
 import lab4.beans.User;
 import lab4.database.UserRepository;
 
@@ -8,6 +7,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.Optional;
 
+/**
+ *
+ */
 @Stateless
 public class AuthService {
     @EJB
@@ -51,13 +53,24 @@ public class AuthService {
         }
     }
 
-//    // todo
-//    public boolean checkToken(String jwtToken) {
-//        return false;
-//    }
-//
-//    // todo
-//    public User getUserByToken(String jwtToken) {
-//        return null;
-//    }
+    /**
+     * Verifies token.
+     *
+     * @param token token to verify
+     * @return true if successful, false if not
+     */
+    public boolean verifyToken(String token) { // todo probably useless since username is needed to make changes
+        return tokenService.verify(token).isPresent();
+    }
+
+    /**
+     * Accepts token and decodes username from it.
+     * Also verifies the token so the action by user who sent this token is authorized.
+     *
+     * @param token token to decode.
+     * @return username from token if the token is valid.
+     */
+    public Optional<String> getUsernameByToken(String token) {
+        return tokenService.verify(token);
+    }
 }
