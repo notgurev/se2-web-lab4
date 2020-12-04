@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class User implements Serializable {
     @Id
-    @Column(name = "login", unique = true, nullable = false)
-    private String login;
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
     @Column(name = "password")
     private String password; // todo encoded password in database
     @Column(name = "token")
@@ -24,4 +24,9 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "owner")
     private List<Hit> usersHits;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
