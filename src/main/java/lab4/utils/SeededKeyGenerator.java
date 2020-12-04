@@ -6,13 +6,17 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class SeededKeyGenerator {
-    private final KeyGenerator keyGenerator;
-    private final SecureRandom secureRandom;
+    private KeyGenerator keyGenerator;
+    private SecureRandom secureRandom;
 
-    public SeededKeyGenerator() throws NoSuchAlgorithmException {
-        keyGenerator = KeyGenerator.getInstance("AES");
-        secureRandom = new SecureRandom();
-        keyGenerator.init(secureRandom);
+    public SeededKeyGenerator() {
+        try {
+            keyGenerator = KeyGenerator.getInstance("AES");
+            secureRandom = new SecureRandom();
+            keyGenerator.init(secureRandom);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     public Key generate(long seed) {
