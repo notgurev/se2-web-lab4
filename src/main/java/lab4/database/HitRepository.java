@@ -25,10 +25,10 @@ public class HitRepository {
         entityManager.flush();
     }
 
-    public List<Hit> getAllByOwner(User owner) {
+    public List<Hit> getAllByOwnerUsername(String ownerUsername) {
         return entityManager
-                .createQuery("Select hit from Hit hit where hit.owner = :owner", Hit.class)
-                .setParameter("owner", owner)
+                .createQuery("Select hit from Hit hit where hit.owner.username = :ownerUsername", Hit.class)
+                .setParameter("ownerUsername", ownerUsername)
                 .getResultList();
     }
 }
