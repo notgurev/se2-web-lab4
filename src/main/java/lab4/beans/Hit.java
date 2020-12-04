@@ -23,15 +23,14 @@ public class Hit implements Serializable {
     @Column(name = "success", nullable = false)
     private boolean successful;
 
+    @ManyToOne
+    @JoinColumn(name = "owner", referencedColumnName = "login")
+    private User owner;
+
     public Hit(int x, Float y, float r) {
         this.x = x;
         this.y = y;
         this.r = r;
         successful = HitChecker.checkArea(x, y, r);
     }
-
-//    // fake property
-//    public String getFancySuccessful() {
-//        return successful ? "hit" : "miss";
-//    }
 }
