@@ -19,8 +19,6 @@ public class User implements Serializable {
     private String username;
     @Column(name = "password")
     private String password; // todo encoded password in database
-    @Column(name = "token")
-    private String accessToken;
 
     @OneToMany(mappedBy = "owner")
     private List<Hit> usersHits;
