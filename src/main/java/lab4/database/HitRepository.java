@@ -1,6 +1,7 @@
 package lab4.database;
 
 import lab4.beans.Hit;
+import lab4.beans.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,6 +30,13 @@ public class HitRepository {
         return entityManager
                 .createQuery("Select hit from Hit hit where hit.owner.username = :ownerUsername", Hit.class)
                 .setParameter("ownerUsername", ownerUsername)
+                .getResultList();
+    }
+
+    @Transactional
+    public List<Hit> getAllByOwner(User user) {
+        return entityManager.createQuery("select hit from Hit hit where hit.owner = :owner", Hit.class)
+                .setParameter("owner", user)
                 .getResultList();
     }
 }
