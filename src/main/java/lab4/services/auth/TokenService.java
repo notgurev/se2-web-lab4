@@ -18,10 +18,9 @@ public class TokenService {
      * @param username username to generate token for
      * @return generated token
      */
-    public String generate(String username) { // todo more info in tokens
+    public String generate(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("group", "user") // todo excess
                 .signWith(key)
                 .compact();
     }
@@ -34,7 +33,6 @@ public class TokenService {
         try {
             Jws<Claims> claimsJws = Jwts.parserBuilder()
                     .setSigningKey(key)
-                    .require("group", "user") // todo excess
                     .build()
                     .parseClaimsJws(token);
             return Optional.of(claimsJws.getBody().getSubject());
