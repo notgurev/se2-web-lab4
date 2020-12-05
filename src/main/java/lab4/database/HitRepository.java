@@ -10,30 +10,20 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
+@Transactional
 public class HitRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     public void clear() {
         entityManager.createQuery("delete from Hit").executeUpdate();
     }
 
-    @Transactional
     public void add(Hit hit) {
         entityManager.persist(hit);
         entityManager.flush();
     }
 
-    @Transactional
-    public List<Hit> getAllByOwnerUsername(String ownerUsername) {
-        return entityManager
-                .createQuery("Select hit from Hit hit where hit.owner.username = :ownerUsername", Hit.class)
-                .setParameter("ownerUsername", ownerUsername)
-                .getResultList();
-    }
-
-    @Transactional
     public List<Hit> getAllByOwner(User user) {
         return entityManager.createQuery("select hit from Hit hit where hit.owner = :owner", Hit.class)
                 .setParameter("owner", user)
