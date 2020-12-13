@@ -10,5 +10,3 @@
 
 ## Dev
 - Add token to header (in angular)
-- Get token from request header (backend)
-- Implement auth like this: `https://stackoverflow.com/questions/26777083/best-practice-for-rest-token-based-authentication-with-jax-rs-and-jersey`
