@@ -25,36 +25,35 @@ public class HitService {
 
     private User user;
 
-    public void loadUser(String username) {
+    // lazy user load
+    private User getUser(String username) {
+        return user == null ? loadUser(username) : user;
+    }
+
+    public User loadUser(@NotNull String username) {
         Optional<User> optionalUser = userRepository.getByUsername(username);
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
+            return user;
         } else {
-            throw new UserNotFoundException("passed username " + username + " not found in USERS");
+            throw new UserNotFoundException("given username " + username + " not found in USERS");
         }
     }
 
     public void add(@NotNull Hit hit, @NotNull String username) {
-        if (user == null) {
-            loadUser(username);
-        }
-
-        hit.setOwner(user);
+        hit.setOwner(getUser(username));
         hitRepository.add(hit);
     }
 
-    public void clear() {
-        hitRepository.clear();
+    public void clear(@NotNull String username) {
+        hitRepository.clear(getUser(username));
     }
 
-    public List<Hit> getAllByOwnerUsername(String username) {
-        if (user == null) {
-            loadUser(username);
-        }
-        return hitRepository.getAllByOwner(user);
+    public List<Hit> getAllByOwnerUsername(@NotNull String username) {
+        return hitRepository.getAllByOwner(getUser(username));
     }
 
-    public String getAllJSON(String username) {
+    public String getAllJSON(@NotNull String username) {
         List<Hit> hits = getAllByOwnerUsername(username);
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Hit hit : hits) {
@@ -62,7 +61,9 @@ public class HitService {
                     Json.createObjectBuilder()
                             .add("x", hit.getX())
                             .add("y", hit.getY())
-                            .add("r", hit.getR()).build()
+                            .add("r", hit.getR())
+                            .add("result", hit.isSuccessful())
+                            .build()
             );
         }
         return arrayBuilder.build().toString();

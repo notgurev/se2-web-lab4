@@ -5,6 +5,7 @@ import lab4.services.auth.AuthResult;
 import lab4.services.auth.AuthService;
 
 import javax.ejb.EJB;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -20,7 +21,7 @@ public class AuthResource {
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(@NotNull Credentials credentials) {
+    public Response login(@NotNull @Valid Credentials credentials) {
         AuthResult result = authService.login(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
             return Response.ok(result.getToken()).build();
@@ -32,7 +33,7 @@ public class AuthResource {
     @POST
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response register(@NotNull Credentials credentials) {
+    public Response register(@NotNull @Valid Credentials credentials) {
         AuthResult result = authService.register(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
             return Response.ok(result.getToken()).build();
