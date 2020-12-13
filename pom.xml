@@ -29,6 +29,11 @@
             <version>8.0</version>
             <scope>provided</scope> <!-- provided by container (WildFly) -->
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
         <!-- jwt auth -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

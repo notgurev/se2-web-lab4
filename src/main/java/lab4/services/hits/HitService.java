@@ -57,14 +57,7 @@ public class HitService {
         List<Hit> hits = getAllByOwnerUsername(username);
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Hit hit : hits) {
-            arrayBuilder.add(
-                    Json.createObjectBuilder()
-                            .add("x", hit.getX())
-                            .add("y", hit.getY())
-                            .add("r", hit.getR())
-                            .add("result", hit.isSuccessful())
-                            .build()
-            );
+            arrayBuilder.add(hit.toJSONObject());
         }
         return arrayBuilder.build().toString();
     }

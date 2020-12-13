@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -30,7 +29,6 @@ public class HitData {
             message = "Allowed Y values are {-5, -4, -3, -2, -1, 0, 1, 2, 3}",
             array = {-5, -4, -3, -2, -1, 0, 1, 2, 3}
     )
-    @Max(1)
     @NotNull(message = "R must not be null")
     private int r;
 }
