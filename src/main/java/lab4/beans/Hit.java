@@ -17,9 +17,9 @@ public class Hit implements Serializable {
     @Column(name = "x", nullable = false)
     private int x;
     @Column(name = "y", nullable = false)
-    private Float y;
+    private float y;
     @Column(name = "r", nullable = false)
-    private float r;
+    private int r;
     @Column(name = "success", nullable = false)
     private boolean successful;
 
@@ -27,7 +27,7 @@ public class Hit implements Serializable {
     @JoinColumn(name = "owner", referencedColumnName = "username")
     private User owner;
 
-    public Hit(int x, Float y, float r) {
+    public Hit(int x, float y, int r) {
         this.x = x;
         this.y = y;
         this.r = r;
