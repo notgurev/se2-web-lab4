@@ -2,6 +2,7 @@ package lab4.services.auth;
 
 import lab4.beans.User;
 import lab4.database.UserRepository;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,7 +29,7 @@ public class AuthService {
     public AuthResult login(@NotNull String username, @NotNull String password) {
         final Optional<User> optionalUser = users.getByUsername(username);
         if (optionalUser.isPresent()) {
-            if (optionalUser.get().getPassword().equals(password)) { // todo encoded password
+            if (optionalUser.get().getPassword().equals(encode(password))) {
                 return AuthResult.token(tokenService.generate(username));
             } else {
                 return AuthResult.message("Wrong password");
@@ -50,7 +51,7 @@ public class AuthService {
             System.out.println("user exists!!!");
             return AuthResult.message("User already exists");
         } else {
-            users.add(new User(username, password));
+            users.add(new User(username, encode(password)));
             return AuthResult.token(tokenService.generate(username));
         }
     }
@@ -64,5 +65,9 @@ public class AuthService {
      */
     public Optional<String> getUsernameByToken(String token) {
         return tokenService.verify(token);
+    }
+
+    private static String encode(String s) {
+        return DigestUtils.sha256Hex(s);
     }
 }
