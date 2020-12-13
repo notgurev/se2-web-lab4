@@ -3,7 +3,8 @@ package lab4.utils;
 import static java.lang.Math.pow;
 
 public class HitChecker {
-    public static boolean checkArea(int x, float y, float R) {
+    // todo negative radius
+    public static boolean checkArea(int x, float y, int R) {
         if (x >= 0) {
             if (y >= 0) {
                 // Ничего
@@ -18,7 +19,7 @@ public class HitChecker {
                 return pow(x, 2) + pow(y, 2) <= pow(R, 2);
             } else {
                 // Прямоугольник
-                return x >= -R && y >= -R / 2;
+                return x >= -R && y >= -((float) R) / 2;
             }
         }
     }

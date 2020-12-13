@@ -1,26 +1,48 @@
 package lab4.rest;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import lab4.beans.Hit;
+import lab4.rest.filters.authorization.Authorized;
+import lab4.rest.json.HitData;
+import lab4.services.hits.HitService;
 
-@Path("/main")
+import javax.ejb.EJB;
+import javax.validation.Valid;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Path("/hits")
 public class MainResource {
-    // todo @GET main page? how the fuck does that work
+    @EJB
+    private HitService hitService;
+
+    // since token is valid we can assume that user from token exists
+    // @Authorized also ensures that user exists
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("hits")
-    public JsonObject getHitsData() { // todo params: user identifier?
-        return Json.createObjectBuilder().add("first", 1).add("second", 2).build();
+    @Authorized
+    public Response getHitsData(@Context HttpHeaders headers) {
+        String username = headers.getHeaderString("username");
+        return Response.ok(hitService.getAllJSON(username)).build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON) // todo get list of new hits?
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("hits")
-    public String addHit() { // todo params: user identifier?
-        return "no idea";
+    @Authorized
+    public Response addHit(@Context HttpHeaders headers, @Valid HitData hitData) {
+        String username = headers.getHeaderString("username");
+        hitService.add(new Hit(hitData.getX(), hitData.getY().floatValue(), hitData.getR()), username);
+        return Response.ok(String.format("hit added (owner is %s)", username)).build();
+    }
+
+    @DELETE
+    @Authorized
+    public Response clear(@Context HttpHeaders headers) {
+        String username = headers.getHeaderString("username");
+        hitService.clear(username);
+        return Response.ok(String.format("%s's hits removed", username)).build();
     }
 }

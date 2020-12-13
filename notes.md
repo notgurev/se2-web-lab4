@@ -2,7 +2,10 @@
 
 ## Angular
 
-- Build: `ng build`
+- Build: `ng build --prod --output-path="../../src/main/webapp"`
 - Run dev server: `ng serve`, url `http://localhost:4200/` (auto reloads when source files change)
 - Create code: `ng generate directive|pipe|service|class|guard|interface|enum|module component-name`
 - Help: `ng help`
+
+## Dev
+- Add token to header (in angular)
