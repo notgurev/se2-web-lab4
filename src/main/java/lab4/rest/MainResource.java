@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/hits")
 @Produces(MediaType.APPLICATION_JSON)
+@Authorized
 public class MainResource {
     @EJB
     private HitService hitService;
@@ -25,7 +26,6 @@ public class MainResource {
     // @Authorized also ensures that user exists
 
     @GET
-    @Authorized
     public Response getHitsData(@Context HttpHeaders headers) {
         String username = headers.getHeaderString("username");
         return Response.ok(hitService.getAllJSON(username)).build();
@@ -33,7 +33,6 @@ public class MainResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Authorized
     public Response addHit(@Context HttpHeaders headers, @Valid HitData hitData) {
         String username = headers.getHeaderString("username");
         Hit hit = new Hit(hitData.getX(), hitData.getY().floatValue(), hitData.getR());
@@ -47,7 +46,6 @@ public class MainResource {
     }
 
     @DELETE
-    @Authorized
     public Response clear(@Context HttpHeaders headers) {
         String username = headers.getHeaderString("username");
         hitService.clear(username);
