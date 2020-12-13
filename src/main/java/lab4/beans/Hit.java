@@ -4,6 +4,8 @@ import lab4.utils.HitChecker;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -32,5 +34,14 @@ public class Hit implements Serializable {
         this.y = y;
         this.r = r;
         successful = HitChecker.checkArea(x, y, r);
+    }
+
+    public JsonObject toJSONObject() {
+        return Json.createObjectBuilder()
+                .add("x", x)
+                .add("y", y)
+                .add("r", r)
+                .add("result", successful)
+                .build();
     }
 }

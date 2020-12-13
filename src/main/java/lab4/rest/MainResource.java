@@ -7,6 +7,7 @@ import lab4.services.hits.HitService;
 import lab4.utils.JSONMessage;
 
 import javax.ejb.EJB;
+import javax.json.Json;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -35,9 +36,13 @@ public class MainResource {
     @Authorized
     public Response addHit(@Context HttpHeaders headers, @Valid HitData hitData) {
         String username = headers.getHeaderString("username");
-        hitService.add(new Hit(hitData.getX(), hitData.getY().floatValue(), hitData.getR()), username);
+        Hit hit = new Hit(hitData.getX(), hitData.getY().floatValue(), hitData.getR());
+        hitService.add(hit, username);
         return Response.ok(
-                JSONMessage.message(String.format("hit added (owner is %s)", username))
+                Json.createObjectBuilder()
+                .add("message", String.format("hit added (owner is %s)", username))
+                .add("result", hit.isSuccessful())
+                .build().toString()
         ).build();
     }
 
