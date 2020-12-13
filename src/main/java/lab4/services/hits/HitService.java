@@ -61,7 +61,9 @@ public class HitService {
                     Json.createObjectBuilder()
                             .add("x", hit.getX())
                             .add("y", hit.getY())
-                            .add("r", hit.getR()).build()
+                            .add("r", hit.getR())
+                            .add("result", hit.isSuccessful())
+                            .build()
             );
         }
         return arrayBuilder.build().toString();
