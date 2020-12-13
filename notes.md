@@ -7,6 +7,5 @@
 - Create code: `ng generate directive|pipe|service|class|guard|interface|enum|module component-name`
 - Help: `ng help`
 
-
 ## Dev
 - Add token to header (in angular)
