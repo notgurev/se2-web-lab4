@@ -15,8 +15,10 @@ public class HitRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void clear() {
-        entityManager.createQuery("delete from Hit").executeUpdate();
+    public void clear(User user) {
+        entityManager.createQuery("delete from Hit hit where hit.owner = :owner")
+                .setParameter("owner", user)
+                .executeUpdate();
     }
 
     public void add(Hit hit) {
