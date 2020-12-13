@@ -48,21 +48,11 @@ public class AuthService {
     public AuthResult register(@NotNull String username, @NotNull String password) {
         if (users.checkIfUserExists(username)) {
             System.out.println("user exists!!!");
-            return AuthResult.message("User already exists"); // todo username & password limitations
+            return AuthResult.message("User already exists");
         } else {
             users.add(new User(username, password));
             return AuthResult.token(tokenService.generate(username));
         }
-    }
-
-    /**
-     * Verifies token.
-     *
-     * @param token token to verify
-     * @return true if successful, false if not
-     */
-    public boolean verifyToken(String token) { // todo probably useless since username is needed to make changes
-        return tokenService.verify(token).isPresent();
     }
 
     /**
