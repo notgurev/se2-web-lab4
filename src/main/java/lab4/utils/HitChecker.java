@@ -3,8 +3,11 @@ package lab4.utils;
 import static java.lang.Math.pow;
 
 public class HitChecker {
-    // todo negative radius
     public static boolean checkArea(int x, float y, int R) {
+        return R != 0 && (R > 0 ? doCheck(x, y, R) : doCheck(-x, -y, -R));
+    }
+
+    private static boolean doCheck(int x, float y, int R) {
         if (x >= 0) {
             if (y >= 0) {
                 // Ничего
