@@ -25,37 +25,32 @@ public class HitService {
 
     private User user;
 
-    public void loadUser(@NotNull String username) {
+    // lazy user load
+    private User getUser(String username) {
+        return user == null ? loadUser(username) : user;
+    }
+
+    public User loadUser(@NotNull String username) {
         Optional<User> optionalUser = userRepository.getByUsername(username);
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
+            return user;
         } else {
-            throw new UserNotFoundException("passed username " + username + " not found in USERS");
+            throw new UserNotFoundException("given username " + username + " not found in USERS");
         }
     }
 
     public void add(@NotNull Hit hit, @NotNull String username) {
-        if (user == null) {
-            loadUser(username);
-        }
-
-        hit.setOwner(user);
+        hit.setOwner(getUser(username));
         hitRepository.add(hit);
     }
 
     public void clear(@NotNull String username) {
-        if (user == null) {
-            loadUser(username);
-        }
-
-        hitRepository.clear(user);
+        hitRepository.clear(getUser(username));
     }
 
     public List<Hit> getAllByOwnerUsername(@NotNull String username) {
-        if (user == null) {
-            loadUser(username);
-        }
-        return hitRepository.getAllByOwner(user);
+        return hitRepository.getAllByOwner(getUser(username));
     }
 
     public String getAllJSON(@NotNull String username) {
