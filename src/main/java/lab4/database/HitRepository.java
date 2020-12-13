@@ -25,7 +25,9 @@ public class HitRepository {
     }
 
     public List<Hit> getAllByOwner(User user) {
-        return entityManager.createQuery("select hit from Hit hit where hit.owner = :owner", Hit.class)
+        //  String joinFetchQuery = "select hit from Hit hit join fetch hit.owner where hit.owner = :owner";
+        String query = "select hit from Hit hit where hit.owner = :owner";
+        return entityManager.createQuery(query, Hit.class)
                 .setParameter("owner", user)
                 .getResultList();
     }
