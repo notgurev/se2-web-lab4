@@ -8,6 +8,7 @@ import lab4.utils.SeededKeyGenerator;
 
 import javax.ejb.Stateless;
 import java.security.Key;
+import java.util.Date;
 import java.util.Optional;
 
 @Stateless
@@ -21,6 +22,7 @@ public class TokenService {
     public String generate(String username) {
         return Jwts.builder()
                 .setSubject(username)
+                .setIssuedAt(new Date())
                 .signWith(key)
                 .compact();
     }
