@@ -1,1 +1,9 @@
-sample text
+<h1>Angular Router App</h1>
+<nav>
+  <ul>
+    <li><a routerLink="/auth" routerLinkActive="active">Auth</a></li>
+    <li><a routerLink="/" routerLinkActive="active">Main</a></li>
+  </ul>
+  <button (click)="navigateToAuth()">hey</button>
+</nav>
+<router-outlet></router-outlet>
