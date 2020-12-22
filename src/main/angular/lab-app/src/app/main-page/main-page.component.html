@@ -12,6 +12,25 @@
   <div class="p-grid p-ai-center vertical-container" style="margin-top: 5px">
     <p-panel class="p-col" header="Canvas"></p-panel>
     <p-panel class="p-col" header="Manual input"></p-panel>
-    <p-panel class="p-col" header="Table"></p-panel>
+    <p-panel class="p-col" header="Table">
+      <p-table id="hits-table" [value]="hits">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-hit>
+          <tr>
+            <td>{{hit.x}}</td>
+            <td>{{hit.y}}</td>
+            <td>{{hit.r}}</td>
+            <td>{{hit.result}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-panel>
   </div>
 </div>

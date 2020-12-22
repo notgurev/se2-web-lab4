@@ -18,6 +18,7 @@ import {AuthService} from "./auth.service";
 import {PointService} from "./point.service";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {PasswordModule} from 'primeng/password';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {PasswordModule} from 'primeng/password';
     PanelModule,
     ToolbarModule,
     HttpClientModule,
-    PasswordModule
+    PasswordModule,
+    TableModule
   ],
   providers: [
     AuthService,
