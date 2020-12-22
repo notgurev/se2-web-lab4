@@ -12,6 +12,8 @@ import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
+import {PanelModule} from "primeng/panel";
+import {ToolbarModule} from "primeng/toolbar";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import {CardModule} from 'primeng/card';
     MatInputModule,
     BrowserAnimationsModule,
     ButtonModule,
-    CardModule
+    CardModule,
+    PanelModule,
+    ToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
