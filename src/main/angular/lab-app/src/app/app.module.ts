@@ -14,6 +14,8 @@ import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {PanelModule} from "primeng/panel";
 import {ToolbarModule} from "primeng/toolbar";
+import {AuthService} from "./auth.service";
+import {PointService} from "./point.service";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,10 @@ import {ToolbarModule} from "primeng/toolbar";
     PanelModule,
     ToolbarModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    PointService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
