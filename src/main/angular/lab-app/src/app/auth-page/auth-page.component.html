@@ -37,9 +37,9 @@
             </small>
           </div>
         </div>
-        <p-button (onClick)="login()"  [disabled]="authForm.invalid" >Log in</p-button>
-        <p-button (onClick)="register()" [disabled]="authForm.invalid" >Sign up</p-button>
-        <p-button routerLink="/">[go to /main]</p-button>
+        <p-button (click)="login()"  [disabled]="authForm.invalid" >Log in</p-button>
+        <p-button (click)="register()" [disabled]="authForm.invalid" >Sign up</p-button>
+        <p-button (click)="fillAdmin()">[Admin]</p-button>
       </form>
     </p-card>
   </div>

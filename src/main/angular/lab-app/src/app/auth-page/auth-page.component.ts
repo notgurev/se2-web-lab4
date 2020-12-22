@@ -63,5 +63,9 @@ export class AuthPageComponent implements OnInit {
   get credentials(): Credentials {
     return this.authForm.value;
   }
+
+  fillAdmin() {
+    this.authForm.setValue({username: 'admin', password: 'admin'})
+  }
 }
 
