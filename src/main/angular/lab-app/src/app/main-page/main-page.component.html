@@ -6,7 +6,7 @@
     </div>
     <div class="p-toolbar-group-right">
       <span style="margin-right: 0.5rem">{{ username }}</span>
-      <p-button routerLink="/auth">Sign out [go to /auth]</p-button>
+      <p-button (onClick)="signOut()">Sign out [go to /auth]</p-button>
     </div>
   </p-toolbar>
   <div class="p-grid p-ai-center vertical-container" style="margin-top: 5px">

@@ -28,14 +28,27 @@ export class AuthPageComponent implements OnInit {
   }
 
   login() {
-    // this.authService
-    //   .auth(this.credentials.username, this.credentials.password)
-    //   .then(() => this.router.navigateByUrl('/'))
-    //   .catch(/*todo do something*/)
+    try {
+      this.authService
+        .login(this.credentials.username, this.credentials.password)
+        .then(() => this.router.navigateByUrl('/'))
+        .catch(r => {console.log(r)}) // ignore
+      console.log(localStorage.getItem('token'))
+    } catch (e) {
+      alert(e); // todo that is trash for debug
+    }
   }
 
-  signup() {
-    // todo console.log('register: ' + formJson)
+  register() {
+    try {
+      this.authService
+        .register(this.credentials.username, this.credentials.password)
+        .then(() => this.router.navigateByUrl('/'))
+        .catch(r => {console.log(r)}) // ignore
+      console.log(localStorage.getItem('token'))
+    } catch (e) {
+      alert(e); // todo that is trash for debug
+    }
   }
 
   get username() {

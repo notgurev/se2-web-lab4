@@ -44,8 +44,8 @@ import {PasswordModule} from 'primeng/password';
     AuthService,
     PointService,
     HttpClient,
-    {provide: 'loginUrl', useValue: 'auth/login'},
-    {provide: 'registerUrl', useValue: 'auth/register'}
+    {provide: 'loginUrl', useValue: 'api/auth/login'},
+    {provide: 'registerUrl', useValue: 'api/auth/register'}
   ],
   bootstrap: [AppComponent]
 })
