@@ -1,12 +1,11 @@
 <div>
-  <!--  todo get rid of p-cards-->
-  <p-toolbar class="header">
+  <p-toolbar>
     <div class="p-toolbar-group-left">
       Lab work №4
     </div>
     <div class="p-toolbar-group-right">
       <span style="margin-right: 0.5rem">{{ username }}</span>
-      <p-button (onClick)="signOut()">Sign out</p-button>
+      <p-button (click)="signOut()">Sign out</p-button>
       <p-button routerLink="/auth">[go to /auth]</p-button>
     </div>
   </p-toolbar>
