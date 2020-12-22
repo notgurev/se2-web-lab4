@@ -20,6 +20,6 @@ export class MainPageComponent implements OnInit {
   signOut(): void {
     this.authService.signOut();
     // noinspection JSIgnoredPromiseFromCall
-    this.router.navigateByUrl('/')
+    this.router.navigateByUrl('/auth')
   }
 }
