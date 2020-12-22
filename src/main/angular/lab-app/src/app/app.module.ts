@@ -16,6 +16,8 @@ import {PanelModule} from "primeng/panel";
 import {ToolbarModule} from "primeng/toolbar";
 import {AuthService} from "./auth.service";
 import {PointService} from "./point.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {PasswordModule} from 'primeng/password';
 
 @NgModule({
   declarations: [
@@ -34,11 +36,16 @@ import {PointService} from "./point.service";
     ButtonModule,
     CardModule,
     PanelModule,
-    ToolbarModule
+    ToolbarModule,
+    HttpClientModule,
+    PasswordModule
   ],
   providers: [
     AuthService,
-    PointService
+    PointService,
+    HttpClient,
+    {provide: 'loginUrl', useValue: 'auth/login'},
+    {provide: 'registerUrl', useValue: 'auth/register'}
   ],
   bootstrap: [AppComponent]
 })
