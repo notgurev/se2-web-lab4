@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {route} from "../useful";
 
 @Component({
   selector: 'app-main-page',
@@ -14,12 +15,12 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = this.authService.username || 'something is wrong'
+    this.username = this.authService.username || '[something is wrong]'
   }
 
   signOut(): void {
     this.authService.signOut();
     // noinspection JSIgnoredPromiseFromCall
-    this.router.navigateByUrl('/auth')
+    route('/auth', this.router);
   }
 }

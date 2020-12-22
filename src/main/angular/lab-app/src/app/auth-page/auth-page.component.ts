@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {route} from "../useful";
 
 interface Credentials {
   username: string,
@@ -31,7 +32,7 @@ export class AuthPageComponent implements OnInit {
     try {
       this.authService
         .login(this.credentials.username, this.credentials.password)
-        .then(() => this.router.navigateByUrl('/'))
+        .then(() => route('/', this.router))
         .catch(r => {console.log(r)}) // ignore
       console.log(localStorage.getItem('token'))
     } catch (e) {
@@ -43,7 +44,7 @@ export class AuthPageComponent implements OnInit {
     try {
       this.authService
         .register(this.credentials.username, this.credentials.password)
-        .then(() => this.router.navigateByUrl('/'))
+        .then(() => route('/', this.router))
         .catch(r => {console.log(r)}) // ignore
       console.log(localStorage.getItem('token'))
     } catch (e) {
