@@ -19,12 +19,8 @@ export class AuthPageComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.authForm = this.formBuilder.group({
-      username: new FormControl('', [
-        Validators.required, Validators.minLength(4)
-      ]),
-      password: new FormControl('', [
-        Validators.required, Validators.minLength(4)
-      ])
+      username: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(4)]]
     })
   }
 
