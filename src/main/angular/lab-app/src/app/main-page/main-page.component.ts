@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-main-page',
@@ -6,11 +7,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-  username: string | undefined;
-  // private storage = window.localStorage;
+  username: string = "TemporaryUsername88";
 
-  constructor() {
-    this.username = "TemporaryUsername88";
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
