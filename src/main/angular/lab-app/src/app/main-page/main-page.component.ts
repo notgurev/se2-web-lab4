@@ -3,6 +3,7 @@ import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 import {route} from "../useful";
 import {Hit} from "../point.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-main-page',
@@ -13,14 +14,22 @@ export class MainPageComponent implements OnInit {
   username: string = "TemporaryUsername88"; // todo
   hits: Hit[] = [
     {
-      "x":1,
-      "y":2, // (2).toFixed(2)
-      "r":3,
-      "result":true // test value todo fancy
+      "x": 1,
+      "y": 2, // (2).toFixed(2)
+      "r": 3,
+      "result": true // test value todo fancy
     }
   ];
+  pointForm: FormGroup;
+  xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
+  rValues: number[] = this.xValues;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+    this.pointForm = fb.group({
+      x: ['', [Validators.required]],
+      y: ['', [Validators.required]],
+      r: ['', [Validators.required]]
+      })
   }
 
   ngOnInit(): void {
@@ -31,5 +40,9 @@ export class MainPageComponent implements OnInit {
     this.authService.signOut();
     // noinspection JSIgnoredPromiseFromCall
     route('/auth', this.router);
+  }
+
+  submit() {
+
   }
 }

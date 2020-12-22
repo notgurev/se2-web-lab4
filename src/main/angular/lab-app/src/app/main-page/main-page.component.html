@@ -1,3 +1,4 @@
+<!--suppress HtmlFormInputWithoutLabel -->
 <div>
   <p-toolbar>
     <div class="p-toolbar-group-left">
@@ -9,9 +10,36 @@
       <p-button routerLink="/auth">[go to /auth]</p-button>
     </div>
   </p-toolbar>
-  <div class="p-grid p-ai-center vertical-container" style="margin-top: 5px">
-    <p-panel class="p-col" header="Canvas"></p-panel>
-    <p-panel class="p-col" header="Manual input"></p-panel>
+  <div class="p-grid p-ai-center vertical-container" style="margin-top: 5px; align-items:flex-start">
+
+    <p-panel class="p-col" header="Canvas">
+
+    </p-panel>
+
+    <p-panel class="p-col-3" header="Manual input">
+      <form [formGroup]="pointForm" style="text-align: center">
+        <div class="p-field">
+          <div class="p-inputgroup" style="align-items: center">
+            <p style="margin-right: 10px">X:</p>
+            <p-listbox [options]="xValues" formControlName="x" [listStyle]="{'max-height':'100px'}"></p-listbox>
+          </div>
+        </div>
+        <div class="p-field">
+          <div class="p-inputgroup">
+            <p style="margin-right: 10px">Y:</p>
+            <input pInputText formControlName="y">
+          </div>
+        </div>
+        <div class="p-field">
+          <div class="p-inputgroup">
+            <p style="margin-right: 10px">R:</p>
+            <p-listbox [options]="rValues" formControlName="r" [listStyle]="{'max-height':'100px'}"></p-listbox>
+          </div>
+        </div>
+        <p-button (click)="submit()" [disabled]="pointForm.invalid">Submit</p-button>
+      </form>
+    </p-panel>
+
     <p-panel class="p-col" header="Table">
       <p-table id="hits-table" [value]="hits">
         <ng-template pTemplate="header">
@@ -32,5 +60,6 @@
         </ng-template>
       </p-table>
     </p-panel>
+
   </div>
 </div>

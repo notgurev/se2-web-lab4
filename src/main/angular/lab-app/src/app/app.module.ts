@@ -19,6 +19,7 @@ import {PointService} from "./point.service";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {PasswordModule} from 'primeng/password';
 import {TableModule} from 'primeng/table';
+import {ListboxModule} from 'primeng/listbox';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {TableModule} from 'primeng/table';
     ToolbarModule,
     HttpClientModule,
     PasswordModule,
-    TableModule
+    TableModule,
+    ListboxModule
   ],
   providers: [
     AuthService,
