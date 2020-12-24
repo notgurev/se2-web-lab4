@@ -18,9 +18,9 @@ let matchingRadsCheckbox = document.getElementById("checkbox-limit-with-matching
 
 // Dimensions
 const CANVAS_WH = 500;
-const CANVAS_CENTER_X = 250;
-const CANVAS_CENTER_Y = 250;
-const R_OFFSET = 200;
+const CANVAS_CENTER_X = CANVAS_WH / 2;
+const CANVAS_CENTER_Y = CANVAS_WH / 2;
+const R_OFFSET = 200; // from center
 
 // Lines, shapes
 const LINES_COLOR = "#000000";
@@ -38,14 +38,17 @@ function canvasY(event) {
     return event.pageY - canvasContainer.offsetTop;
 }
 
+// Component::onInit
 aimCtx.strokeStyle = POINT_OUTLINE_COLOR;
 aimCtx.fillStyle = 'yellow';
 aimCtx.lineWidth = POINT_OUTLINE_WIDTH;
 fCtx.strokeStyle = POINT_OUTLINE_COLOR;
 fCtx.lineWidth = POINT_OUTLINE_WIDTH;
 
+// remove crosshair when mouse out
 aimCanvas.addEventListener('mouseout', eraseAim);
 
+// crosshair
 aimCanvas.addEventListener('mousemove', e => {
     eraseAim();
 
@@ -113,14 +116,15 @@ function drawAll() {
     drawPoints();
 }
 
+// Component::onInit
 window.onload = drawAll;
 
-// used in main.xhtml
 function sliderChange() {
     redrawAll();
     rValueText.innerText = (+rFieldFromSlider.value).toFixed(1);
 }
 
+// probably should be replaced by property data binding
 function getPoints() {
     let table = document.getElementById("results-table_data");
     if (table.childElementCount === 1 && Array.from(table.children[0].classList).includes("ui-datatable-empty-message"))
