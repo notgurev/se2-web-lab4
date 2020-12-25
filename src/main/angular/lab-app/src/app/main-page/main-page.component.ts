@@ -22,14 +22,7 @@ interface SubmitResult {
 })
 export class MainPageComponent implements OnInit {
   username!: string;
-  hits: Hit[] = [
-    {
-      "x": 1,
-      "y": 2,
-      "r": 3,
-      "result": true
-    }
-  ];
+  hits: Hit[] = [];
   pointForm: FormGroup;
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
   rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
