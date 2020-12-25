@@ -26,7 +26,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   @Input('widthHeight') CANVAS_WH!: number;
   @Input('radius') rValue!: number;
-  @Input('data') points!: Hit[]; // todo not sure if not null
+  @Input('data') points!: Hit[];
   @Input('matching-radius') matchingRads!: boolean
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
@@ -39,7 +39,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   fCtx!: CanvasRenderingContext2D
   aimCtx!: CanvasRenderingContext2D
 
-  constructor(private pointService: PointService) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -68,8 +68,6 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
 
     this.onSubmit.emit({'x': x, 'y': y, 'r': this.rValue})
-
-    // this.pointService.postHit({'x': x, 'y': y, 'r': this.rValue}); // todo
   }
 
   drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {

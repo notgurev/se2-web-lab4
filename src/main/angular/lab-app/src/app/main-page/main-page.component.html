@@ -21,6 +21,10 @@
                   (onSubmit)="submitHit($event)"
       >
       </app-canvas> <!-- todo size depends on monitor -->
+      <div class="p-field-checkbox">
+        <p-checkbox [(ngModel)]="matchingRadius" binary="true" id="binary"></p-checkbox>
+        <label for="binary">Matching radius</label>
+      </div>
     </p-panel>
 
     <p-panel class="p-col-3" header="Manual input">

@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {MainPageComponent} from './main-page/main-page.component';
 import {AuthPageComponent} from './auth-page/auth-page.component';
 import {InputTextModule} from "primeng/inputtext";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +25,7 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from "primeng/api";
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import {MessageService} from "primeng/api";
     ListboxModule,
     MessageModule,
     MessagesModule,
-    ToastModule
+    ToastModule,
+    CheckboxModule,
+    FormsModule
   ],
   providers: [
     AuthService,
