@@ -8,6 +8,9 @@
   <div class="login-div">
     <p-card [hidden]="authService.loggedIn">
       <h2 style="text-align: center">Login / Signup</h2>
+      <div *ngIf="authService.error$ | async as error" style="text-align: center">
+        <p-message [text]="error" severity="error"></p-message>
+      </div>
       <form [formGroup]="authForm">
         <div class="p-field">
           <div class="p-inputgroup">

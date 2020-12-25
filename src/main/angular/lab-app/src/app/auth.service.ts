@@ -1,61 +1,78 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Observable, Subject, throwError} from "rxjs";
+import {catchError, tap} from "rxjs/operators";
+import {ErrorMessageService} from "./error-message.service";
 
 
 interface AuthResponse {
-  message?: string,
   token?: string
 }
 
-interface AuthResult {
-  message?: string;
-  successful: boolean;
+interface User {
+  username: string,
+  password: string
 }
 
 @Injectable({
-  providedIn: 'root' // singleton
+  providedIn: 'root'
 })
 export class AuthService {
   private storage = localStorage;
+  public error$: Subject<string> = new Subject<string>();
 
   constructor(@Inject('loginUrl') private loginUrl: string,
               @Inject('registerUrl') private registerUrl: string,
+              public ems: ErrorMessageService,
               private http: HttpClient) {
   }
 
-  async login(username: string, password: string): Promise<AuthResult> {
-    return this.auth(username, password, this.loginUrl);
+  login(user: User): Observable<any> {
+    return this.postCredentials(this.loginUrl, user)
   }
 
-  async register(username: string, password: string): Promise<AuthResult> {
-    return this.auth(username, password, this.registerUrl);
-  }
-
-  async auth(username: string, password: string, url: string): Promise<AuthResult> {
-    return this.http.post(url, {username, password}, {observe: "response"}).toPromise().then(
-      response => {
-        let responseBody = <AuthResponse>response.body;
-        if (response.status == 200) {
-          console.log(`status is OK, adding token for user ${username}`)
-          this.storage.setItem('token', responseBody.token!);
-          this.storage.setItem('username', username);
-          return {successful: true}
-        } else {
-          console.log(`status is NOT OK, message: ${responseBody.message!}`)
-          return {successful: false, message: responseBody.message!}
-        }
-      }
-    )
+  register(user: User): Observable<any> {
+    return this.postCredentials(this.registerUrl, user)
   }
 
   signOut(): void {
-    console.log(`${this.storage.getItem('username')} signed out`)
+    console.log(`${this.username} signed out`);
+    this.removeUserToken();
+  }
+
+  private postCredentials(url: string, user: User): Observable<any> {
+    return this.http.post(url, user).pipe(
+      tap(response => this.saveTokenFromResponse(response, user.username)),
+      catchError(this.handleError.bind(this))
+    )
+  }
+
+  private handleError(errorResp: HttpErrorResponse) {
+    const error = errorResp.error.error;
+    this.error$.next(this.ems.any(error))
+    return throwError(errorResp)
+  }
+
+  private saveTokenFromResponse(response: AuthResponse, username: string) {
+    this.saveUserToken(response.token!, username)
+  }
+
+  private saveUserToken(token: string, username: string) {
+    this.storage.setItem('token', token);
+    this.storage.setItem('username', username);
+  }
+
+  private removeUserToken() {
     this.storage.removeItem('token');
     this.storage.removeItem('username');
   }
 
   get loggedIn(): boolean {
-    return (this.storage.getItem('token') != null)
+    return (this.token != null);
+  }
+
+  get token(): string | null {
+    return this.storage.getItem('token');
   }
 
   get username(): string | null {

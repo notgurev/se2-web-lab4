@@ -21,6 +21,8 @@ import {PasswordModule} from 'primeng/password';
 import {TableModule} from 'primeng/table';
 import {ListboxModule} from 'primeng/listbox';
 import {CanvasComponent} from './canvas/canvas.component';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import {CanvasComponent} from './canvas/canvas.component';
     HttpClientModule,
     PasswordModule,
     TableModule,
-    ListboxModule
+    ListboxModule,
+    MessageModule,
+    MessagesModule
   ],
   providers: [
     AuthService,

@@ -7,8 +7,14 @@ export class ErrorMessageService {
   constructor() {
   }
 
+  any(errorMessage: string): string {
+    return (this.authentication(errorMessage) ?? this.authorization(errorMessage)
+      ?? this.values(errorMessage) ?? this.other(errorMessage) ?? this.unknown)!
+  }
+
+
   // Errors related to authorization problems (wrong token, etc)
-  authorization(errorMessage: string): string | null {
+  authentication(errorMessage: string): string | null {
     switch (errorMessage) {
       case 'WRONG_PASSWORD':
         return 'Wrong password';
@@ -37,7 +43,7 @@ export class ErrorMessageService {
   }
 
   // Errors related to authentication problems (user exists, wrong password, etc)
-  authentication(errorMessage: string): string | null {
+  authorization(errorMessage: string): string | null {
     switch (errorMessage) {
       case 'MISSING_AUTHORIZATION_TOKEN':
         return 'Missing authorization token';
