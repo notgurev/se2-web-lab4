@@ -7,11 +7,15 @@ export class ErrorMessageService {
   constructor() {
   }
 
-  any(errorMessage: string): string {
+  anyOrUnknown(errorMessage: string): string {
     return (this.authentication(errorMessage) ?? this.authorization(errorMessage)
       ?? this.values(errorMessage) ?? this.other(errorMessage) ?? this.unknown)!
   }
 
+  any(errorMessage: string): string | null {
+    return this.authentication(errorMessage) ?? this.authorization(errorMessage)
+      ?? this.values(errorMessage) ?? this.other(errorMessage)
+  }
 
   // Errors related to authorization problems (wrong token, etc)
   authentication(errorMessage: string): string | null {
@@ -73,7 +77,7 @@ export class ErrorMessageService {
       case 'R_MUST_NOT_BE_NULL_OR_EMPTY':
         return 'R must not be null';
       default:
-        return 'Unknown error'
+        return null;
     }
   }
 }
