@@ -55,7 +55,7 @@
             <td>{{hit.x}}</td>
             <td>{{hit.y | number: '1.2'}}</td>
             <td>{{hit.r}}</td>
-            <td>{{hit.result}}</td>
+            <td>{{hit.result ? 'Hit' : 'Miss'}}</td>
           </tr>
         </ng-template>
       </p-table>

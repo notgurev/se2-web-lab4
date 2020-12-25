@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 import {route} from "../useful";
-import {Hit} from "../point.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Hit} from "../interfaces";
 
 @Component({
   selector: 'app-main-page',
@@ -15,9 +15,9 @@ export class MainPageComponent implements OnInit {
   hits: Hit[] = [
     {
       "x": 1,
-      "y": 2, // (2).toFixed(2)
+      "y": 2,
       "r": 3,
-      "result": true // test value todo fancy
+      "result": true
     }
   ];
   pointForm: FormGroup;
