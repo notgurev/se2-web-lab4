@@ -11,7 +11,7 @@ import {Hit} from "../interfaces";
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-  username: string = "TemporaryUsername88"; // todo
+  username!: string;
   hits: Hit[] = [
     {
       "x": 1,
