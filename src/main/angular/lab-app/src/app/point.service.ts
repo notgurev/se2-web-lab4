@@ -14,8 +14,8 @@ export class PointService {
   }
 
   // fake method for dev
-  submitHit(x: number, y: number, radius: number) {
-    console.log(`Submitting point with x = ${x}, y = ${y}, r = ${radius}`)
+  submitHit(hit: Hit) {
+    console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`)
   }
 
   getHits(): Observable<any> {

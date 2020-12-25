@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {route} from "../useful";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Hit} from "../interfaces";
+import {PointService} from "../point.service";
 
 @Component({
   selector: 'app-main-page',
@@ -26,7 +27,10 @@ export class MainPageComponent implements OnInit {
   canvasRadius: number = 2; // todo databind
   matchingRadius: boolean = false; // todo databind
 
-  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private fb: FormBuilder,
+              private pointService: PointService) {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
       y: ['', [Validators.required]],
@@ -45,6 +49,6 @@ export class MainPageComponent implements OnInit {
   }
 
   submit() {
-
+    this.pointService.submitHit(this.pointForm.value as Hit)
   }
 }

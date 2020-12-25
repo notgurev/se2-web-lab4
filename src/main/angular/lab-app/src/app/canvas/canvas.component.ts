@@ -64,7 +64,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     let scale = this.rValue / R_OFFSET;
     let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale);
     let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
-    this.pointService.submitHit(x, y, this.rValue);
+    this.pointService.submitHit({'x': x, 'y': y, 'r': this.rValue});
   }
 
   drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
@@ -207,11 +207,11 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     if (this.points !== undefined) {
       if (this.matchingRads) {
         this.points.forEach(point => {
-          if (point.r === this.rValue) this.drawPointOnGraph(point.x, point.y, point.result);
+          if (point.r === this.rValue) this.drawPointOnGraph(point.x, point.y, point.result!);
         })
       } else {
         this.points.forEach(point => {
-          this.drawPointOnGraph(point.x, point.y, point.result);
+          this.drawPointOnGraph(point.x, point.y, point.result!);
         })
       }
     }
