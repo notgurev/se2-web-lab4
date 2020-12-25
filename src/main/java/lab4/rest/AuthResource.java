@@ -36,7 +36,7 @@ public class AuthResource {
     }
 
     @POST
-    @Path("register")
+    @Path("/register")
     public Response register(@NotNull(message = "MISSING_CREDENTIALS") @Valid Credentials credentials) {
         AuthResult result = authService.register(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
