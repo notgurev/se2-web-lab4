@@ -23,6 +23,8 @@ import {ListboxModule} from 'primeng/listbox';
 import {CanvasComponent} from './canvas/canvas.component';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {ToastModule} from 'primeng/toast';
+import {MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -48,12 +50,14 @@ import {MessageModule} from 'primeng/message';
     TableModule,
     ListboxModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    ToastModule
   ],
   providers: [
     AuthService,
     PointService,
     HttpClient,
+    MessageService,
     {
       provide: 'loginUrl',
       useValue: '/api/auth/login'

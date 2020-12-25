@@ -3,7 +3,6 @@ package lab4.rest;
 import lab4.rest.json.Credentials;
 import lab4.services.auth.AuthResult;
 import lab4.services.auth.AuthService;
-import lab4.utils.JSONMessage;
 
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -32,7 +31,7 @@ public class AuthResource {
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
         } else {
-            return Response.status(FORBIDDEN).entity(JSONMessage.errors(result.getErrorMessage())).build();
+            return Response.status(FORBIDDEN).entity(result.getErrorMessage()).build();
         }
     }
 
@@ -43,7 +42,7 @@ public class AuthResource {
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
         } else {
-            return Response.status(FORBIDDEN).entity(JSONMessage.errors(result.getErrorMessage())).build();
+            return Response.status(FORBIDDEN).entity(result.getErrorMessage()).build();
         }
     }
 

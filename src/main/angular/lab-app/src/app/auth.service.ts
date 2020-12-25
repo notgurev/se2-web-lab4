@@ -49,7 +49,7 @@ export class AuthService {
 
   private handleError(errorResp: HttpErrorResponse) {
     let error = errorResp.error;
-    this.error$.next(error ? this.ems.any(error) : errorResp.statusText)
+    this.error$.next(error ? this.ems.anyOrUnknown(error) : errorResp.statusText)
     return throwError(errorResp)
   }
 

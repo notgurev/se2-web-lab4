@@ -8,6 +8,8 @@ import {PointService} from "../point.service";
 import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MessageService} from "primeng/api";
+import {ErrorMessageService} from "../error-message.service";
 
 interface SubmitResult {
   result: boolean;
@@ -37,7 +39,9 @@ export class MainPageComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private fb: FormBuilder,
-              private pointService: PointService) {
+              private pointService: PointService,
+              private messageService: MessageService,
+              private ems: ErrorMessageService) {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
       y: ['', [Validators.required, Validators.min(-4.9999999), Validators.max(4.9999999)]],
@@ -52,7 +56,9 @@ export class MainPageComponent implements OnInit {
 
   submitHit(hit: Hit) {
     console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`)
-    this.pointService.postHit(this.pointForm.value as Hit).subscribe(
+    this.pointService.postHit(this.pointForm.value as Hit).pipe(
+      catchError(this.handleError.bind(this))
+    ).subscribe(
       response => {
         this.hits.push(Object.assign({result: (response as SubmitResult).result}, hit))
       }
@@ -77,8 +83,16 @@ export class MainPageComponent implements OnInit {
     )
   }
 
-  // todo
   private handleError(errorResp: HttpErrorResponse) {
+    let error = errorResp.error;
+    console.log(this.ems.any(error))
+    console.log(errorResp.statusText)
+    this.messageService.add({
+      detail: (this.ems.any(error) ?? errorResp.statusText)!,
+      severity: 'error',
+      closable: true,
+      key: 'main'
+    })
     return throwError(errorResp)
   }
 
