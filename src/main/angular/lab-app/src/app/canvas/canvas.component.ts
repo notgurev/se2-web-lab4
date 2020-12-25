@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Hit} from "../interfaces";
 import {canvasRelativeX, canvasRelativeY} from "../useful";
 import {PointService} from "../point.service";
@@ -28,6 +28,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   @Input('radius') rValue!: number;
   @Input('data') points!: Hit[]; // todo not sure if not null
   @Input('matching-radius') matchingRads!: boolean
+
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   // todo clean boilerplate
   CANVAS_CENTER_X!: number
@@ -64,7 +66,10 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     let scale = this.rValue / R_OFFSET;
     let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale);
     let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
-    this.pointService.postHit({'x': x, 'y': y, 'r': this.rValue}); // todo
+
+    this.onSubmit.emit({'x': x, 'y': y, 'r': this.rValue})
+
+    // this.pointService.postHit({'x': x, 'y': y, 'r': this.rValue}); // todo
   }
 
   drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {

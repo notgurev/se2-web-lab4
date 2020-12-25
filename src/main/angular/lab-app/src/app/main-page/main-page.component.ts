@@ -56,7 +56,7 @@ export class MainPageComponent implements OnInit {
 
   submitHit(hit: Hit) {
     console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`)
-    this.pointService.postHit(this.pointForm.value as Hit).pipe(
+    this.pointService.postHit(hit).pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
       response => {
