@@ -20,12 +20,14 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {PasswordModule} from 'primeng/password';
 import {TableModule} from 'primeng/table';
 import {ListboxModule} from 'primeng/listbox';
+import {CanvasComponent} from './canvas/canvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    AuthPageComponent
+    AuthPageComponent,
+    CanvasComponent,
   ],
   imports: [
     BrowserModule,
