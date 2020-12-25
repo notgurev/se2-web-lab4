@@ -27,15 +27,8 @@ class FakeComponent {
     aimCanvas: HTMLCanvasElement
     aimCtx: CanvasRenderingContext2D
 
-    rValueText: string // what is that for
-
-    // todo DATABIND
     points: Hit[]
-
-    // todo DATABIND
     rValue: number
-
-    // new
     matchingRads: boolean
 
     constructor(private pointService: PointService) {

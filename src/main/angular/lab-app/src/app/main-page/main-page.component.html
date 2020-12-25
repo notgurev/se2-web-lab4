@@ -13,7 +13,8 @@
   <div class="p-grid p-ai-center vertical-container" style="margin-top: 5px; align-items:flex-start">
 
     <p-panel class="p-col" header="Canvas">
-
+      <app-canvas [radius]="canvasRadius" [widthHeight]="500" [data]="hits">
+      </app-canvas> <!-- todo size depends on monitor -->
     </p-panel>
 
     <p-panel class="p-col-3" header="Manual input">
