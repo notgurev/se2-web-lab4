@@ -64,7 +64,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     let scale = this.rValue / R_OFFSET;
     let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale);
     let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
-    this.pointService.submitHit({'x': x, 'y': y, 'r': this.rValue});
+    this.pointService.postHit({'x': x, 'y': y, 'r': this.rValue}); // todo
   }
 
   drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {

@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {AuthService} from "./auth.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Hit} from "./interfaces";
 
@@ -8,25 +8,24 @@ import {Hit} from "./interfaces";
   providedIn: 'root'
 })
 export class PointService {
+  private readonly options = {
+    headers: new HttpHeaders({'Authorization': 'Bearer' + this.authService.token})
+  }
+
   constructor(@Inject('hitsUrl') private url: string,
               private authService: AuthService,
               private http: HttpClient) {
   }
 
-  // fake method for dev
-  submitHit(hit: Hit) {
-    console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`)
-  }
-
   getHits(): Observable<any> {
-    return this.http.get(this.url)
+    return this.http.get(this.url, this.options)
   }
 
   postHit(hit: Hit): Observable<any> {
-    return this.http.post(this.url, hit)
+    return this.http.post(this.url, hit, this.options)
   }
 
-  deleteHits(): Observable<any>  {
-    return this.http.delete(this.url)
+  deleteHits(): Observable<any> {
+    return this.http.delete(this.url, this.options)
   }
 }

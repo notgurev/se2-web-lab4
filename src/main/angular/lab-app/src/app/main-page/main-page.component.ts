@@ -5,6 +5,13 @@ import {route} from "../useful";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Hit} from "../interfaces";
 import {PointService} from "../point.service";
+import {catchError} from "rxjs/operators";
+import {throwError} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
+
+interface SubmitResult {
+  result: boolean;
+}
 
 @Component({
   selector: 'app-main-page',
@@ -39,16 +46,36 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = this.authService.username ?? '[something is wrong]'
+    this.username = this.authService.username ?? '[something is wrong]';
+    this.getHits();
+  }
+
+  submitHit(hit: Hit) {
+    console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`)
+    this.pointService.postHit(this.pointForm.value as Hit).subscribe(
+      response => {
+        this.hits.push(Object.assign({result: (response as SubmitResult).result}, hit))
+      }
+    )
+  }
+
+  getHits() {
+    this.pointService.getHits().pipe(
+      catchError(this.handleError.bind(this))
+    ).subscribe(
+      hits => {
+        this.hits = hits as Hit[];
+      }
+    )
+  }
+
+  private handleError(errorResp: HttpErrorResponse) {
+    return throwError(errorResp)
   }
 
   signOut(): void {
     this.authService.signOut();
     route('/auth', this.router);
-  }
-
-  submit() {
-    this.pointService.submitHit(this.pointForm.value as Hit)
   }
 
   get yForm() {
