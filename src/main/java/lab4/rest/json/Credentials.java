@@ -7,10 +7,10 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class Credentials {
-    @NotNull(message = "Username must not be null or empty")
-    @NotEmpty(message = "Username must not be null or empty")
+    @NotNull(message = "USERNAME_MUST_NOT_BE_NULL_OR_EMPTY")
+    @NotEmpty(message = "USERNAME_MUST_NOT_BE_NULL_OR_EMPTY")
     private String username;
-    @NotNull(message = "Password must not be null or empty")
-    @NotEmpty(message = "Password must not be null or empty")
+    @NotNull(message = "PASSWORD_MUST_NOT_BE_NULL_OR_EMPTY")
+    @NotEmpty(message = "PASSWORD_MUST_NOT_BE_NULL_OR_EMPTY")
     private String password;
 }

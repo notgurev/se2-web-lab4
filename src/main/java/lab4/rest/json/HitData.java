@@ -16,19 +16,21 @@ public class HitData {
           Радиус R : Listbox {'-5','-4','-3','-2','-1','0','1','2','3'}
     */
     @InArray(
-            message = "Allowed X values are {-5, -4, -3, -2, -1, 0, 1, 2, 3}",
+            message = "X_VALUE_NOT_ALLOWED", // Allowed X values are {-5, -4, -3, -2, -1, 0, 1, 2, 3}
             array = {-5, -4, -3, -2, -1, 0, 1, 2, 3}
     )
-    @NotNull(message = "X must not be null")
+    @NotNull(message = "X_MUST_NOT_BE_NULL_OR_EMPTY") // X must not be null
     private int x;
-    @DecimalMax(value = "5", inclusive = false, message = "Y must be in range (-5 ... 5)")
-    @DecimalMin(value = "-5", inclusive = false, message = "Y must be in range (-5 ... 5)")
-    @NotNull(message = "Y must not be null")
+
+    @DecimalMax(value = "5", inclusive = false, message = "Y_VALUE_NOT_ALLOWED") // Y must be in range (-5 ... 5)
+    @DecimalMin(value = "-5", inclusive = false, message = "Y_VALUE_NOT_ALLOWED")
+    @NotNull(message = "Y_MUST_NOT_BE_NULL_OR_EMPTY") // Y must not be null
     private BigDecimal y;
+
     @InArray(
-            message = "Allowed Y values are {-5, -4, -3, -2, -1, 0, 1, 2, 3}",
-            array = {-5, -4, -3, -2, -1, 0, 1, 2, 3}
+            message = "R_VALUE_NOT_ALLOWED", // Allowed R values are {-5, -4, -3, -2, -1, 0, 1, 2, 3}
+            array = {/*-5, -4, -3, -2, -1,*/ 0, 1, 2, 3} // todo
     )
-    @NotNull(message = "R must not be null")
+    @NotNull(message = "R_MUST_NOT_BE_NULL_OR_EMPTY") // R must not be null
     private int r;
 }

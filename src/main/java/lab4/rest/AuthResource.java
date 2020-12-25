@@ -27,7 +27,7 @@ public class AuthResource {
 
     @POST
     @Path("/login")
-    public Response login(@NotNull(message = "Missing credentials") @Valid Credentials credentials) {
+    public Response login(@NotNull(message = "MISSING_CREDENTIALS") @Valid Credentials credentials) {
         AuthResult result = authService.login(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
@@ -38,7 +38,7 @@ public class AuthResource {
 
     @POST
     @Path("register")
-    public Response register(@NotNull(message = "Missing credentials") @Valid Credentials credentials) {
+    public Response register(@NotNull(message = "MISSING_CREDENTIALS") @Valid Credentials credentials) {
         AuthResult result = authService.register(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
