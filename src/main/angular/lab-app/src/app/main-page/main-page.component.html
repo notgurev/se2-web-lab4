@@ -53,6 +53,7 @@
         </div>
 
         <p-button (click)="submitHit(pointForm.value)" [disabled]="pointForm.invalid">Submit</p-button>
+        <p-button (click)="clearHits()" [ngStyle]="{'margin-left':'0.5rem'}">Clear hits</p-button>
 
       </form>
     </p-panel>

@@ -69,6 +69,15 @@ export class MainPageComponent implements OnInit {
     )
   }
 
+  clearHits() {
+    this.pointService.deleteHits().pipe(
+      catchError(this.handleError.bind(this))
+    ).subscribe(
+      () => this.hits = []
+    )
+  }
+
+  // todo
   private handleError(errorResp: HttpErrorResponse) {
     return throwError(errorResp)
   }
