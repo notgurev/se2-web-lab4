@@ -19,25 +19,41 @@
 
     <p-panel class="p-col-3" header="Manual input">
       <form [formGroup]="pointForm" style="text-align: center">
+
         <div class="p-field">
           <div class="p-inputgroup" style="align-items: center">
             <p style="margin-right: 10px">X:</p>
             <p-listbox [options]="xValues" formControlName="x" [listStyle]="{'max-height':'100px'}"></p-listbox>
           </div>
         </div>
+
         <div class="p-field">
           <div class="p-inputgroup">
             <p style="margin-right: 10px">Y:</p>
-            <input pInputText formControlName="y">
+            <input [class.p-invalid]="yForm.invalid && yForm.touched" pInputText formControlName="y">
+          </div>
+          <div *ngIf="yForm.invalid && yForm.touched" class="p-invalid">
+            <small *ngIf="yForm.errors?.required">
+              Y is required.
+            </small>
+            <small *ngIf="yForm.errors?.min || yForm.errors?.max">
+              Y must be in range (-5...5)
+            </small>
           </div>
         </div>
+
         <div class="p-field">
-          <div class="p-inputgroup">
+          <div class="p-inputgroup" style="align-items: center">
             <p style="margin-right: 10px">R:</p>
             <p-listbox [options]="rValues" formControlName="r" [listStyle]="{'max-height':'100px'}"></p-listbox>
+            <small *ngIf="rForm.value < 0" class="p-invalid" style="margin-left: 0.5rem">
+              Radius must be positive.
+            </small>
           </div>
         </div>
+
         <p-button (click)="submit()" [disabled]="pointForm.invalid">Submit</p-button>
+
       </form>
     </p-panel>
 

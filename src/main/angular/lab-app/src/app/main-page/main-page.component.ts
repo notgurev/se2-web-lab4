@@ -33,9 +33,9 @@ export class MainPageComponent implements OnInit {
               private pointService: PointService) {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
-      y: ['', [Validators.required]],
+      y: ['', [Validators.required, Validators.min(-4.9999999), Validators.max(4.9999999)]],
       r: ['', [Validators.required, Validators.min(0)]]
-      })
+    })
   }
 
   ngOnInit(): void {
@@ -50,5 +50,13 @@ export class MainPageComponent implements OnInit {
 
   submit() {
     this.pointService.submitHit(this.pointForm.value as Hit)
+  }
+
+  get yForm() {
+    return this.pointForm.get('y')
+  }
+
+  get rForm() {
+    return this.pointForm.get('r')
   }
 }
