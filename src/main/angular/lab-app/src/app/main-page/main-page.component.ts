@@ -23,7 +23,7 @@ export class MainPageComponent implements OnInit {
   ];
   pointForm: FormGroup;
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
-  rValues: number[] = this.xValues;
+  rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
   canvasRadius: number = 2; // todo databind
   matchingRadius: boolean = false; // todo databind
 
@@ -44,7 +44,6 @@ export class MainPageComponent implements OnInit {
 
   signOut(): void {
     this.authService.signOut();
-    // noinspection JSIgnoredPromiseFromCall
     route('/auth', this.router);
   }
 
