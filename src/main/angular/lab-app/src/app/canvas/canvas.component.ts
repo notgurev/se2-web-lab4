@@ -33,11 +33,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   CANVAS_CENTER_X!: number
   CANVAS_CENTER_Y!: number
   canvasContainer!: HTMLElement
-  backgroundCanvas!: HTMLCanvasElement
   bCtx!: CanvasRenderingContext2D
-  foregroundCanvas!: HTMLCanvasElement
   fCtx!: CanvasRenderingContext2D
-  aimCanvas!: HTMLCanvasElement
   aimCtx!: CanvasRenderingContext2D
 
   constructor(private pointService: PointService) {
@@ -50,12 +47,9 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     this.CANVAS_CENTER_X = this.CANVAS_WH / 2;
     this.CANVAS_CENTER_Y = this.CANVAS_CENTER_X;
 
-    this.backgroundCanvas = this.backgroundCanvasRef.nativeElement;
-    this.bCtx = this.backgroundCanvas.getContext('2d')!
-    this.foregroundCanvas = this.foregroundCanvasRef.nativeElement
-    this.fCtx = this.foregroundCanvas.getContext('2d')!
-    this.aimCanvas = this.aimCanvasRef.nativeElement
-    this.aimCtx = this.aimCanvas.getContext('2d')!
+    this.bCtx = this.backgroundCanvasRef.nativeElement.getContext('2d')!
+    this.fCtx = this.foregroundCanvasRef.nativeElement.getContext('2d')!
+    this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!
     this.canvasContainer = this.canvasContainerRef.nativeElement
 
     this.aimCtx.strokeStyle = POINT_OUTLINE_COLOR;
