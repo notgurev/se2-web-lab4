@@ -53,7 +53,7 @@
         <ng-template pTemplate="body" let-hit>
           <tr>
             <td>{{hit.x}}</td>
-            <td>{{hit.y}}</td>
+            <td>{{hit.y | number: '1.2'}}</td>
             <td>{{hit.r}}</td>
             <td>{{hit.result}}</td>
           </tr>
