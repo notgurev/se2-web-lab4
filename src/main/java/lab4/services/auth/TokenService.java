@@ -22,7 +22,6 @@ public class TokenService {
     public String generate(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date())
                 .signWith(key)
                 .compact();
     }

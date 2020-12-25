@@ -4,7 +4,6 @@ import lab4.beans.Hit;
 import lab4.rest.filters.authorization.Authorized;
 import lab4.rest.json.HitData;
 import lab4.services.hits.HitService;
-import lab4.utils.JSONMessage;
 
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -49,8 +48,6 @@ public class MainResource {
     public Response clear(@Context HttpHeaders headers) {
         String username = headers.getHeaderString("username");
         hitService.clear(username);
-        return Response.ok(
-                JSONMessage.message(String.format("%s's hits removed", username))
-        ).build();
+        return Response.ok().build();
     }
 }
