@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
@@ -14,8 +14,7 @@ interface Credentials {
   templateUrl: './auth-page.component.html',
   styleUrls: ['./auth-page.component.scss']
 })
-export class AuthPageComponent implements OnInit {
-
+export class AuthPageComponent {
   authForm: FormGroup
 
   constructor(private formBuilder: FormBuilder, public authService: AuthService, private router: Router) {
@@ -25,35 +24,20 @@ export class AuthPageComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-  }
-
   login() {
-    try {
-      this.authService
-        .login(this.credentials.username, this.credentials.password)
-        .then(() => route('/', this.router))
-        .catch(r => {
-          console.log(r)
-        }) // ignore
-      console.log(localStorage.getItem('token'))
-    } catch (e) {
-      alert(e); // todo that is trash for debug
-    }
+    this.authService.login(this.credentials).subscribe(
+      () => route('/', this.router)
+    )
   }
 
   register() {
-    try {
-      this.authService
-        .register(this.credentials.username, this.credentials.password)
-        .then(() => route('/', this.router))
-        .catch(r => {
-          console.log(r)
-        }) // ignore
-      console.log(localStorage.getItem('token'))
-    } catch (e) {
-      alert(e); // todo that is trash for debug
-    }
+    this.authService.register(this.credentials).subscribe(
+      () => route('/', this.router)
+    )
+  }
+
+  signOut() {
+    this.authService.signOut();
   }
 
   get usernameForm() {
@@ -70,10 +54,6 @@ export class AuthPageComponent implements OnInit {
 
   fillAdmin() {
     this.authForm.setValue({username: 'admin', password: 'admin'})
-  }
-
-  signOut() {
-    this.authService.signOut();
   }
 }
 
