@@ -12,8 +12,8 @@
   </p-toolbar>
   <div class="p-grid p-ai-center vertical-container" style="margin-top: 5px; align-items:flex-start">
 
-    <p-panel class="p-col" header="Canvas">
-      <app-canvas [radius]="canvasRadius" [widthHeight]="500" [data]="hits">
+    <p-panel class="p-col" header="Canvas"> <!-- todo size depends on canvas size -->
+      <app-canvas [radius]="canvasRadius" [widthHeight]="500" [data]="hits" [matching-radius]="matchingRadius">
       </app-canvas> <!-- todo size depends on monitor -->
     </p-panel>
 

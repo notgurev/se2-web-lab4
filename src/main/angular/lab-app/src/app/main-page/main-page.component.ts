@@ -23,7 +23,8 @@ export class MainPageComponent implements OnInit {
   pointForm: FormGroup;
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
   rValues: number[] = this.xValues;
-  canvasRadius: number = 1; // todo test value = 1
+  canvasRadius: number = 2; // todo databind
+  matchingRadius: boolean = false; // todo databind
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.pointForm = fb.group({

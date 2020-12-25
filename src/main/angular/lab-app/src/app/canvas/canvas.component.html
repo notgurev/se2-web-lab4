@@ -1,5 +1,5 @@
-<div #container>
-  <canvas #background style="z-index: 0" [height]="CANVAS_WH" [width]="CANVAS_WH"></canvas>
-  <canvas #foreground style="z-index: 1" [height]="CANVAS_WH" [width]="CANVAS_WH"></canvas>
+<div #container (click)="submitHit($event)" (mousemove)="redrawAim($event)" (mouseout)="eraseAim()">
   <canvas #aim style="z-index: 2" [height]="CANVAS_WH" [width]="CANVAS_WH"></canvas>
+  <canvas #foreground style="z-index: 1" [height]="CANVAS_WH" [width]="CANVAS_WH"></canvas>
+  <canvas #background style="z-index: 0" [height]="CANVAS_WH" [width]="CANVAS_WH"></canvas>
 </div>

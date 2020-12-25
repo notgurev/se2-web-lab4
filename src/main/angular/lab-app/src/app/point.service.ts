@@ -10,7 +10,7 @@ export class PointService {
 
   // fake method for dev
   submitHit(x: number, y: number, radius: number) {
-    console.log(`Submitted point with x = ${x}, y = ${y}, r = ${radius}`)
+    console.log(`Submitting point with x = ${x}, y = ${y}, r = ${radius}`)
   }
 
   getHits() {
