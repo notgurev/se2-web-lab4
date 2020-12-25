@@ -32,7 +32,7 @@ public class AuthResource {
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
         } else {
-            return Response.status(FORBIDDEN).entity(JSONMessage.error(result.getErrorMessage())).build();
+            return Response.status(FORBIDDEN).entity(JSONMessage.errors(result.getErrorMessage())).build();
         }
     }
 
@@ -43,7 +43,7 @@ public class AuthResource {
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
         } else {
-            return Response.status(FORBIDDEN).entity(JSONMessage.error(result.getErrorMessage())).build();
+            return Response.status(FORBIDDEN).entity(JSONMessage.errors(result.getErrorMessage())).build();
         }
     }
 
