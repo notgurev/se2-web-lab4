@@ -30,12 +30,12 @@ export class MainPageComponent implements OnInit {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
       y: ['', [Validators.required]],
-      r: ['', [Validators.required]]
+      r: ['', [Validators.required, Validators.min(0)]]
       })
   }
 
   ngOnInit(): void {
-    this.username = this.authService.username || '[something is wrong]'
+    this.username = this.authService.username ?? '[something is wrong]'
   }
 
   signOut(): void {

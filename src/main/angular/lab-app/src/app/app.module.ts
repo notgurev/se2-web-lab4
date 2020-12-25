@@ -61,6 +61,10 @@ import {MessageModule} from 'primeng/message';
     {
       provide: 'registerUrl',
       useValue: '/api/auth/register'
+    },
+    {
+      provide: 'hitsUrl',
+      useValue: '/api/hits'
     }
   ],
   bootstrap: [AppComponent]
