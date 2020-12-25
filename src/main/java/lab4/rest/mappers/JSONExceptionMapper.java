@@ -1,5 +1,7 @@
 package lab4.rest.mappers;
 
+import lab4.utils.JSONMessage;
+
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.validation.ConstraintViolation;
@@ -25,15 +27,8 @@ public class JSONExceptionMapper implements ExceptionMapper<ConstraintViolationE
 
         for (ConstraintViolation<?> violation : exception.getConstraintViolations()) {
             System.out.println(violation.toString());
-
-            Object invalidValue = violation.getInvalidValue();
-            arrayBuilder.add(
-                    Json.createObjectBuilder()
-                            .add("message", violation.getMessage())
-                            .add("value", invalidValue == null ? "null" : invalidValue.toString())
-                            .build()
-            );
+            arrayBuilder.add(JSONMessage.error(violation.getMessage()));
         }
-        return arrayBuilder.build().toString();
+        return Json.createObjectBuilder().add("errors", arrayBuilder).build().toString();
     }
 }
