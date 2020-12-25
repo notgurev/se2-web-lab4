@@ -9,7 +9,7 @@ import {Hit} from "./interfaces";
 })
 export class PointService {
   private readonly options = {
-    headers: new HttpHeaders({'Authorization': 'Bearer' + this.authService.token})
+    headers: new HttpHeaders({'Authorization': 'Bearer ' + this.authService.token})
   }
 
   constructor(@Inject('hitsUrl') private url: string,
