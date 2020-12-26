@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '' // todo not working
+    redirectTo: ''
   }
 ];
 
