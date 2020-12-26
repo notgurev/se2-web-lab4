@@ -26,8 +26,8 @@ export class MainPageComponent implements OnInit {
   pointForm: FormGroup;
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
   rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
-  canvasRadius: number = 2; // todo databind
-  matchingRadius: boolean = false; // todo databind
+  canvasRadius: number = 1;
+  matchingRadius: boolean = false;
 
   constructor(private authService: AuthService,
               private router: Router,

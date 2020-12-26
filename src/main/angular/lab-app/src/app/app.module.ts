@@ -26,6 +26,7 @@ import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from "primeng/api";
 import {CheckboxModule} from 'primeng/checkbox';
+import {SliderModule} from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {CheckboxModule} from 'primeng/checkbox';
     MessagesModule,
     ToastModule,
     CheckboxModule,
-    FormsModule
+    FormsModule,
+    SliderModule
   ],
   providers: [
     AuthService,

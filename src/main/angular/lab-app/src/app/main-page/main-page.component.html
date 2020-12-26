@@ -25,6 +25,10 @@
         <p-checkbox [(ngModel)]="matchingRadius" binary="true" id="binary"></p-checkbox>
         <label for="binary">Matching radius</label>
       </div>
+      <div>
+        <p>R = {{canvasRadius}}</p>
+        <p-slider [(ngModel)]="canvasRadius" [step]="1" min="0" max="3"></p-slider>
+      </div>
     </p-panel>
 
     <p-panel class="p-col-3" header="Manual input">
