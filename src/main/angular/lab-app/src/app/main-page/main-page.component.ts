@@ -78,8 +78,6 @@ export class MainPageComponent implements OnInit {
 
   private handleError(errorResp: HttpErrorResponse) {
     let error = errorResp.error;
-    console.log(this.ems.any(error))
-    console.log(errorResp.statusText)
     this.messageService.add({
       detail: (this.ems.any(error) ?? errorResp.statusText)!,
       severity: 'error',
