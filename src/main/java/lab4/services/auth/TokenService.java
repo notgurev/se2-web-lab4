@@ -20,10 +20,12 @@ public class TokenService {
      * @return generated token
      */
     public String generate(String username) {
-        return Jwts.builder()
+        String compact = Jwts.builder()
                 .setSubject(username)
                 .signWith(key)
                 .compact();
+        System.out.println("Generated token: " + compact);
+        return compact;
     }
 
     /**
@@ -31,14 +33,17 @@ public class TokenService {
      * @return an optional with the username if verified successfully
      */
     public Optional<String> verify(String token) {
+        System.out.println("Verifying token: " + token);
         try {
             Jws<Claims> claimsJws = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
+            System.out.println("Token verified.");
             return Optional.of(claimsJws.getBody().getSubject());
         } catch (JwtException e) {
             // validation failed
+            System.out.println(e.getMessage());
             return Optional.empty();
         }
     }
