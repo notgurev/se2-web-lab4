@@ -1,7 +1,17 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Hit} from "../interfaces";
 import {canvasRelativeX, canvasRelativeY} from "../useful";
-import {PointService} from "../point.service";
 
 // Dimensions
 const R_OFFSET = 200; // from center
@@ -18,7 +28,7 @@ const POINT_RADIUS = 4;
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements OnInit, AfterViewInit {
+export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('container') canvasContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('background') backgroundCanvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('foreground') foregroundCanvasRef!: ElementRef<HTMLCanvasElement>;
@@ -28,6 +38,9 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   @Input('radius') rValue!: number;
   @Input('data') points!: Hit[];
   @Input('matching-radius') matchingRads!: boolean
+
+  // retarded
+  initialized: boolean = false;
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
@@ -39,7 +52,10 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   fCtx!: CanvasRenderingContext2D
   aimCtx!: CanvasRenderingContext2D
 
-  constructor() {
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.initialized) {
+      this.redrawAll();
+    }
   }
 
   ngOnInit() {
@@ -59,6 +75,9 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     this.aimCtx.lineWidth = POINT_OUTLINE_WIDTH;
     this.fCtx.strokeStyle = POINT_OUTLINE_COLOR;
     this.fCtx.lineWidth = POINT_OUTLINE_WIDTH;
+
+    this.initialized = true;
+
     this.drawAll();
   }
 
@@ -133,7 +152,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     // четверть круга
     ctx.beginPath();
     ctx.lineTo(canvasCenterX - R_OFFSET, canvasCenterY);
-    ctx.arc(canvasCenterX, canvasCenterY, R_OFFSET, -Math.PI, -Math.PI/2);
+    ctx.arc(canvasCenterX, canvasCenterY, R_OFFSET, -Math.PI, -Math.PI / 2);
     ctx.lineTo(canvasCenterX, canvasCenterY);
     ctx.fill();
   }
@@ -205,18 +224,16 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   }
 
   drawPoints() {
-    this.erasePoints();
-    console.log(this.points)
-    if (this.points !== undefined) {
-      if (this.matchingRads) {
-        this.points.forEach(point => {
-          if (point.r === this.rValue) this.drawPointOnGraph(point.x, point.y, point.result!);
-        })
-      } else {
-        this.points.forEach(point => {
+    if (this.matchingRads) {
+      this.points.forEach(point => {
+        if (point.r == this.rValue) {
           this.drawPointOnGraph(point.x, point.y, point.result!);
-        })
-      }
+        }
+      })
+    } else {
+      this.points.forEach(point => {
+        this.drawPointOnGraph(point.x, point.y, point.result!);
+      })
     }
   }
 }

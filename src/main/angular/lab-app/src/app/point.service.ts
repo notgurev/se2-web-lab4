@@ -8,8 +8,10 @@ import {Hit} from "./interfaces";
   providedIn: 'root'
 })
 export class PointService {
-  private readonly options = {
-    headers: new HttpHeaders({'Authorization': 'Bearer ' + this.authService.token})
+  get options() {
+    return {
+      headers: new HttpHeaders({authorization: 'Bearer ' + this.authService.token})
+    }
   }
 
   constructor(@Inject('hitsUrl') private url: string,
@@ -18,14 +20,17 @@ export class PointService {
   }
 
   getHits(): Observable<any> {
+    console.log(this.options.headers)
     return this.http.get(this.url, this.options)
   }
 
   postHit(hit: Hit): Observable<any> {
+    console.log(this.options.headers)
     return this.http.post(this.url, hit, this.options)
   }
 
   deleteHits(): Observable<any> {
+    console.log(this.options.headers)
     return this.http.delete(this.url, this.options)
   }
 }
