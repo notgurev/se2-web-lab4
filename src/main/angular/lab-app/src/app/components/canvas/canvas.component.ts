@@ -18,7 +18,7 @@ import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
 const R_OFFSET = 200; // from center
 // Lines, shapes
 const LINES_COLOR = '#000000';
-const SHAPES_COLOR = '#aaaef3'; // todo default value of field
+const SHAPES_COLOR = '#aaaef3';
 // Points
 const POINT_OUTLINE_COLOR = '#000000';
 const POINT_OUTLINE_WIDTH = 3;
@@ -49,7 +49,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   // surprisingly not so retarded
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  // todo clean boilerplate
   CANVAS_CENTER_X!: number;
   CANVAS_CENTER_Y!: number;
   canvasContainer!: HTMLElement;
@@ -58,9 +57,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   aimCtx!: CanvasRenderingContext2D;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.initialized) {
-      this.redrawAll();
-    }
+    if (!this.initialized) return;
+    if (changes.rValue) this.redrawAll();
+    else if (changes.matchingRads) this.redrawPoints();
   }
 
   // to detect array changes
@@ -71,10 +70,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     }
   }
 
-
   ngOnInit() {
     this.pointsLength = this.points.length;
-    console.log(this.pointsLength + ' is points length');
+    console.log(this.pointsLength + ' is points[] length');
   }
 
   ngAfterViewInit() {
@@ -178,15 +176,14 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   }
 
   eraseBackground() {
-    console.log('Erasing background canvas');
     this.clearCanvas(this.bCtx);
   }
 
   erasePoints() {
-    console.log('Erasing foreground canvas');
     this.clearCanvas(this.fCtx);
   }
 
+  // used when rValue changes
   redrawAll() {
     this.eraseBackground();
     this.erasePoints();
@@ -201,11 +198,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   redrawAim(e: MouseEvent) {
     this.eraseAim();
-
-    this.aimCtx.beginPath();
-
     let scale = this.rValue / R_OFFSET;
-
+    this.aimCtx.beginPath();
     this.aimCtx.arc(
       Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale) / scale + this.CANVAS_CENTER_X,
       canvasRelativeY(e, this.canvasContainer),
@@ -221,7 +215,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     this.drawPoints();
   }
 
-  drawPointOnGraph(x: number, y: number, successful: boolean) {
+  drawPoint(x: number, y: number, successful: boolean) {
     this.fCtx.fillStyle = successful ? 'lawngreen' : 'red';
     this.fCtx.beginPath();
     this.fCtx.arc(
@@ -243,12 +237,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     if (this.matchingRads) {
       this.points.forEach(point => {
         if (point.r == this.rValue) {
-          this.drawPointOnGraph(point.x, point.y, point.result!);
+          this.drawPoint(point.x, point.y, point.result!);
         }
       });
     } else {
       this.points.forEach(point => {
-        this.drawPointOnGraph(point.x, point.y, point.result!);
+        this.drawPoint(point.x, point.y, point.result!);
       });
     }
   }
