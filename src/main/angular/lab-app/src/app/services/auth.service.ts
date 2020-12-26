@@ -42,7 +42,7 @@ export class AuthService {
 
   private postCredentials(url: string, user: User): Observable<any> {
     return this.http.post(url, user).pipe(
-      tap(response => this.saveTokenFromResponse(response, user.username)),
+      tap(response => this.saveUserToken((<AuthResponse>response).token!, user.username)),
       catchError(this.handleError.bind(this))
     )
   }
@@ -51,10 +51,6 @@ export class AuthService {
     let error = errorResp.error;
     this.error$.next(this.ems.any(error) ?? errorResp.statusText)
     return throwError(errorResp)
-  }
-
-  private saveTokenFromResponse(response: AuthResponse, username: string) {
-    this.saveUserToken(response.token!, username)
   }
 
   private saveUserToken(token: string, username: string) {
