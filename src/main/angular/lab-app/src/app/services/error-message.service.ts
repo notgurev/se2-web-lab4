@@ -7,11 +7,6 @@ export class ErrorMessageService {
   constructor() {
   }
 
-  anyOrUnknown(errorMessage: string): string {
-    return (this.authentication(errorMessage) ?? this.authorization(errorMessage)
-      ?? this.values(errorMessage) ?? this.other(errorMessage) ?? this.unknown)!
-  }
-
   any(errorMessage: string): string | null {
     return this.authentication(errorMessage) ?? this.authorization(errorMessage)
       ?? this.values(errorMessage) ?? this.other(errorMessage)
