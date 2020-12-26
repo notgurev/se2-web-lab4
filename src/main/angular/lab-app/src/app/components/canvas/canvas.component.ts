@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {Hit} from '../../model/interfaces';
+import {Hit} from '../../model/hit';
 import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
 
 // Dimensions

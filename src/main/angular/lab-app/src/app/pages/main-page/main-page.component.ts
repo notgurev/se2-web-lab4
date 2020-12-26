@@ -3,7 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {route} from "../../model/useful";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Hit} from "../../model/interfaces";
+import {Hit} from "../../model/hit";
 import {PointService} from "../../services/point.service";
 import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
