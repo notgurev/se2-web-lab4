@@ -122,18 +122,18 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     console.log('Drawing shapes')
     ctx.fillStyle = SHAPES_COLOR;
     // прямоугольник
-    ctx.fillRect(canvasCenterX, canvasCenterY, R_OFFSET, R_OFFSET / 2);
+    ctx.fillRect(canvasCenterX - R_OFFSET, canvasCenterY, canvasCenterX, R_OFFSET / 2);
     // треугольник
     ctx.moveTo(canvasCenterX, canvasCenterY);
     ctx.beginPath();
-    ctx.lineTo(canvasCenterX, canvasCenterY - R_OFFSET);
-    ctx.lineTo(canvasCenterX - R_OFFSET, canvasCenterY);
+    ctx.lineTo(canvasCenterX, canvasCenterY + R_OFFSET);
+    ctx.lineTo(canvasCenterX + R_OFFSET, canvasCenterY);
     ctx.lineTo(canvasCenterX, canvasCenterY);
     ctx.fill();
     // четверть круга
     ctx.beginPath();
-    ctx.lineTo(canvasCenterX, canvasCenterY - R_OFFSET);
-    ctx.arc(canvasCenterX, canvasCenterY, R_OFFSET, 3 / 2 * Math.PI, 0);
+    ctx.lineTo(canvasCenterX - R_OFFSET, canvasCenterY);
+    ctx.arc(canvasCenterX, canvasCenterY, R_OFFSET, -Math.PI, -Math.PI/2);
     ctx.lineTo(canvasCenterX, canvasCenterY);
     ctx.fill();
   }
