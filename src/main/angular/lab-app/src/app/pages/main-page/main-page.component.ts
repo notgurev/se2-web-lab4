@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../auth.service";
+import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
-import {route} from "../useful";
+import {route} from "../../model/useful";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Hit} from "../interfaces";
-import {PointService} from "../point.service";
+import {Hit} from "../../model/interfaces";
+import {PointService} from "../../services/point.service";
 import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MessageService} from "primeng/api";
-import {ErrorMessageService} from "../error-message.service";
+import {ErrorMessageService} from "../../services/error-message.service";
 
 interface SubmitResult {
   result: boolean;

@@ -1,25 +1,26 @@
 import {
   AfterViewInit,
-  Component, DoCheck,
+  Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
-  Input, IterableDiffers,
+  Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {Hit} from "../interfaces";
-import {canvasRelativeX, canvasRelativeY} from "../useful";
+import {Hit} from '../../model/interfaces';
+import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
 
 // Dimensions
 const R_OFFSET = 200; // from center
 // Lines, shapes
-const LINES_COLOR = "#000000";
-const SHAPES_COLOR = "#aaaef3"; // todo default value of field
+const LINES_COLOR = '#000000';
+const SHAPES_COLOR = '#aaaef3'; // todo default value of field
 // Points
-const POINT_OUTLINE_COLOR = "#000000";
+const POINT_OUTLINE_COLOR = '#000000';
 const POINT_OUTLINE_WIDTH = 3;
 const POINT_RADIUS = 4;
 
@@ -37,7 +38,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   @Input('widthHeight') CANVAS_WH!: number;
   @Input('radius') rValue!: number;
   @Input('data') points!: Hit[];
-  @Input('matching-radius') matchingRads!: boolean
+  @Input('matching-radius') matchingRads!: boolean;
 
   // retarded
   initialized: boolean = false;
@@ -49,12 +50,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   // todo clean boilerplate
-  CANVAS_CENTER_X!: number
-  CANVAS_CENTER_Y!: number
-  canvasContainer!: HTMLElement
-  bCtx!: CanvasRenderingContext2D
-  fCtx!: CanvasRenderingContext2D
-  aimCtx!: CanvasRenderingContext2D
+  CANVAS_CENTER_X!: number;
+  CANVAS_CENTER_Y!: number;
+  canvasContainer!: HTMLElement;
+  bCtx!: CanvasRenderingContext2D;
+  fCtx!: CanvasRenderingContext2D;
+  aimCtx!: CanvasRenderingContext2D;
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.initialized) {
@@ -66,24 +67,24 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   ngDoCheck() {
     if (this.points.length != this.pointsLength) {
       this.pointsLength = this.points.length;
-      this.redrawPoints()
+      this.redrawPoints();
     }
   }
 
 
   ngOnInit() {
     this.pointsLength = this.points.length;
-    console.log(this.pointsLength + ' is points length')
+    console.log(this.pointsLength + ' is points length');
   }
 
   ngAfterViewInit() {
     this.CANVAS_CENTER_X = this.CANVAS_WH / 2;
     this.CANVAS_CENTER_Y = this.CANVAS_CENTER_X;
 
-    this.bCtx = this.backgroundCanvasRef.nativeElement.getContext('2d')!
-    this.fCtx = this.foregroundCanvasRef.nativeElement.getContext('2d')!
-    this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!
-    this.canvasContainer = this.canvasContainerRef.nativeElement
+    this.bCtx = this.backgroundCanvasRef.nativeElement.getContext('2d')!;
+    this.fCtx = this.foregroundCanvasRef.nativeElement.getContext('2d')!;
+    this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!;
+    this.canvasContainer = this.canvasContainerRef.nativeElement;
 
     this.aimCtx.strokeStyle = POINT_OUTLINE_COLOR;
     this.aimCtx.fillStyle = 'yellow';
@@ -101,7 +102,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale);
     let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
 
-    this.onSubmit.emit({'x': x, 'y': y, 'r': this.rValue})
+    this.onSubmit.emit({'x': x, 'y': y, 'r': this.rValue});
   }
 
   drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
@@ -111,29 +112,29 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     const HALF_R = String(this.rValue / 2);
 
     ctx.strokeStyle = LINES_COLOR;
-    ctx.font = "15px Arial"
+    ctx.font = '15px Arial';
     // R
-    ctx.textAlign = "center"
+    ctx.textAlign = 'center';
     // слева
-    ctx.strokeText("- " + R, canvasCenterX - R_OFFSET, canvasCenterY - TEXT_OFFSET);
-    ctx.strokeText("- " + HALF_R, canvasCenterX - R_OFFSET / 2, canvasCenterY - TEXT_OFFSET);
+    ctx.strokeText('- ' + R, canvasCenterX - R_OFFSET, canvasCenterY - TEXT_OFFSET);
+    ctx.strokeText('- ' + HALF_R, canvasCenterX - R_OFFSET / 2, canvasCenterY - TEXT_OFFSET);
     // справа
     ctx.strokeText(R, canvasCenterX + R_OFFSET, canvasCenterY - TEXT_OFFSET);
     ctx.strokeText(HALF_R, canvasCenterX + R_OFFSET / 2, canvasCenterY - TEXT_OFFSET);
     // сверху
-    ctx.textAlign = "left";
+    ctx.textAlign = 'left';
     ctx.strokeText(R, canvasCenterX + TEXT_OFFSET, canvasCenterY - R_OFFSET);
     ctx.strokeText(HALF_R, canvasCenterX + TEXT_OFFSET, canvasCenterY - R_OFFSET / 2);
     // снизу
-    ctx.strokeText("- " + R, canvasCenterX + TEXT_OFFSET, canvasCenterY + R_OFFSET);
-    ctx.strokeText("- " + HALF_R, canvasCenterX + TEXT_OFFSET, canvasCenterY + R_OFFSET / 2);
+    ctx.strokeText('- ' + R, canvasCenterX + TEXT_OFFSET, canvasCenterY + R_OFFSET);
+    ctx.strokeText('- ' + HALF_R, canvasCenterX + TEXT_OFFSET, canvasCenterY + R_OFFSET / 2);
     // X, Y
-    ctx.strokeText("X", 485, 250 - TEXT_OFFSET);
-    ctx.strokeText("Y", 250 + TEXT_OFFSET, 15);
+    ctx.strokeText('X', 485, 250 - TEXT_OFFSET);
+    ctx.strokeText('Y', 250 + TEXT_OFFSET, 15);
   }
 
   drawCoordsSystem(ctx: CanvasRenderingContext2D) {
-    console.log('Drawing coords system')
+    console.log('Drawing coords system');
     ctx.beginPath();
     ctx.strokeStyle = LINES_COLOR;
     ctx.lineWidth = 2;
@@ -153,7 +154,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   // wrong shapes probably
   drawShapes(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
-    console.log('Drawing shapes')
+    console.log('Drawing shapes');
     ctx.fillStyle = SHAPES_COLOR;
     // прямоугольник
     ctx.fillRect(canvasCenterX - R_OFFSET, canvasCenterY, canvasCenterX, R_OFFSET / 2);
@@ -177,12 +178,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   }
 
   eraseBackground() {
-    console.log('Erasing background canvas')
+    console.log('Erasing background canvas');
     this.clearCanvas(this.bCtx);
   }
 
   erasePoints() {
-    console.log('Erasing foreground canvas')
+    console.log('Erasing foreground canvas');
     this.clearCanvas(this.fCtx);
   }
 
@@ -221,7 +222,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   }
 
   drawPointOnGraph(x: number, y: number, successful: boolean) {
-    this.fCtx.fillStyle = successful ? "lawngreen" : "red";
+    this.fCtx.fillStyle = successful ? 'lawngreen' : 'red';
     this.fCtx.beginPath();
     this.fCtx.arc(
       this.CANVAS_CENTER_X + x * R_OFFSET / this.rValue,
@@ -244,11 +245,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
         if (point.r == this.rValue) {
           this.drawPointOnGraph(point.x, point.y, point.result!);
         }
-      })
+      });
     } else {
       this.points.forEach(point => {
         this.drawPointOnGraph(point.x, point.y, point.result!);
-      })
+      });
     }
   }
 }
