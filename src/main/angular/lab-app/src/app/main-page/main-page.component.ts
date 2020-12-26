@@ -23,6 +23,7 @@ interface SubmitResult {
 export class MainPageComponent implements OnInit {
   username!: string;
   hits: Hit[] = [];
+  hitsChangeCanvasTrigger: boolean = true;
   pointForm: FormGroup;
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
   rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();

@@ -1,9 +1,9 @@
 import {
   AfterViewInit,
-  Component,
+  Component, DoCheck,
   ElementRef,
   EventEmitter,
-  Input,
+  Input, IterableDiffers,
   OnChanges,
   OnInit,
   Output,
@@ -28,7 +28,7 @@ const POINT_RADIUS = 4;
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
+export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
   @ViewChild('container') canvasContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('background') backgroundCanvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('foreground') foregroundCanvasRef!: ElementRef<HTMLCanvasElement>;
@@ -42,6 +42,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   // retarded
   initialized: boolean = false;
 
+  // even more retarded
+  pointsLength!: number;
+
+  // surprisingly not so retarded
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   // todo clean boilerplate
@@ -58,7 +62,18 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
+  // to detect array changes
+  ngDoCheck() {
+    if (this.points.length != this.pointsLength) {
+      this.pointsLength = this.points.length;
+      this.redrawPoints()
+    }
+  }
+
+
   ngOnInit() {
+    this.pointsLength = this.points.length;
+    console.log(this.pointsLength + ' is points length')
   }
 
   ngAfterViewInit() {
