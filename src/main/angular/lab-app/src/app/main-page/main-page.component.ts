@@ -94,10 +94,10 @@ export class MainPageComponent implements OnInit {
   }
 
   get yForm() {
-    return this.pointForm.get('y')
+    return this.pointForm.get('y')!
   }
 
   get rForm() {
-    return this.pointForm.get('r')
+    return this.pointForm.get('r')!
   }
 }
