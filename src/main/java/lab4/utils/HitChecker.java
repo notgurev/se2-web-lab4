@@ -14,7 +14,7 @@ public class HitChecker {
                 return false;
             } else {
                 // Треугольник, над прямой y = x - R
-                return y > x + R;
+                return y > x - R;
             }
         } else {
             if (y >= 0) {
