@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
-import {route} from "../../model/useful";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Hit} from "../../model/hit";
-import {PointService} from "../../services/point.service";
-import {catchError} from "rxjs/operators";
-import {throwError} from "rxjs";
-import {HttpErrorResponse} from "@angular/common/http";
-import {MessageService} from "primeng/api";
-import {ErrorMessageService} from "../../services/error-message.service";
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
+import {route} from '../../model/useful';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Hit} from '../../model/hit';
+import {PointService} from '../../services/point.service';
+import {catchError} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {MessageService} from 'primeng/api';
+import {ErrorMessageService} from '../../services/error-message.service';
 
 interface SubmitResult {
   result: boolean;
@@ -23,12 +23,11 @@ interface SubmitResult {
 export class MainPageComponent implements OnInit {
   username!: string;
   hits: Hit[] = [];
-  hitsChangeCanvasTrigger: boolean = true;
   pointForm: FormGroup;
-  xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
-  rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
-  canvasRadius: number = 1;
-  matchingRadius: boolean = false;
+  xValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
+  rValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
+  canvasRadius = 1;
+  matchingRadius = false;
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -40,23 +39,23 @@ export class MainPageComponent implements OnInit {
       x: ['', [Validators.required]],
       y: ['', [Validators.required, Validators.min(-4.9999999), Validators.max(4.9999999)]],
       r: ['', [Validators.required, Validators.min(0)]]
-    })
+    });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.username = this.authService.username ?? '[something is wrong]';
     this.getHits();
   }
 
   submitHit(hit: Hit) {
-    console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`)
+    console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`);
     this.pointService.postHit(hit).pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
       response => {
-        this.hits.push(Object.assign({result: (response as SubmitResult).result}, hit))
+        this.hits.push(Object.assign({result: (response as SubmitResult).result}, hit));
       }
-    )
+    );
   }
 
   getHits() {
@@ -66,7 +65,7 @@ export class MainPageComponent implements OnInit {
       hits => {
         this.hits = hits as Hit[];
       }
-    )
+    );
   }
 
   clearHits() {
@@ -74,7 +73,7 @@ export class MainPageComponent implements OnInit {
       catchError(this.handleError.bind(this))
     ).subscribe(
       () => this.hits = []
-    )
+    );
   }
 
   private handleError(errorResp: HttpErrorResponse) {
@@ -83,9 +82,10 @@ export class MainPageComponent implements OnInit {
       detail: (this.ems.any(error) ?? errorResp.statusText)!,
       severity: 'error',
       closable: true,
-      key: 'main'
-    })
-    return throwError(errorResp)
+      key: 'main',
+      life: 5 * 1000
+    });
+    return throwError(errorResp);
   }
 
   signOut(): void {
@@ -94,10 +94,10 @@ export class MainPageComponent implements OnInit {
   }
 
   get yForm() {
-    return this.pointForm.get('y')!
+    return this.pointForm.get('y')!;
   }
 
   get rForm() {
-    return this.pointForm.get('r')!
+    return this.pointForm.get('r')!;
   }
 }

@@ -29,7 +29,7 @@ public class HitData {
 
     @InArray(
             message = "R_VALUE_NOT_ALLOWED", // Allowed R values are {0, 1, 2, 3}
-            array = {/*-5, -4, -3, -2, -1,*/ 0, 1, 2, 3} // todo
+            array = {/*-5, -4, -3, -2, -1,*/ 0, 1, 2, 3}
     )
     @NotNull(message = "R_MUST_NOT_BE_NULL_OR_EMPTY") // R must not be null
     private int r;

@@ -4,12 +4,9 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class ErrorMessageService {
-  constructor() {
-  }
-
   any(errorMessage: string): string | null {
     return this.authentication(errorMessage) ?? this.authorization(errorMessage)
-      ?? this.values(errorMessage) ?? this.other(errorMessage)
+      ?? this.values(errorMessage) ?? this.other(errorMessage);
   }
 
   // Errors related to authorization problems (wrong token, etc)
@@ -38,7 +35,7 @@ export class ErrorMessageService {
   }
 
   get unknown(): string {
-    return 'Unknown error'
+    return 'Unknown error';
   }
 
   // Errors related to authentication problems (user exists, wrong password, etc)

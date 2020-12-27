@@ -1,8 +1,8 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable, Subject, throwError} from "rxjs";
-import {catchError, tap} from "rxjs/operators";
-import {ErrorMessageService} from "./error-message.service";
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Observable, Subject, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {ErrorMessageService} from './error-message.service';
 
 
 interface AuthResponse {
@@ -28,11 +28,11 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
-    return this.postCredentials(this.loginUrl, user)
+    return this.postCredentials(this.loginUrl, user);
   }
 
   register(user: User): Observable<any> {
-    return this.postCredentials(this.registerUrl, user)
+    return this.postCredentials(this.registerUrl, user);
   }
 
   signOut(): void {
@@ -42,15 +42,15 @@ export class AuthService {
 
   private postCredentials(url: string, user: User): Observable<any> {
     return this.http.post(url, user).pipe(
-      tap(response => this.saveUserToken((<AuthResponse>response).token!, user.username)),
+      tap(response => this.saveUserToken((<AuthResponse> response).token!, user.username)),
       catchError(this.handleError.bind(this))
-    )
+    );
   }
 
   private handleError(errorResp: HttpErrorResponse) {
     let error = errorResp.error;
-    this.error$.next(this.ems.any(error) ?? errorResp.statusText)
-    return throwError(errorResp)
+    this.error$.next(this.ems.any(error) ?? errorResp.statusText);
+    return throwError(errorResp);
   }
 
   private saveUserToken(token: string, username: string) {

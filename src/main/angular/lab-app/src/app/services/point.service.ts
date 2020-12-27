@@ -2,6 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+// @ts-ignore
 import {Hit} from '../model/Hit';
 
 @Injectable({
@@ -20,17 +21,14 @@ export class PointService {
   }
 
   getHits(): Observable<any> {
-    console.log(this.options.headers);
     return this.http.get(this.url, this.options);
   }
 
   postHit(hit: Hit): Observable<any> {
-    console.log(this.options.headers);
     return this.http.post(this.url, hit, this.options);
   }
 
   deleteHits(): Observable<any> {
-    console.log(this.options.headers);
     return this.http.delete(this.url, this.options);
   }
 }

@@ -13,14 +13,14 @@
   </p-toolbar>
   <div class="p-grid" style="margin-top: 5px; align-items:flex-start">
 
-    <p-panel class="p-col" header="Canvas"> <!-- todo size depends on canvas size -->
+    <!-- Canvas -->
+    <p-panel class="p-col" header="Canvas">
       <app-canvas [radius]="canvasRadius"
                   [widthHeight]="500"
                   [data]="hits"
                   [matching-radius]="matchingRadius"
                   (onSubmit)="submitHit($event)"
-      >
-      </app-canvas> <!-- todo size depends on monitor -->
+      ></app-canvas>
       <div class="p-field-checkbox">
         <p-checkbox [(ngModel)]="matchingRadius" [binary]="true" id="matching-radius"></p-checkbox>
         <label for="matching-radius">Matching radius</label>
@@ -31,6 +31,7 @@
       </div>
     </p-panel>
 
+    <!-- Manual input -->
     <p-panel class="p-col-3" header="Manual input">
       <form [formGroup]="pointForm" style="text-align: center">
 
@@ -72,6 +73,7 @@
       </form>
     </p-panel>
 
+    <!-- Table -->
     <p-panel class="p-col" header="Table">
       <p-table id="hits-table" [value]="hits">
         <ng-template pTemplate="header">
