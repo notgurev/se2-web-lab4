@@ -9,9 +9,16 @@ export class ErrorMessageService {
       ?? this.values(errorMessage) ?? this.other(errorMessage);
   }
 
-  // Errors related to authorization problems (wrong token, etc)
+
+  // Errors related to authentication problems (user exists, wrong password, etc)
   authentication(errorMessage: string): string | null {
     switch (errorMessage) {
+      case 'USERNAME_TOO_SHORT':
+        return 'Username is too short';
+      case 'USERNAME_TOO_LONG':
+        return 'Username is too long';
+      case 'PASSWORD_TOO_SHORT':
+        return 'Password is too short';
       case 'WRONG_PASSWORD':
         return 'Wrong password';
       case 'USER_NOT_FOUND':
@@ -38,7 +45,7 @@ export class ErrorMessageService {
     return 'Unknown error';
   }
 
-  // Errors related to authentication problems (user exists, wrong password, etc)
+  // Errors related to authorization problems (wrong token, etc)
   authorization(errorMessage: string): string | null {
     switch (errorMessage) {
       case 'MISSING_AUTHORIZATION_TOKEN':

@@ -23,7 +23,7 @@ export class AuthPageComponent {
               private router: Router,
               public dms: DisplayModeService) {
     this.authForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(4)]],
+      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }

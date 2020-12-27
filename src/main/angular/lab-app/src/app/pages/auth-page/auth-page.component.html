@@ -23,8 +23,8 @@
             <small *ngIf="usernameForm?.errors?.required">
               Username is required.
             </small>
-            <small *ngIf="usernameForm?.errors?.minlength">
-              Username must be at least {{ usernameForm?.errors?.minlength?.requiredLength }} characters long.
+            <small *ngIf="usernameForm?.errors?.minlength || usernameForm?.errors?.maxlength">
+              Username must be 4-15 characters long.
             </small>
           </div>
         </div>
