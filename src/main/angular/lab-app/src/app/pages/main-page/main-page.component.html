@@ -11,18 +11,15 @@
       <p-button routerLink="/auth" [ngStyle]="{'margin-left':'0.5rem'}">Go to auth page</p-button>
     </div>
   </p-toolbar>
-  <div class="p-grid" style="margin-top: 5px; align-items:flex-start">
+  <div class="container">
 
     <!-- Canvas -->
-    <p-panel id="canvas-panel" class="p-col-fixed"  header="Canvas">
-      <app-canvas [radius]="canvasRadius"
-                  [widthHeight]="500"
-                  [data]="hits"
-                  [matching-radius]="matchingRadius"
+    <p-panel id="canvas-panel" header="Canvas">
+      <app-canvas [radius]="canvasRadius" [widthHeight]="500" [data]="hits" [matching-radius]="matchingRadius"
                   (onSubmit)="submitHit($event)"
       ></app-canvas>
       <!-- Canvas settings -->
-      <div [style.max-width]="500">
+      <div style="max-width: 500px">
         <div class="p-field-checkbox">
           <p-checkbox [(ngModel)]="matchingRadius" [binary]="true" id="matching-radius"></p-checkbox>
           <label for="matching-radius">Matching radius</label>
@@ -35,7 +32,7 @@
     </p-panel>
 
     <!-- Manual input -->
-    <p-panel id="manual-input-panel" class="p-col" header="Manual input">
+    <p-panel id="manual-input-panel" header="Manual input">
       <form [formGroup]="pointForm" style="text-align: center">
 
         <div class="p-field">
@@ -45,11 +42,14 @@
           </div>
         </div>
 
+        <!-- Y -->
         <div class="p-field">
+          <!-- Y input field -->
           <div class="p-inputgroup">
             <p style="margin-right: 10px">Y:</p>
             <input [class.p-invalid]="yForm.invalid && yForm.touched" pInputText formControlName="y">
           </div>
+          <!-- Y validation messages -->
           <div *ngIf="yForm.invalid && yForm.touched" class="p-invalid">
             <small *ngIf="yForm.errors?.required">
               Y is required.
@@ -60,24 +60,29 @@
           </div>
         </div>
 
+        <!-- R -->
         <div class="p-field">
           <div class="p-inputgroup" style="align-items: center">
             <p style="margin-right: 10px">R:</p>
+            <!-- R input ListBox -->
             <p-listbox [options]="rValues" formControlName="r" [listStyle]="{'max-height':'100px'}"></p-listbox>
+            <!-- R validation messages -->
             <small *ngIf="rForm.value < 0" class="p-invalid" style="margin-left: 0.5rem">
               Radius must be positive.
             </small>
           </div>
         </div>
 
-        <p-button (click)="submitHit(pointForm.value)" [disabled]="pointForm.invalid">Submit</p-button>
-        <p-button (click)="clearHits()" [ngStyle]="{'margin-left':'0.5rem'}">Clear hits</p-button>
+        <div id="manual-input-buttons">
+          <p-button id="submit" (click)="submitHit(pointForm.value)" [disabled]="pointForm.invalid">Submit</p-button>
+          <p-button id="clear" (click)="clearHits()" [ngStyle]="{'margin-left':'0.5rem'}">Clear hits</p-button>
+        </div>
 
       </form>
     </p-panel>
 
     <!-- Table -->
-    <p-panel id="table-panel" class="p-col" header="Table">
+    <p-panel id="table-panel" header="Table">
       <p-table id="hits-table" [value]="hits">
         <ng-template pTemplate="header">
           <tr>

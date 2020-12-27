@@ -2,7 +2,59 @@
   text-align: center;
 }
 
-// breakpoints
-$sm: 0;
-$md: 840;
-$lg: 1052;
+// Breakpoints
+$mobile: 0;
+$tablet: 840px;
+$desktop: 1052px;
+
+// Mixins
+@mixin shrink-limit($width) {
+  min-width: $width;
+  flex-basis: $width;
+}
+
+// Panel container
+.container {
+  margin: 0.5rem -0.25rem;
+  justify-content: stretch; // horizontal alignment
+  display: flex;
+  align-items: flex-start; // on top of items
+  align-content: flex-start; // vertical between items
+  flex-wrap: wrap;
+}
+
+// Panels
+.container > * {
+  margin: 0 0.25rem 0.5rem;
+}
+
+#manual-input-panel {
+  flex-grow: 1;
+}
+
+#table-panel {
+  @include shrink-limit(250px);
+  flex-grow: 10000;
+}
+
+// Desktop
+@media screen and (min-width: $desktop) {
+}
+
+// Tablet
+@media screen and (min-width: $tablet) and (max-width: $desktop) {
+  #table-panel {
+    flex-basis: 100%; // forces table-panel be screen-wide on next row
+  }
+}
+
+// Mobile
+@media screen and (max-width: $tablet) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #canvas-panel {
+    align-self: center;
+  }
+}
