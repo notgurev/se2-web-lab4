@@ -14,7 +14,7 @@
   <div class="p-grid" style="margin-top: 5px; align-items:flex-start">
 
     <!-- Canvas -->
-    <p-panel class="p-col" header="Canvas">
+    <p-panel id="canvas-panel" class="p-col" header="Canvas">
       <app-canvas [radius]="canvasRadius"
                   [widthHeight]="500"
                   [data]="hits"
@@ -32,7 +32,7 @@
     </p-panel>
 
     <!-- Manual input -->
-    <p-panel class="p-col-3" header="Manual input">
+    <p-panel id="manual-input-panel" class="p-col-3" header="Manual input">
       <form [formGroup]="pointForm" style="text-align: center">
 
         <div class="p-field">
@@ -74,7 +74,7 @@
     </p-panel>
 
     <!-- Table -->
-    <p-panel class="p-col" header="Table">
+    <p-panel id="table-panel" class="p-col" header="Table">
       <p-table id="hits-table" [value]="hits">
         <ng-template pTemplate="header">
           <tr>
