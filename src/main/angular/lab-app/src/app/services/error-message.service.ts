@@ -9,7 +9,6 @@ export class ErrorMessageService {
       ?? this.values(errorMessage) ?? this.other(errorMessage);
   }
 
-
   // Errors related to authentication problems (user exists, wrong password, etc)
   authentication(errorMessage: string): string | null {
     switch (errorMessage) {
