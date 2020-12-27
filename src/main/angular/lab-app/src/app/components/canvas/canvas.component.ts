@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {Hit} from '../../model/hit';
+import {Hit} from '../../model/Hit';
 import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
 
 // Dimensions
@@ -57,9 +57,14 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   aimCtx!: CanvasRenderingContext2D;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.initialized) return;
-    if (changes.rValue) this.redrawAll();
-    else if (changes.matchingRads) this.redrawPoints();
+    if (!this.initialized) {
+      return;
+    }
+    if (changes.rValue) {
+      this.redrawAll();
+    } else if (changes.matchingRads) {
+      this.redrawPoints();
+    }
   }
 
   // to detect array changes
