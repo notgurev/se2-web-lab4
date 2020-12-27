@@ -57,7 +57,7 @@
             <small *ngIf="yForm.errors?.min || yForm.errors?.max">
               Y must be in range (-5...5)
             </small>
-            <small *ngIf="(yForm.value && !+(yForm.value)) || yForm.errors?.pattern">
+            <small *ngIf="yForm.errors?.pattern || isNaN(yForm.value)">
               Y must be a number
             </small>
           </div>
@@ -78,7 +78,7 @@
 
         <div id="manual-input-buttons">
           <p-button id="submit" (click)="submitHit(pointForm.value)"
-                    [disabled]="pointForm.invalid || !+(yForm.value)">Submit</p-button>
+                    [disabled]="pointForm.invalid || isNaN(yForm.value)">Submit</p-button>
           <p-button id="clear" (click)="clearHits()" [ngStyle]="{'margin-left':'0.5rem'}">Clear hits</p-button>
         </div>
 

@@ -43,7 +43,7 @@ export class MainPageComponent implements OnInit {
         Validators.required,
         Validators.min(-4.9999999),
         Validators.max(4.9999999),
-        Validators.pattern('[0-9. ]*')
+        Validators.pattern('[0-9\-. ]*')
       ]],
       r: ['', [Validators.required, Validators.min(0)]]
     });
@@ -106,5 +106,9 @@ export class MainPageComponent implements OnInit {
 
   get rForm() {
     return this.pointForm.get('r')!;
+  }
+
+  isNaN(value: number): boolean {
+    return Number.isNaN(value);
   }
 }
