@@ -1,16 +1,18 @@
 <!--suppress HtmlFormInputWithoutLabel -->
 <p-toolbar class="header">
   <div style="padding: 10px">
-    Лабораторная работа №4, Кириенко Никита, вариант 72415
+    Лабораторная работа №4, Кириенко Никита, группа P3212, вариант 72415 ({{dms.mode}} mode)
   </div>
 </p-toolbar>
-<div class="page">
-  <div class="login-div">
+<div class="page p-grid p-align-center p-justify-center vertical-container">
+  <div class="login-div p-col p-col-align-center">
     <p-card [hidden]="authService.loggedIn">
       <h2 style="text-align: center">Login / Signup</h2>
+      <!-- Error messages -->
       <div *ngIf="authService.error$ | async as error" style="text-align: center">
         <p-message [text]="error" severity="error"></p-message>
       </div>
+      <!-- Form -->
       <form [formGroup]="authForm">
         <div class="p-field">
           <div class="p-inputgroup">
@@ -40,9 +42,11 @@
             </small>
           </div>
         </div>
-        <p-button (click)="login()" [disabled]="authForm.invalid">Log in</p-button>
-        <p-button (click)="register()" [disabled]="authForm.invalid">Sign up</p-button>
-        <p-button (click)="fillAdmin()">[Admin]</p-button>
+        <div class="p-grid p-justify-around">
+          <p-button (click)="login()" [disabled]="authForm.invalid">Log in</p-button>
+          <p-button (click)="register()" [disabled]="authForm.invalid">Sign up</p-button>
+          <p-button (click)="fillAdmin()">[Admin]</p-button>
+        </div>
       </form>
     </p-card>
     <p-card [hidden]="!authService.loggedIn" id="loggedInCard">

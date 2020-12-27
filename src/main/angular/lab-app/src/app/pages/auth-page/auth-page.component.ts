@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
-import {route} from "../../model/useful";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
+import {route} from '../../model/useful';
+import {DisplayModeService} from '../../services/display-mode.service';
 
 interface Credentials {
   username: string,
@@ -15,25 +16,28 @@ interface Credentials {
   styleUrls: ['./auth-page.component.scss']
 })
 export class AuthPageComponent {
-  authForm: FormGroup
+  authForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, public authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder,
+              public authService: AuthService,
+              private router: Router,
+              public dms: DisplayModeService) {
     this.authForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(4)]]
-    })
+    });
   }
 
   login() {
     this.authService.login(this.credentials).subscribe(
       () => route('/', this.router)
-    )
+    );
   }
 
   register() {
     this.authService.register(this.credentials).subscribe(
       () => route('/', this.router)
-    )
+    );
   }
 
   signOut() {
@@ -53,7 +57,7 @@ export class AuthPageComponent {
   }
 
   fillAdmin() {
-    this.authForm.setValue({username: 'admin', password: 'admin'})
+    this.authForm.setValue({username: 'admin', password: 'admin'});
   }
 }
 
