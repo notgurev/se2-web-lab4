@@ -2,6 +2,7 @@
   text-align: center;
 }
 
-#table-panel {
-  flex-shrink: 1000;
-}
+// breakpoints
+$sm: 0;
+$md: 840;
+$lg: 1052;

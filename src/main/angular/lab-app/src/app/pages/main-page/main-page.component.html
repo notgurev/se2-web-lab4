@@ -3,7 +3,7 @@
 <div>
   <p-toolbar>
     <div class="p-toolbar-group-left">
-      Lab work №4
+      Mode: {{ dms.mode }}
     </div>
     <div class="p-toolbar-group-right">
       <span style="margin-right: 0.5rem">{{ username }}</span>
@@ -14,7 +14,7 @@
   <div class="p-grid" style="margin-top: 5px; align-items:flex-start">
 
     <!-- Canvas -->
-    <p-panel id="canvas-panel" class="p-col" header="Canvas">
+    <p-panel id="canvas-panel" class="p-col-fixed"  header="Canvas">
       <app-canvas [radius]="canvasRadius"
                   [widthHeight]="500"
                   [data]="hits"
@@ -22,7 +22,7 @@
                   (onSubmit)="submitHit($event)"
       ></app-canvas>
       <!-- Canvas settings -->
-      <div [style.width]="500">
+      <div [style.max-width]="500">
         <div class="p-field-checkbox">
           <p-checkbox [(ngModel)]="matchingRadius" [binary]="true" id="matching-radius"></p-checkbox>
           <label for="matching-radius">Matching radius</label>
@@ -35,7 +35,7 @@
     </p-panel>
 
     <!-- Manual input -->
-    <p-panel id="manual-input-panel" class="p-col-3" header="Manual input">
+    <p-panel id="manual-input-panel" class="p-col" header="Manual input">
       <form [formGroup]="pointForm" style="text-align: center">
 
         <div class="p-field">

@@ -3,13 +3,14 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {route} from '../../model/useful';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Hit} from '../../model/hit';
+import {Hit} from '../../model/Hit';
 import {PointService} from '../../services/point.service';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {ErrorMessageService} from '../../services/error-message.service';
+import {DisplayModeService} from '../../services/display-mode.service';
 
 interface SubmitResult {
   result: boolean;
@@ -34,7 +35,8 @@ export class MainPageComponent implements OnInit {
               private fb: FormBuilder,
               private pointService: PointService,
               private messageService: MessageService,
-              private ems: ErrorMessageService) {
+              private ems: ErrorMessageService,
+              public dms: DisplayModeService) {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
       y: ['', [Validators.required, Validators.min(-4.9999999), Validators.max(4.9999999)]],
