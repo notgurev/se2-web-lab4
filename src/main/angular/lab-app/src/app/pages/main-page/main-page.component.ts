@@ -39,12 +39,7 @@ export class MainPageComponent implements OnInit {
               public dms: DisplayModeService) {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
-      y: ['', [
-        Validators.required,
-        Validators.min(-4.9999999),
-        Validators.max(4.9999999),
-        Validators.pattern('[0-9\-. ]*')
-      ]],
+      y: ['0', [Validators.min(-4.99999), Validators.max(4.99999)]],
       r: ['', [Validators.required, Validators.min(0)]]
     });
   }

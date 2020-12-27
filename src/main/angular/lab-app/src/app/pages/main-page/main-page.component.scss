@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+#y-input {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+
+  input[type='range'] {
+    flex-grow: 1;
+    width: auto;
+    max-width: 300px;
+  }
+}
+
 // Breakpoints
 $mobile: 0;
 $tablet: 840px;
@@ -27,10 +40,6 @@ $desktop: 1052px;
   margin: 0 0.25rem 0.5rem;
 }
 
-#manual-input-panel {
-  flex-grow: 1;
-}
-
 #table-panel {
   @include shrink-limit(250px);
   flex-grow: 10000;
@@ -38,12 +47,19 @@ $desktop: 1052px;
 
 // Desktop
 @media screen and (min-width: $desktop) {
+  #manual-input-panel {
+    @include shrink-limit(300px);
+  }
 }
 
 // Tablet
 @media screen and (min-width: $tablet) and (max-width: $desktop) {
   #table-panel {
     flex-basis: 100%; // forces table-panel be screen-wide on next row
+  }
+  #manual-input-panel {
+    @include shrink-limit(250px);
+    flex-grow: 1;
   }
 }
 

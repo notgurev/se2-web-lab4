@@ -45,20 +45,14 @@
         <!-- Y -->
         <div class="p-field">
           <!-- Y input field -->
-          <div class="p-inputgroup">
-            <p style="margin-right: 10px">Y:</p>
-            <input [class.p-invalid]="yForm.invalid && yForm.touched" pInputText formControlName="y">
+          <div id="y-input">
+            <div style="margin-right: 15px">Y = {{yForm.value | number:'1.2-2'}}</div>
+            <input type="range" min="-5" max="5" step="0.01" formControlName="y">
           </div>
           <!-- Y validation messages -->
           <div *ngIf="yForm.invalid && yForm.touched" class="p-invalid">
-            <small *ngIf="yForm.errors?.required">
-              Y is required
-            </small>
             <small *ngIf="yForm.errors?.min || yForm.errors?.max">
               Y must be in range (-5...5)
-            </small>
-            <small *ngIf="yForm.errors?.pattern || isNaN(yForm.value)">
-              Y must be a number
             </small>
           </div>
         </div>
