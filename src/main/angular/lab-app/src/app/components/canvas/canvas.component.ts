@@ -101,7 +101,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   }
 
   submitHit(e: MouseEvent) {
-    let scale = this.rValue / R_OFFSET;
+    let scale = this.drawingR / R_OFFSET;
     let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale);
     let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
 
@@ -111,8 +111,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
     const TEXT_OFFSET = 5; //px
 
-    const R = String(this.rValue);
-    const HALF_R = String(this.rValue / 2);
+    const R = String(this.drawingR);
+    const HALF_R = String(this.drawingR / 2);
 
     ctx.strokeStyle = LINES_COLOR;
     ctx.font = '15px Arial';
@@ -203,7 +203,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   redrawAim(e: MouseEvent) {
     this.eraseAim();
-    let scale = this.rValue / R_OFFSET;
+    let scale = this.drawingR / R_OFFSET;
     this.aimCtx.beginPath();
     this.aimCtx.arc(
       Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale) / scale + this.CANVAS_CENTER_X,
@@ -224,8 +224,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     this.fCtx.fillStyle = successful ? 'lawngreen' : 'red';
     this.fCtx.beginPath();
     this.fCtx.arc(
-      this.CANVAS_CENTER_X + x * R_OFFSET / this.rValue,
-      this.CANVAS_CENTER_Y - y * R_OFFSET / this.rValue, POINT_RADIUS, 0, 2 * Math.PI
+      this.CANVAS_CENTER_X + x * R_OFFSET / this.drawingR,
+      this.CANVAS_CENTER_Y - y * R_OFFSET / this.drawingR, POINT_RADIUS, 0, 2 * Math.PI
     );
     this.fCtx.stroke();
     this.fCtx.fill();
@@ -233,7 +233,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   }
 
   drawBackground() {
-    this.drawShapes(this.bCtx, this.CANVAS_CENTER_X, this.CANVAS_CENTER_Y);
+    if (this.rValue != 0) this.drawShapes(this.bCtx, this.CANVAS_CENTER_X, this.CANVAS_CENTER_Y);
     this.drawCoordsSystem(this.bCtx);
     this.drawLetters(this.bCtx, this.CANVAS_CENTER_X, this.CANVAS_CENTER_Y);
   }
@@ -241,7 +241,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   drawPoints() {
     if (this.matchingRads) {
       this.points.forEach(point => {
-        if (point.r == this.rValue) {
+        if (point.r == this.drawingR) {
           this.drawPoint(point.x, point.y, point.result!);
         }
       });
@@ -250,5 +250,9 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
         this.drawPoint(point.x, point.y, point.result!);
       });
     }
+  }
+
+  get drawingR(): number {
+    return this.rValue == 0 ? 1 : this.rValue;
   }
 }
