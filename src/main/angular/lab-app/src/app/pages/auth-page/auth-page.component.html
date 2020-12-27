@@ -1,0 +1,59 @@
+<!--suppress HtmlFormInputWithoutLabel -->
+<p-toolbar class="header">
+  <div style="padding: 10px">
+    Лабораторная работа №4, Кириенко Никита, группа P3212, вариант 72415 ({{dms.mode}} mode)
+  </div>
+</p-toolbar>
+<div class="page p-grid p-align-center p-justify-center vertical-container">
+  <div class="login-div p-col p-col-align-center">
+    <p-card [hidden]="authService.loggedIn">
+      <h2 style="text-align: center">Login / Signup</h2>
+      <!-- Error messages -->
+      <div *ngIf="authService.error$ | async as error" style="text-align: center">
+        <p-message [text]="error" severity="error"></p-message>
+      </div>
+      <!-- Form -->
+      <form [formGroup]="authForm">
+        <div class="p-field">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            <input type="text" pInputText placeholder="Username" formControlName="username">
+          </div>
+          <div *ngIf="usernameForm?.invalid && usernameForm?.touched" class="p-invalid">
+            <small *ngIf="usernameForm?.errors?.required">
+              Username is required.
+            </small>
+            <small *ngIf="usernameForm?.errors?.minlength || usernameForm?.errors?.maxlength">
+              Username must be 4-15 characters long.
+            </small>
+          </div>
+        </div>
+        <div class="p-field">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+            <input type="password" pPassword pInputText placeholder="Password" formControlName="password">
+          </div>
+          <div *ngIf="passwordForm?.invalid && passwordForm?.touched" class="p-invalid">
+            <small *ngIf="passwordForm?.errors?.required">
+              Password is required.
+            </small>
+            <small *ngIf="passwordForm?.errors?.minlength">
+              Password must be at least {{ passwordForm?.errors?.minlength?.requiredLength }} characters long.
+            </small>
+          </div>
+        </div>
+        <div class="p-grid p-justify-around">
+          <p-button (click)="login()" [disabled]="authForm.invalid">Log in</p-button>
+          <p-button (click)="register()" [disabled]="authForm.invalid">Sign up</p-button>
+          <p-button (click)="fillAdmin()">[Admin]</p-button>
+        </div>
+      </form>
+    </p-card>
+    <p-card [hidden]="!authService.loggedIn" id="loggedInCard">
+      <h2>Welcome back</h2>
+      <p>Signed in as <b>{{ authService.username }}</b></p>
+      <p-button (click)="signOut()">Sign out</p-button>
+      <p-button routerLink="/" [ngStyle]="{'margin-left':'10px'}">Go to main page</p-button>
+    </p-card>
+  </div>
+</div>

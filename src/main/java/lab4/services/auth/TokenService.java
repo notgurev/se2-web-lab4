@@ -1,19 +1,15 @@
 package lab4.services.auth;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import lab4.utils.SeededKeyGenerator;
+import io.jsonwebtoken.*;
+import lab4.utils.KeywordKeyGenerator;
 
 import javax.ejb.Stateless;
 import java.security.Key;
-import java.util.Date;
 import java.util.Optional;
 
 @Stateless
 public class TokenService {
-    private final Key key = new SeededKeyGenerator().generate(4 * 8 * 15 * 16 * 23 * 42);
+    private final Key key = new KeywordKeyGenerator("whatever").generate();
 
     /**
      * @param username username to generate token for
@@ -22,8 +18,7 @@ public class TokenService {
     public String generate(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date())
-                .signWith(key)
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 
@@ -33,13 +28,13 @@ public class TokenService {
      */
     public Optional<String> verify(String token) {
         try {
-            Jws<Claims> claimsJws = Jwts.parserBuilder()
+            Jws<Claims> claimsJws = Jwts.parser()
                     .setSigningKey(key)
-                    .build()
                     .parseClaimsJws(token);
             return Optional.of(claimsJws.getBody().getSubject());
         } catch (JwtException e) {
             // validation failed
+            System.out.println(e.getMessage());
             return Optional.empty();
         }
     }

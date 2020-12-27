@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import "~primeflex/primeflex";
+
+html {
+  font-family: 'Roboto', sans-serif;
+  background-color: dimgrey;
+}
+
+.page {
+  align-items: center;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}

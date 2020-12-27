@@ -32,10 +32,10 @@ public class AuthService {
             if (optionalUser.get().getPassword().equals(encode(password))) {
                 return AuthResult.token(tokenService.generate(username));
             } else {
-                return AuthResult.message("Wrong password");
+                return AuthResult.message("WRONG_PASSWORD");
             }
         } else {
-            return AuthResult.message("User not found");
+            return AuthResult.message("USER_NOT_FOUND");
         }
     }
 
@@ -48,8 +48,7 @@ public class AuthService {
      */
     public AuthResult register(@NotNull String username, @NotNull String password) {
         if (users.checkIfUserExists(username)) {
-            System.out.println("user exists!!!");
-            return AuthResult.message("User already exists");
+            return AuthResult.message("USER_ALREADY_EXISTS");
         } else {
             users.add(new User(username, encode(password)));
             return AuthResult.token(tokenService.generate(username));

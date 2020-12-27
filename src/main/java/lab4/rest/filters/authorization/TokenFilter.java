@@ -32,7 +32,7 @@ public class TokenFilter implements ContainerRequestFilter {
         // check if token is present
         if (!token.isPresent()) {
             containerRequestContext.abortWith(
-                    Response.status(FORBIDDEN).entity("missing authorization token").build()
+                    Response.status(FORBIDDEN).entity("MISSING_AUTHORIZATION_TOKEN").build()
             );
             return;
         }
@@ -44,7 +44,7 @@ public class TokenFilter implements ContainerRequestFilter {
         // if token missing or bad, respond with FORBIDDEN
         if (!usernameByToken.isPresent()) {
             containerRequestContext.abortWith(
-                    Response.status(FORBIDDEN).entity("invalid token").build()
+                    Response.status(FORBIDDEN).entity("INVALID_TOKEN").build()
             );
             return;
         }

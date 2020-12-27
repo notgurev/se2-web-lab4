@@ -3,7 +3,6 @@ package lab4.rest;
 import lab4.rest.json.Credentials;
 import lab4.services.auth.AuthResult;
 import lab4.services.auth.AuthService;
-import lab4.utils.JSONMessage;
 
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -27,23 +26,23 @@ public class AuthResource {
 
     @POST
     @Path("/login")
-    public Response login(@NotNull @Valid Credentials credentials) {
+    public Response login(@NotNull(message = "MISSING_CREDENTIALS") @Valid Credentials credentials) {
         AuthResult result = authService.login(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
         } else {
-            return Response.status(FORBIDDEN).entity(JSONMessage.message(result.getErrorMessage())).build();
+            return Response.status(FORBIDDEN).entity(result.getErrorMessage()).build();
         }
     }
 
     @POST
-    @Path("register")
-    public Response register(@NotNull @Valid Credentials credentials) {
+    @Path("/register")
+    public Response register(@NotNull(message = "MISSING_CREDENTIALS") @Valid Credentials credentials) {
         AuthResult result = authService.register(credentials.getUsername(), credentials.getPassword());
         if (result.isSuccessful()) {
             return Response.ok(tokenJSON(result.getToken())).build();
         } else {
-            return Response.status(FORBIDDEN).entity(JSONMessage.message(result.getErrorMessage())).build();
+            return Response.status(FORBIDDEN).entity(result.getErrorMessage()).build();
         }
     }
 
