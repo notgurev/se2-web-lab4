@@ -49,6 +49,7 @@ $desktop: 1052px;
 @media screen and (min-width: $desktop) {
   #manual-input-panel {
     @include shrink-limit(300px);
+    flex-grow: 1;
   }
 }
 
