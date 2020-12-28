@@ -3,16 +3,14 @@ package lab4.beans;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
+@Table(name = "userr")
 public class User implements Serializable {
     @Id
     @Column(name = "username", unique = true, nullable = false)
