@@ -1,9 +1,10 @@
 <!--suppress HtmlFormInputWithoutLabel -->
-<p-toolbar class="header">
-  <div style="padding: 10px">
+<p-toolbar>
+  <div class="p-toolbar-group-left" style="padding: 10px">
     Лабораторная работа №4, Кириенко Никита, группа P3212, вариант 72415 ({{dms.mode}} mode)
   </div>
 </p-toolbar>
+
 <div class="page p-grid p-align-center p-justify-center vertical-container">
   <div class="login-div p-col p-col-align-center">
     <p-card [hidden]="authService.loggedIn">
@@ -46,6 +47,8 @@
           <p-button (click)="login()" [disabled]="authForm.invalid">Log in</p-button>
           <p-button (click)="register()" [disabled]="authForm.invalid">Sign up</p-button>
           <p-button (click)="fillAdmin()">[Admin]</p-button>
+          <p-button icon="pi pi-github"
+                    (click)="window.location.href = 'https://github.com/notgurev/se2-web-lab4'"></p-button>
         </div>
       </form>
     </p-card>

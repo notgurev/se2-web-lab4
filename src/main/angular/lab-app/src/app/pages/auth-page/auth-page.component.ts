@@ -17,6 +17,7 @@ interface Credentials {
 })
 export class AuthPageComponent {
   authForm: FormGroup;
+  window = window;
 
   constructor(private formBuilder: FormBuilder,
               public authService: AuthService,
