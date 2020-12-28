@@ -241,7 +241,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   drawPoints() {
     if (this.matchingRads) {
       this.points.forEach(point => {
-        if (point.r == this.drawingR) {
+        if (point.r == this.rValue) {
           this.drawPoint(point.x, point.y, point.result!);
         }
       });
