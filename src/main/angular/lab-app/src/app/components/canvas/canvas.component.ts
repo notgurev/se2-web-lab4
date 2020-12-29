@@ -141,13 +141,13 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     ctx.beginPath();
     ctx.strokeStyle = LINES_COLOR;
     ctx.lineWidth = 2;
-    ctx.moveTo(0, 250);
-    ctx.lineTo(500, 250);
+    ctx.moveTo(0, this.CANVAS_CENTER_Y);
+    ctx.lineTo(this.CANVAS_WH, this.CANVAS_CENTER_Y);
     ctx.stroke();
     ctx.beginPath();
     ctx.lineWidth = 2;
-    ctx.moveTo(250, 500);
-    ctx.lineTo(250, 0);
+    ctx.moveTo(this.CANVAS_CENTER_X, this.CANVAS_WH);
+    ctx.lineTo(this.CANVAS_CENTER_X, 0);
     ctx.stroke();
   }
 

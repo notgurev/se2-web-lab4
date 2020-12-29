@@ -19,16 +19,9 @@ public class JSONExceptionMapper implements ExceptionMapper<ConstraintViolationE
     }
 
     private String violationsToJSON(ConstraintViolationException exception) {
-        // actually just returns first violation
-//        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-
         for (ConstraintViolation<?> violation : exception.getConstraintViolations()) {
-            System.out.println(violation.toString());
-//            arrayBuilder.add(JSONMessage.error(violation.getMessage()));
             return violation.getMessage();
         }
-
         return null;
-//        return Json.createObjectBuilder().add("errors", arrayBuilder).build().toString();
     }
 }
