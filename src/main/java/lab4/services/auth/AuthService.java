@@ -27,7 +27,7 @@ public class AuthService {
      * @return AuthResult with token if correct / AuthResult with errorMessage if not
      */
     public AuthResult login(@NotNull String username, @NotNull String password) {
-        final Optional<User> optionalUser = users.getByUsername(username);
+        final Optional<User> optionalUser = users.findByUsername(username);
         if (optionalUser.isPresent()) {
             if (optionalUser.get().getPassword().equals(encode(password))) {
                 return AuthResult.token(tokenService.generate(username));
@@ -50,7 +50,7 @@ public class AuthService {
         if (users.checkIfUserExists(username)) {
             return AuthResult.message("USER_ALREADY_EXISTS");
         } else {
-            users.add(new User(username, encode(password)));
+            users.save(new User(username, encode(password)));
             return AuthResult.token(tokenService.generate(username));
         }
     }

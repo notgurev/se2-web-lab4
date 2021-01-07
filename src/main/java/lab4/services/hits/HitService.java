@@ -7,7 +7,7 @@ import lab4.database.UserRepository;
 import lab4.exceptions.UserNotFoundException;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.transaction.Transactional;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-@Stateful
+@Stateless
 @Transactional
 public class HitService {
     @EJB
@@ -23,34 +23,25 @@ public class HitService {
     @EJB
     private UserRepository userRepository;
 
-    private User user;
-
-    // lazy user load
-    private User getUser(String username) {
-        return user == null ? loadUser(username) : user;
-    }
-
     public User loadUser(@NotNull String username) {
-        Optional<User> optionalUser = userRepository.getByUsername(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-            return user;
+            return optionalUser.get();
         } else {
             throw new UserNotFoundException("given username " + username + " not found in USERS");
         }
     }
 
     public void add(@NotNull Hit hit, @NotNull String username) {
-        hit.setOwner(getUser(username));
-        hitRepository.add(hit);
+        hitRepository.save(hit, username);
     }
 
     public void clear(@NotNull String username) {
-        hitRepository.clear(getUser(username));
+        hitRepository.clear(username);
     }
 
     public List<Hit> getAllByOwnerUsername(@NotNull String username) {
-        return hitRepository.getAllByOwner(getUser(username));
+        return hitRepository.findAllByOwner(username);
     }
 
     public String getAllJSON(@NotNull String username) {
