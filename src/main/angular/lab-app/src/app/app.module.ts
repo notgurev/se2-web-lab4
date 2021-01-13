@@ -28,6 +28,7 @@ import {MessageService} from 'primeng/api';
 import {CheckboxModule} from 'primeng/checkbox';
 import {SliderModule} from 'primeng/slider';
 import {LoggedInCardComponent} from './components/logged-in-card/logged-in-card.component';
+import {TableComponent} from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {LoggedInCardComponent} from './components/logged-in-card/logged-in-card.
     AuthPageComponent,
     CanvasComponent,
     LoggedInCardComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
