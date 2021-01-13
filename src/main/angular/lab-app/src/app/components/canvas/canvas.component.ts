@@ -21,7 +21,7 @@ const LINES_COLOR = '#000000'; // todo changeable
 const SHAPES_COLOR = '#aaaef3'; // todo changeable
 // Points
 const POINT_OUTLINE_COLOR = '#000000'; // todo changeable
-const POINT_OUTLINE_WIDTH = 3; // todo remove
+const POINT_OUTLINE_WIDTH = 3.5; // todo remove
 
 const design = {
   colors: {
