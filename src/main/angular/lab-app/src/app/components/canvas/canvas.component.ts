@@ -15,14 +15,22 @@ import {Hit} from '../../model/Hit';
 import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
 
 // Dimensions
-const R_OFFSET = 200; // from center
+const R_OFFSET = 200; // from center // todo changeable
 // Lines, shapes
-const LINES_COLOR = '#000000';
-const SHAPES_COLOR = '#aaaef3';
+const LINES_COLOR = '#000000'; // todo changeable
+const SHAPES_COLOR = '#aaaef3'; // todo changeable
 // Points
-const POINT_OUTLINE_COLOR = '#000000';
-const POINT_OUTLINE_WIDTH = 3;
-const POINT_RADIUS = 4;
+const POINT_OUTLINE_COLOR = '#000000'; // todo changeable
+const POINT_OUTLINE_WIDTH = 3; // todo remove
+
+const design = {
+  colors: {
+    aim: 'yellow',
+    hit: 'lawngreen',
+    miss: 'red'
+  },
+  pointRadius: 4, // todo whatever
+};
 
 @Component({
   selector: 'app-canvas',
@@ -31,13 +39,12 @@ const POINT_RADIUS = 4;
 })
 export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
   @ViewChild('container') canvasContainerRef!: ElementRef<HTMLElement>;
-  @ViewChild('background') backgroundCanvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('foreground') foregroundCanvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('aim') aimCanvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  @Input('widthHeight') CANVAS_WH!: number;
+  @Input('widthHeight') wh!: number;
   @Input('radius') rValue!: number;
-  @Input('data') points!: Hit[];
+  @Input('data') hits!: Hit[];
   @Input('matching-radius') matchingRads!: boolean;
 
   // retarded
@@ -49,51 +56,43 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   // surprisingly not so retarded
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  CANVAS_CENTER_X!: number;
-  CANVAS_CENTER_Y!: number;
+  center!: number;
   canvasContainer!: HTMLElement;
-  bCtx!: CanvasRenderingContext2D;
-  fCtx!: CanvasRenderingContext2D;
   aimCtx!: CanvasRenderingContext2D;
+  ctx!: CanvasRenderingContext2D;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.initialized) {
-      return;
-    }
-    if (changes.rValue) {
+    if (this.initialized && (changes.rValue || changes.matchingRads)) {
       this.redrawAll();
-    } else if (changes.matchingRads) {
-      this.redrawPoints();
     }
   }
 
   // to detect array changes
+  // todo observable instead
   ngDoCheck() {
-    if (this.points.length != this.pointsLength) {
-      this.pointsLength = this.points.length;
-      this.redrawPoints();
+    if (this.hits.length != this.pointsLength) {
+      this.pointsLength = this.hits.length;
+      this.redrawAll();
     }
   }
 
+  // todo observable instead
   ngOnInit() {
-    this.pointsLength = this.points.length;
-    console.log(this.pointsLength + ' is points[] length');
+    this.pointsLength = this.hits.length;
   }
 
   ngAfterViewInit() {
-    this.CANVAS_CENTER_X = this.CANVAS_WH / 2;
-    this.CANVAS_CENTER_Y = this.CANVAS_CENTER_X;
+    this.center = this.wh / 2;
 
-    this.bCtx = this.backgroundCanvasRef.nativeElement.getContext('2d')!;
-    this.fCtx = this.foregroundCanvasRef.nativeElement.getContext('2d')!;
     this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!;
-    this.canvasContainer = this.canvasContainerRef.nativeElement;
-
     this.aimCtx.strokeStyle = POINT_OUTLINE_COLOR;
-    this.aimCtx.fillStyle = 'yellow';
     this.aimCtx.lineWidth = POINT_OUTLINE_WIDTH;
-    this.fCtx.strokeStyle = POINT_OUTLINE_COLOR;
-    this.fCtx.lineWidth = POINT_OUTLINE_WIDTH;
+
+    this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
+    this.ctx.lineWidth = POINT_OUTLINE_WIDTH;
+    this.ctx.strokeStyle = POINT_OUTLINE_COLOR;
+
+    this.canvasContainer = this.canvasContainerRef.nativeElement;
 
     this.initialized = true;
 
@@ -102,8 +101,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   submitHit(e: MouseEvent) {
     let scale = this.drawingR / R_OFFSET;
-    let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale);
-    let y = (this.CANVAS_CENTER_Y - canvasRelativeY(e, this.canvasContainer)) * scale;
+    let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.center) * scale);
+    let y = (this.center - canvasRelativeY(e, this.canvasContainer)) * scale;
 
     this.onSubmit.emit({'x': x, 'y': y, 'r': this.rValue});
   }
@@ -137,30 +136,33 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
   }
 
   drawCoordsSystem(ctx: CanvasRenderingContext2D) {
-    console.log('Drawing coords system');
-    ctx.beginPath();
+    // styles
     ctx.strokeStyle = LINES_COLOR;
     ctx.lineWidth = 2;
-    ctx.moveTo(0, this.CANVAS_CENTER_Y);
-    ctx.lineTo(this.CANVAS_WH, this.CANVAS_CENTER_Y);
+
+    // horizontal
+    ctx.beginPath();
+    ctx.moveTo(0, this.center);
+    ctx.lineTo(this.wh, this.center);
     ctx.stroke();
     ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.moveTo(this.CANVAS_CENTER_X, this.CANVAS_WH);
-    ctx.lineTo(this.CANVAS_CENTER_X, 0);
+
+    // vertical
+    ctx.moveTo(this.center, this.wh);
+    ctx.lineTo(this.center, 0);
     ctx.stroke();
   }
 
   clearCanvas(ctx: CanvasRenderingContext2D) {
-    ctx.clearRect(0, 0, this.CANVAS_WH, this.CANVAS_WH);
+    ctx.clearRect(0, 0, this.wh, this.wh);
   }
 
-  // wrong shapes probably
   drawShapes(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
-    console.log('Drawing shapes');
     ctx.fillStyle = SHAPES_COLOR;
+
     // прямоугольник
     ctx.fillRect(canvasCenterX - R_OFFSET, canvasCenterY, canvasCenterX, R_OFFSET / 2);
+
     // треугольник
     ctx.moveTo(canvasCenterX, canvasCenterY);
     ctx.beginPath();
@@ -168,6 +170,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     ctx.lineTo(canvasCenterX + R_OFFSET, canvasCenterY);
     ctx.lineTo(canvasCenterX, canvasCenterY);
     ctx.fill();
+
     // четверть круга
     ctx.beginPath();
     ctx.lineTo(canvasCenterX - R_OFFSET, canvasCenterY);
@@ -176,80 +179,58 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     ctx.fill();
   }
 
-  eraseAim() {
-    this.clearCanvas(this.aimCtx);
-  }
-
-  eraseBackground() {
-    this.clearCanvas(this.bCtx);
-  }
-
-  erasePoints() {
-    this.clearCanvas(this.fCtx);
-  }
+  eraseAim = () => this.clearCanvas(this.aimCtx);
 
   // used when rValue changes
   redrawAll() {
-    this.eraseBackground();
-    this.erasePoints();
+    this.clearCanvas(this.ctx);
     this.drawAll();
   }
 
-  // used when points data changes
-  redrawPoints() {
-    this.erasePoints();
-    this.drawPoints();
-  }
-
-  redrawAim(e: MouseEvent) {
+  redrawAim(e: MouseEvent, ctx: CanvasRenderingContext2D) {
     this.eraseAim();
     let scale = this.drawingR / R_OFFSET;
-    this.aimCtx.beginPath();
-    this.aimCtx.arc(
-      Math.round((canvasRelativeX(e, this.canvasContainer) - this.CANVAS_CENTER_X) * scale) / scale + this.CANVAS_CENTER_X,
+    ctx.fillStyle = design.colors.aim;
+    ctx.beginPath();
+    ctx.arc(
+      Math.round((canvasRelativeX(e, this.canvasContainer) - this.center) * scale) / scale + this.center,
       canvasRelativeY(e, this.canvasContainer),
-      POINT_RADIUS, 0, 2 * Math.PI
+      design.pointRadius, 0, 2 * Math.PI
     );
-    this.aimCtx.stroke();
-    this.aimCtx.fill();
-    this.aimCtx.closePath();
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
   }
 
   drawAll() {
-    this.drawBackground();
-    this.drawPoints();
+    this.drawBackground(this.ctx);
+    this.drawHits(this.ctx);
   }
 
-  drawPoint(x: number, y: number, successful: boolean) {
-    this.fCtx.fillStyle = successful ? 'lawngreen' : 'red';
-    this.fCtx.beginPath();
-    this.fCtx.arc(
-      this.CANVAS_CENTER_X + x * R_OFFSET / this.drawingR,
-      this.CANVAS_CENTER_Y - y * R_OFFSET / this.drawingR, POINT_RADIUS, 0, 2 * Math.PI
+  drawHit(ctx: CanvasRenderingContext2D, x: number, y: number, fillStyle: any) {
+    ctx.fillStyle = fillStyle;
+    ctx.beginPath();
+    ctx.arc(
+      this.center + x * R_OFFSET / this.drawingR,
+      this.center - y * R_OFFSET / this.drawingR, design.pointRadius, 0, 2 * Math.PI
     );
-    this.fCtx.stroke();
-    this.fCtx.fill();
-    this.fCtx.closePath();
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
   }
 
-  drawBackground() {
-    if (this.rValue != 0) this.drawShapes(this.bCtx, this.CANVAS_CENTER_X, this.CANVAS_CENTER_Y);
-    this.drawCoordsSystem(this.bCtx);
-    this.drawLetters(this.bCtx, this.CANVAS_CENTER_X, this.CANVAS_CENTER_Y);
-  }
-
-  drawPoints() {
-    if (this.matchingRads) {
-      this.points.forEach(point => {
-        if (point.r == this.rValue) {
-          this.drawPoint(point.x, point.y, point.result!);
-        }
-      });
-    } else {
-      this.points.forEach(point => {
-        this.drawPoint(point.x, point.y, point.result!);
-      });
+  drawBackground(ctx: CanvasRenderingContext2D) {
+    if (this.rValue != 0) {
+      this.drawShapes(ctx, this.center, this.center);
     }
+    this.drawCoordsSystem(this.ctx);
+    this.drawLetters(ctx, this.center, this.center);
+  }
+
+  drawHits(ctx: CanvasRenderingContext2D) {
+    ctx.lineWidth = POINT_OUTLINE_WIDTH; // todo remove
+    let hits = this.matchingRads ? this.hits.filter(point => point.r == this.rValue) : this.hits;
+    hits.forEach(point => this.drawHit(ctx, point.x, point.y, design.colors[point.result ? 'hit' : 'miss']));
   }
 
   get drawingR(): number {
