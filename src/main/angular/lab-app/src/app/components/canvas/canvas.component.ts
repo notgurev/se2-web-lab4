@@ -16,20 +16,25 @@ import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
 
 // Dimensions
 const R_OFFSET = 200; // from center // todo changeable
-// Lines, shapes
-const LINES_COLOR = '#000000'; // todo changeable
-const SHAPES_COLOR = '#aaaef3'; // todo changeable
-// Points
-const POINT_OUTLINE_COLOR = '#000000'; // todo changeable
-const POINT_OUTLINE_WIDTH = 3.5; // todo remove
 
 const design = {
   colors: {
     aim: 'yellow',
     hit: 'lawngreen',
-    miss: 'red'
+    miss: 'red',
+    shapes: '#aaaef3', // todo changeable
+    lines: 'black', // todo changeable
+    pointOutline: 'black', // todo changeable
+    letters: 'black', // todo changeable
   },
-  pointRadius: 4, // todo whatever
+  point: {
+    outlineWidth: 3.5,
+    radius: 4 // todo whatever
+  },
+  fontSize: 15,
+  coordsSystem: {
+    lineWidth: 2
+  }
 };
 
 @Component({
@@ -44,17 +49,16 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   @Input('widthHeight') wh!: number;
   @Input('radius') rValue!: number;
-  @Input('data') hits!: Hit[];
+  @Input('data') hits!: Hit[]; // needs to be checked manually
   @Input('matching-radius') matchingRads!: boolean;
 
-  // retarded
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
+
+  // First OnChanges happens before children are created, so this is needed
   initialized: boolean = false;
 
-  // even more retarded
+  // todo even more retarded
   pointsLength!: number;
-
-  // surprisingly not so retarded
-  @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   center!: number;
   canvasContainer!: HTMLElement;
@@ -85,12 +89,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     this.center = this.wh / 2;
 
     this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!;
-    this.aimCtx.strokeStyle = POINT_OUTLINE_COLOR;
-    this.aimCtx.lineWidth = POINT_OUTLINE_WIDTH;
+    this.aimCtx.strokeStyle = design.colors.pointOutline;
+    this.aimCtx.lineWidth = design.point.outlineWidth;
 
     this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
-    this.ctx.lineWidth = POINT_OUTLINE_WIDTH;
-    this.ctx.strokeStyle = POINT_OUTLINE_COLOR;
+    this.ctx.lineWidth = design.point.outlineWidth;
+    this.ctx.strokeStyle = design.colors.pointOutline;
 
     this.canvasContainer = this.canvasContainerRef.nativeElement;
 
@@ -107,47 +111,49 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     this.onSubmit.emit({'x': x, 'y': y, 'r': this.rValue});
   }
 
-  drawLetters(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
-    const TEXT_OFFSET = 5; //px
+  drawLetters(ctx: CanvasRenderingContext2D, center: number, rOffset: number) {
+    const textOffset = this.wh / 100; // previously 5
+    const axisLetterBorderOffset = design.fontSize;
 
     const R = String(this.drawingR);
-    const HALF_R = String(this.drawingR / 2);
+    const halfR = String(this.drawingR / 2);
 
-    ctx.strokeStyle = LINES_COLOR;
-    ctx.font = '15px Arial';
+    ctx.strokeStyle = design.colors.letters;
+    ctx.font = design.fontSize + 'px Arial';
     // R
     ctx.textAlign = 'center';
-    // слева
-    ctx.strokeText('- ' + R, canvasCenterX - R_OFFSET, canvasCenterY - TEXT_OFFSET);
-    ctx.strokeText('- ' + HALF_R, canvasCenterX - R_OFFSET / 2, canvasCenterY - TEXT_OFFSET);
-    // справа
-    ctx.strokeText(R, canvasCenterX + R_OFFSET, canvasCenterY - TEXT_OFFSET);
-    ctx.strokeText(HALF_R, canvasCenterX + R_OFFSET / 2, canvasCenterY - TEXT_OFFSET);
-    // сверху
+    // left
+    ctx.strokeText('- ' + R, center - rOffset, center - textOffset);
+    ctx.strokeText('- ' + halfR, center - rOffset / 2, center - textOffset);
+    // right
+    ctx.strokeText(R, center + rOffset, center - textOffset);
+    ctx.strokeText(halfR, center + rOffset / 2, center - textOffset);
+    // top
     ctx.textAlign = 'left';
-    ctx.strokeText(R, canvasCenterX + TEXT_OFFSET, canvasCenterY - R_OFFSET);
-    ctx.strokeText(HALF_R, canvasCenterX + TEXT_OFFSET, canvasCenterY - R_OFFSET / 2);
-    // снизу
-    ctx.strokeText('- ' + R, canvasCenterX + TEXT_OFFSET, canvasCenterY + R_OFFSET);
-    ctx.strokeText('- ' + HALF_R, canvasCenterX + TEXT_OFFSET, canvasCenterY + R_OFFSET / 2);
+    ctx.strokeText(R, center + textOffset, center - rOffset);
+    ctx.strokeText(halfR, center + textOffset, center - rOffset / 2);
+    // bottom
+    ctx.strokeText('- ' + R, center + textOffset, center + rOffset);
+    ctx.strokeText('- ' + halfR, center + textOffset, center + rOffset / 2);
+
     // X, Y
-    ctx.strokeText('X', 485, 250 - TEXT_OFFSET);
-    ctx.strokeText('Y', 250 + TEXT_OFFSET, 15);
+    ctx.strokeText('X', this.wh - axisLetterBorderOffset, center - textOffset);
+    ctx.strokeText('Y', center + textOffset, axisLetterBorderOffset);
   }
 
   drawCoordsSystem(ctx: CanvasRenderingContext2D) {
     // styles
-    ctx.strokeStyle = LINES_COLOR;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = design.colors.lines;
+    ctx.lineWidth = design.coordsSystem.lineWidth;
 
     // horizontal
     ctx.beginPath();
     ctx.moveTo(0, this.center);
     ctx.lineTo(this.wh, this.center);
     ctx.stroke();
-    ctx.beginPath();
 
     // vertical
+    ctx.beginPath();
     ctx.moveTo(this.center, this.wh);
     ctx.lineTo(this.center, 0);
     ctx.stroke();
@@ -157,29 +163,34 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     ctx.clearRect(0, 0, this.wh, this.wh);
   }
 
-  drawShapes(ctx: CanvasRenderingContext2D, canvasCenterX: number, canvasCenterY: number) {
-    ctx.fillStyle = SHAPES_COLOR;
+  drawShapes(ctx: CanvasRenderingContext2D, center: number, rOffset: number) {
+    ctx.fillStyle = design.colors.shapes;
 
     // прямоугольник
-    ctx.fillRect(canvasCenterX - R_OFFSET, canvasCenterY, canvasCenterX, R_OFFSET / 2);
+    ctx.fillRect(center - rOffset, center, center, rOffset / 2);
 
     // треугольник
-    ctx.moveTo(canvasCenterX, canvasCenterY);
+    ctx.moveTo(center, center);
     ctx.beginPath();
-    ctx.lineTo(canvasCenterX, canvasCenterY + R_OFFSET);
-    ctx.lineTo(canvasCenterX + R_OFFSET, canvasCenterY);
-    ctx.lineTo(canvasCenterX, canvasCenterY);
+    ctx.lineTo(center, center + rOffset);
+    ctx.lineTo(center + rOffset, center);
+    ctx.lineTo(center, center);
     ctx.fill();
 
     // четверть круга
     ctx.beginPath();
-    ctx.lineTo(canvasCenterX - R_OFFSET, canvasCenterY);
-    ctx.arc(canvasCenterX, canvasCenterY, R_OFFSET, -Math.PI, -Math.PI / 2);
-    ctx.lineTo(canvasCenterX, canvasCenterY);
+    ctx.lineTo(center - rOffset, center);
+    ctx.arc(center, center, rOffset, -Math.PI, -Math.PI / 2);
+    ctx.lineTo(center, center);
     ctx.fill();
   }
 
   eraseAim = () => this.clearCanvas(this.aimCtx);
+
+  drawAll() {
+    this.drawBackground(this.ctx);
+    this.drawHits(this.ctx);
+  }
 
   // used when rValue changes
   redrawAll() {
@@ -195,24 +206,20 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     ctx.arc(
       Math.round((canvasRelativeX(e, this.canvasContainer) - this.center) * scale) / scale + this.center,
       canvasRelativeY(e, this.canvasContainer),
-      design.pointRadius, 0, 2 * Math.PI
+      design.point.radius, 0, 2 * Math.PI
     );
     ctx.stroke();
     ctx.fill();
     ctx.closePath();
   }
 
-  drawAll() {
-    this.drawBackground(this.ctx);
-    this.drawHits(this.ctx);
-  }
-
   drawHit(ctx: CanvasRenderingContext2D, x: number, y: number, fillStyle: any) {
     ctx.fillStyle = fillStyle;
+    ctx.strokeStyle = design.colors.pointOutline;
     ctx.beginPath();
     ctx.arc(
       this.center + x * R_OFFSET / this.drawingR,
-      this.center - y * R_OFFSET / this.drawingR, design.pointRadius, 0, 2 * Math.PI
+      this.center - y * R_OFFSET / this.drawingR, design.point.radius, 0, 2 * Math.PI
     );
     ctx.stroke();
     ctx.fill();
@@ -221,14 +228,14 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   drawBackground(ctx: CanvasRenderingContext2D) {
     if (this.rValue != 0) {
-      this.drawShapes(ctx, this.center, this.center);
+      this.drawShapes(ctx, this.center, R_OFFSET);
     }
     this.drawCoordsSystem(this.ctx);
-    this.drawLetters(ctx, this.center, this.center);
+    this.drawLetters(ctx, this.center, R_OFFSET);
   }
 
   drawHits(ctx: CanvasRenderingContext2D) {
-    ctx.lineWidth = POINT_OUTLINE_WIDTH; // todo remove
+    ctx.lineWidth = design.point.outlineWidth;
     let hits = this.matchingRads ? this.hits.filter(point => point.r == this.rValue) : this.hits;
     hits.forEach(point => this.drawHit(ctx, point.x, point.y, design.colors[point.result ? 'hit' : 'miss']));
   }
