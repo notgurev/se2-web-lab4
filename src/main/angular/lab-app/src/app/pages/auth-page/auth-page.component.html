@@ -52,11 +52,6 @@
         </div>
       </form>
     </p-card>
-    <p-card [hidden]="!authService.loggedIn" id="loggedInCard">
-      <h2>Welcome back</h2>
-      <p>Signed in as <b>{{ authService.username }}</b></p>
-      <p-button (click)="signOut()">Sign out</p-button>
-      <p-button routerLink="/" [ngStyle]="{'margin-left':'10px'}">Go to main page</p-button>
-    </p-card>
+    <app-logged-in-card [hidden]="!authService.loggedIn"></app-logged-in-card>
   </div>
 </div>

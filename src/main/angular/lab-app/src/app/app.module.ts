@@ -27,6 +27,7 @@ import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 import {CheckboxModule} from 'primeng/checkbox';
 import {SliderModule} from 'primeng/slider';
+import {LoggedInCardComponent} from './components/logged-in-card/logged-in-card.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {SliderModule} from 'primeng/slider';
     MainPageComponent,
     AuthPageComponent,
     CanvasComponent,
+    LoggedInCardComponent,
   ],
   imports: [
     BrowserModule,

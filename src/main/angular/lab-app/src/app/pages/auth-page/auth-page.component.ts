@@ -41,10 +41,6 @@ export class AuthPageComponent {
     );
   }
 
-  signOut() {
-    this.authService.signOut();
-  }
-
   get usernameForm() {
     return this.authForm.get('username');
   }
