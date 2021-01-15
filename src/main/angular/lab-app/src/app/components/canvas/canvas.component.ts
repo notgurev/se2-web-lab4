@@ -23,9 +23,8 @@ const design = {
     hit: 'lawngreen',
     miss: 'red',
     shapes: '#aaaef3', // todo changeable
-    lines: 'black', // todo changeable
-    pointOutline: 'black', // todo changeable
-    letters: 'black', // todo changeable
+    main: 'black', // todo changeable
+    background: 'white' // todo draw background
   },
   point: {
     outlineWidth: 3.5,
@@ -89,12 +88,12 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     this.center = this.wh / 2;
 
     this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!;
-    this.aimCtx.strokeStyle = design.colors.pointOutline;
+    this.aimCtx.strokeStyle = design.colors.main;
     this.aimCtx.lineWidth = design.point.outlineWidth;
 
     this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
     this.ctx.lineWidth = design.point.outlineWidth;
-    this.ctx.strokeStyle = design.colors.pointOutline;
+    this.ctx.strokeStyle = design.colors.main;
 
     this.canvasContainer = this.canvasContainerRef.nativeElement;
 
@@ -118,7 +117,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     const R = String(this.drawingR);
     const halfR = String(this.drawingR / 2);
 
-    ctx.strokeStyle = design.colors.letters;
+    ctx.strokeStyle = design.colors.main;
     ctx.font = design.fontSize + 'px Arial';
     // R
     ctx.textAlign = 'center';
@@ -143,7 +142,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   drawCoordsSystem(ctx: CanvasRenderingContext2D) {
     // styles
-    ctx.strokeStyle = design.colors.lines;
+    ctx.strokeStyle = design.colors.main;
     ctx.lineWidth = design.coordsSystem.lineWidth;
 
     // horizontal
@@ -192,7 +191,6 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     this.drawHits(this.ctx);
   }
 
-  // used when rValue changes
   redrawAll() {
     this.clearCanvas(this.ctx);
     this.drawAll();
@@ -215,7 +213,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
 
   drawHit(ctx: CanvasRenderingContext2D, x: number, y: number, fillStyle: any) {
     ctx.fillStyle = fillStyle;
-    ctx.strokeStyle = design.colors.pointOutline;
+    ctx.strokeStyle = design.colors.main;
     ctx.beginPath();
     ctx.arc(
       this.center + x * R_OFFSET / this.drawingR,
