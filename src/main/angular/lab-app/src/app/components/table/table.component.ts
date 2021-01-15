@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {Hit} from '../../model/Hit';
 
 @Component({
   selector: 'app-table',
@@ -6,7 +7,7 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent {
-  @Input('value') value: Hit[];
+  @Input('value') value: Hit[] = [];
 
   constructor() {
   }
