@@ -14,21 +14,20 @@ import {
 import {Hit} from '../../model/Hit';
 import {canvasRelativeX, canvasRelativeY} from '../../model/functions';
 
-// Dimensions
-const R_OFFSET = 200; // from center // todo changeable
+const R_OFFSET = 200; // todo changeable
 
 const design = {
   colors: {
     aim: 'yellow',
     hit: 'lawngreen',
     miss: 'red',
-    shapes: '#aaaef3', // todo changeable
-    main: 'black', // todo changeable
-    background: 'white' // todo draw background
+    shapes: '#aaaef3',
+    main: 'black',
+    background: 'white'
   },
   point: {
     outlineWidth: 3.5,
-    radius: 4 // todo whatever
+    radius: 4
   },
   fontSize: 15,
   coordsSystem: {
