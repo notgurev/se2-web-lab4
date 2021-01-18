@@ -7,6 +7,7 @@ import lab4.rest.json.HitData;
 import lab4.services.hits.HitService;
 
 import javax.ejb.EJB;
+import javax.json.Json;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -15,8 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/hits")
-@Produces(MediaType.APPLICATION_JSON)
 @Authorized
+@Produces(MediaType.APPLICATION_JSON)
 public class MainResource {
     @EJB
     private HitService hitService;
@@ -36,7 +37,7 @@ public class MainResource {
         Hit hit = new Hit(hitData.getX(), hitData.getY().floatValue(), hitData.getR());
         try {
             hitService.add(hit, username);
-            return Response.ok("hit added (owner is " + username + ")").build();
+            return Response.ok(jsonMessage("hit added (owner is " + username + ")")).build();
         } catch (UserNotFoundException e) {
             return Response.serverError().entity("User not found despite having a valid token").build();
         }
@@ -47,5 +48,9 @@ public class MainResource {
         String username = headers.getHeaderString("username");
         hitService.clear(username);
         return Response.ok().build();
+    }
+
+    private String jsonMessage(String message) {
+        return Json.createObjectBuilder().add("message", message).build().toString();
     }
 }
