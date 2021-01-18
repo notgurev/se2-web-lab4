@@ -23,7 +23,7 @@ public class HitService {
     @EJB
     private UserRepository userRepository;
 
-    public User loadUser(@NotNull String username) {
+    public User loadUser(@NotNull String username) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             return optionalUser.get();
