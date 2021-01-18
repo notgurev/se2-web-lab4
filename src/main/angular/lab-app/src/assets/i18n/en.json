@@ -30,7 +30,8 @@
   "TABLE": {
     "RESULT": "Result",
     "HIT": "Hit",
-    "MISS": "Miss"
+    "MISS": "Miss",
+    "NO_HITS": "No hits"
   },
   "BUTTONS": {
     "SIGN_OUT": "Sign out",

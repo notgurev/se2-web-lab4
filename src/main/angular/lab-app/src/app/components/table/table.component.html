@@ -1,4 +1,7 @@
-<p-table [value]="value" styleClass="p-datatable-sm">
+<div style="text-align: center">
+  <span *ngIf="!value.length" style="color: lightslategray">- {{'TABLE.NO_HITS' | translate}} -</span>
+</div>
+<p-table *ngIf="value.length" [value]="value" styleClass="p-datatable-sm" [paginator]="true" [rows]="12">
   <ng-template pTemplate="header">
     <tr>
       <th>X</th>

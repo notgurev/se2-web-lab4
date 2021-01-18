@@ -14,6 +14,7 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.$value.subscribe(newValues => {
       this.value = newValues;
+      console.log(this.value);
     })
   }
 }

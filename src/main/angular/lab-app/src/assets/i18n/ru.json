@@ -30,7 +30,8 @@
   "TABLE": {
     "RESULT": "Результат",
     "HIT": "Попал",
-    "MISS": "Мимо"
+    "MISS": "Мимо",
+    "NO_HITS": "Пусто"
   },
   "BUTTONS": {
     "SIGN_OUT": "Выйти",
