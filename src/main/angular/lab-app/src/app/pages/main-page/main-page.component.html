@@ -9,19 +9,19 @@
       <span style="margin-right: 0.5rem">{{ username }}</span>
       <p-button (click)="signOut()">{{'BUTTONS.SIGN_OUT' | translate}}</p-button>
       <p-button routerLink="/auth" style="margin-left: 0.5rem">{{ 'BUTTONS.GO_TO_AUTH_PAGE' | translate }}</p-button>
-      <app-language-switch style="margin-left: 0.5rem"></app-language-switch>
+      <app-language-switch style="margin-left: 0.5rem"></app-language-switch> <!-- todo -->
     </div>
   </p-toolbar>
   <div class="container">
 
     <!-- Canvas -->
     <p-panel id="canvas-panel" [header]="'HEADERS.CANVAS' | translate">
-      <app-canvas [radius]="canvasRadius" [widthHeight]="500"  [matching-radius]="matchingRadius"
+      <app-canvas [radius]="canvasRadius" [widthHeight]="canvasWidthHeight"  [matching-radius]="matchingRadius"
                   (onSubmit)="submitHit($event)" [hits]="$hits"
 
       ></app-canvas>
       <!-- Canvas settings -->
-      <div style="max-width: 500px"> <!-- todo changeable -->
+      <div>
         <div class="p-field-checkbox">
           <p-checkbox [(ngModel)]="matchingRadius" [binary]="true" id="matching-radius"></p-checkbox>
           <label for="matching-radius">{{ "OTHER.MATCHING_RADIUS" | translate }}</label>

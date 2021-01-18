@@ -26,6 +26,7 @@ export class MainPageComponent implements OnInit {
   rValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
   canvasRadius = 1;
   matchingRadius = false;
+  readonly canvasWidthHeight = 500;
 
   constructor(private authService: AuthService,
               private router: Router,

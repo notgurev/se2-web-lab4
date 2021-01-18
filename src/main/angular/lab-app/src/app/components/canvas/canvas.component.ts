@@ -14,8 +14,6 @@ import {Hit} from '../../model/Hit';
 import {canvasRelativeX, canvasRelativeY} from '../../model/functions';
 import {Subject} from 'rxjs';
 
-const R_OFFSET = 200; // todo changeable
-
 const design = {
   colors: {
     aim: 'yellow',
@@ -57,6 +55,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   hits: Hit[] = []; // buffer
 
+  rOffset!: number;
+
   center!: number;
   canvasContainer!: HTMLElement;
   aimCtx!: CanvasRenderingContext2D;
@@ -77,6 +77,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     this.center = this.wh / 2;
+    this.rOffset = this.wh * 2 / 5;
 
     this.aimCtx = this.aimCanvasRef.nativeElement.getContext('2d')!;
     this.aimCtx.strokeStyle = design.colors.main;
@@ -94,7 +95,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   submitHit(e: MouseEvent) {
-    let scale = this.drawingR / R_OFFSET;
+    let scale = this.drawingR / this.rOffset;
     let x = Math.round((canvasRelativeX(e, this.canvasContainer) - this.center) * scale);
     let y = (this.center - canvasRelativeY(e, this.canvasContainer)) * scale;
 
@@ -189,7 +190,7 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   redrawAim(e: MouseEvent, ctx: CanvasRenderingContext2D) {
     this.eraseAim();
-    let scale = this.drawingR / R_OFFSET;
+    let scale = this.drawingR / this.rOffset;
     ctx.fillStyle = design.colors.aim;
     ctx.beginPath();
     ctx.arc(
@@ -207,8 +208,8 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
     ctx.strokeStyle = design.colors.main;
     ctx.beginPath();
     ctx.arc(
-      this.center + x * R_OFFSET / this.drawingR,
-      this.center - y * R_OFFSET / this.drawingR, design.point.radius, 0, 2 * Math.PI
+      this.center + x * this.rOffset / this.drawingR,
+      this.center - y * this.rOffset / this.drawingR, design.point.radius, 0, 2 * Math.PI
     );
     ctx.stroke();
     ctx.fill();
@@ -217,10 +218,10 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
 
   drawBackground(ctx: CanvasRenderingContext2D) {
     if (this.rValue != 0) {
-      this.drawShapes(ctx, this.center, R_OFFSET);
+      this.drawShapes(ctx, this.center, this.rOffset);
     }
     this.drawCoordsSystem(this.ctx);
-    this.drawLetters(ctx, this.center, R_OFFSET);
+    this.drawLetters(ctx, this.center, this.rOffset);
   }
 
   drawHits(ctx: CanvasRenderingContext2D) {
