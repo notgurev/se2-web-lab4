@@ -2,6 +2,7 @@ package lab4.database;
 
 import lab4.beans.Hit;
 import lab4.beans.User;
+import lab4.exceptions.UserNotFoundException;
 import lab4.services.hits.HitService;
 
 import javax.ejb.EJB;
@@ -47,7 +48,7 @@ public class HitRepository {
                 .executeUpdate();
     }
 
-    public void save(Hit hit, String username) {
+    public void save(Hit hit, String username) throws UserNotFoundException {
         User user = hitService.loadUser(username);
         hit.setOwner(user);
         entityManager.persist(hit);

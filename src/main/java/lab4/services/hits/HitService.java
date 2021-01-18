@@ -32,7 +32,7 @@ public class HitService {
         }
     }
 
-    public void add(@NotNull Hit hit, @NotNull String username) {
+    public void add(@NotNull Hit hit, @NotNull String username) throws UserNotFoundException {
         hitRepository.save(hit, username);
     }
 
