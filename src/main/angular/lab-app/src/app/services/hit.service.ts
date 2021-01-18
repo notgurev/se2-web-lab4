@@ -7,13 +7,7 @@ import {Hit} from '../model/Hit';
 @Injectable({
   providedIn: 'root'
 })
-export class PointService {
-  get options() {
-    return {
-      headers: new HttpHeaders({authorization: 'Bearer ' + this.authService.token})
-    };
-  }
-
+export class HitService {
   constructor(@Inject('hitsUrl') private url: string,
               private authService: AuthService,
               private http: HttpClient) {
@@ -29,5 +23,11 @@ export class PointService {
 
   deleteHits(): Observable<any> {
     return this.http.delete(this.url, this.options);
+  }
+
+  get options() {
+    return {
+      headers: new HttpHeaders({authorization: 'Bearer ' + this.authService.token})
+    };
   }
 }

@@ -4,9 +4,9 @@ import {Router} from '@angular/router';
 import {route} from '../../model/functions';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Hit} from '../../model/Hit';
-import {PointService} from '../../services/point.service';
+import {HitService} from '../../services/hit.service';
 import {catchError} from 'rxjs/operators';
-import {throwError} from 'rxjs';
+import {Subject, throwError} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {ErrorTranslateService} from '../../services/error-translate.service';
@@ -19,7 +19,8 @@ import {DisplayModeService} from '../../services/display-mode.service';
 })
 export class MainPageComponent implements OnInit {
   username!: string;
-  hits: Hit[] = [];
+  hits: Hit[] = []; // todo remove (table)
+  $hits: Subject<Hit[]> = new Subject<Hit[]>();
   pointForm: FormGroup;
   xValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
   rValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
@@ -29,7 +30,7 @@ export class MainPageComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private fb: FormBuilder,
-              private pointService: PointService,
+              public hitService: HitService,
               private messageService: MessageService,
               private errorTranslateService: ErrorTranslateService,
               public dms: DisplayModeService) {
@@ -47,7 +48,7 @@ export class MainPageComponent implements OnInit {
 
   submitHit(hit: Hit) {
     console.log(`Submitting hit with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`);
-    this.pointService.postHit(hit).pipe(
+    this.hitService.postHit(hit).pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
       () => this.getHits()
@@ -56,19 +57,25 @@ export class MainPageComponent implements OnInit {
 
   getHits() {
     console.log(`GET hits`);
-    this.pointService.getHits().pipe(
+    this.hitService.getHits().pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
-      hits => this.hits = hits as Hit[]
+      hits => {
+        this.hits = hits as Hit[];
+        this.$hits.next(hits as Hit[]);
+      }
     );
   }
 
   clearHits() {
     console.log(`DELETE hits (clear)`);
-    this.pointService.deleteHits().pipe(
+    this.hitService.deleteHits().pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
-      () => this.hits = []
+      () => {
+        this.hits = [];
+        this.$hits.next([]);
+      }
     );
   }
 

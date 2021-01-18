@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  DoCheck,
   ElementRef,
   EventEmitter,
   Input,
@@ -13,6 +12,7 @@ import {
 } from '@angular/core';
 import {Hit} from '../../model/Hit';
 import {canvasRelativeX, canvasRelativeY} from '../../model/functions';
+import {Subject} from 'rxjs';
 
 const R_OFFSET = 200; // todo changeable
 
@@ -40,23 +40,22 @@ const design = {
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
+export class CanvasComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('container') canvasContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('aim') aimCanvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   @Input('widthHeight') wh!: number;
   @Input('radius') rValue!: number;
-  @Input('data') hits!: Hit[]; // needs to be checked manually
   @Input('matching-radius') matchingRads!: boolean;
+  @Input('hits') $hits!: Subject<Hit[]>;
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   // First OnChanges happens before children are created, so this is needed
   initialized: boolean = false;
 
-  // todo even more retarded
-  pointsLength!: number;
+  hits: Hit[] = []; // buffer
 
   center!: number;
   canvasContainer!: HTMLElement;
@@ -69,18 +68,11 @@ export class CanvasComponent implements OnInit, AfterViewInit, OnChanges, DoChec
     }
   }
 
-  // to detect array changes
-  // todo observable instead
-  ngDoCheck() {
-    if (this.hits.length != this.pointsLength) {
-      this.pointsLength = this.hits.length;
-      this.redrawAll();
-    }
-  }
-
-  // todo observable instead
   ngOnInit() {
-    this.pointsLength = this.hits.length;
+    this.$hits.subscribe(newHits => {
+      this.hits = newHits;
+      this.redrawAll();
+    })
   }
 
   ngAfterViewInit() {

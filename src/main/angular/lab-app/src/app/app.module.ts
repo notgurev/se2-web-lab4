@@ -15,7 +15,7 @@ import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';
 import {ToolbarModule} from 'primeng/toolbar';
 import {AuthService} from './services/auth.service';
-import {PointService} from './services/point.service';
+import {HitService} from './services/hit.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {PasswordModule} from 'primeng/password';
 import {TableModule} from 'primeng/table';
@@ -85,7 +85,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     AuthService,
-    PointService,
+    HitService,
     HttpClient,
     MessageService,
     {

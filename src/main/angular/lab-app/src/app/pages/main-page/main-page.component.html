@@ -16,11 +16,12 @@
 
     <!-- Canvas -->
     <p-panel id="canvas-panel" [header]="'HEADERS.CANVAS' | translate">
-      <app-canvas [radius]="canvasRadius" [widthHeight]="500" [data]="hits" [matching-radius]="matchingRadius"
-                  (onSubmit)="submitHit($event)"
+      <app-canvas [radius]="canvasRadius" [widthHeight]="500"  [matching-radius]="matchingRadius"
+                  (onSubmit)="submitHit($event)" [hits]="$hits"
+
       ></app-canvas>
       <!-- Canvas settings -->
-      <div style="max-width: 500px">
+      <div style="max-width: 500px"> <!-- todo changeable -->
         <div class="p-field-checkbox">
           <p-checkbox [(ngModel)]="matchingRadius" [binary]="true" id="matching-radius"></p-checkbox>
           <label for="matching-radius">{{ "OTHER.MATCHING_RADIUS" | translate }}</label>
@@ -83,7 +84,7 @@
 
     <!-- Table -->
     <p-panel id="table-panel" [header]="'HEADERS.TABLE' | translate">
-      <app-table [value]="hits"></app-table>
+      <app-table [value]="$hits"></app-table>
     </p-panel>
 
   </div>

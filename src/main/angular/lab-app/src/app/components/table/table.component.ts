@@ -1,14 +1,19 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Hit} from '../../model/Hit';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent {
-  @Input('value') value: Hit[] = [];
+export class TableComponent implements OnInit {
+  @Input('value') $value!: Subject<Hit[]>;
+  value: Hit[] = []
 
-  constructor() {
+  ngOnInit() {
+    this.$value.subscribe(newValues => {
+      this.value = newValues;
+    })
   }
 }
