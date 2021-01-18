@@ -19,7 +19,6 @@ import {DisplayModeService} from '../../services/display-mode.service';
 })
 export class MainPageComponent implements OnInit {
   username!: string;
-  hits: Hit[] = []; // todo remove (table)
   $hits: Subject<Hit[]> = new Subject<Hit[]>();
   pointForm: FormGroup;
   xValues = [-5, -4, -3, -2, -1, 0, 1, 2, 3].reverse();
@@ -61,10 +60,7 @@ export class MainPageComponent implements OnInit {
     this.hitService.getHits().pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
-      hits => {
-        this.hits = hits as Hit[];
-        this.$hits.next(hits as Hit[]);
-      }
+      hits => this.$hits.next(hits as Hit[])
     );
   }
 
@@ -73,10 +69,7 @@ export class MainPageComponent implements OnInit {
     this.hitService.deleteHits().pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
-      () => {
-        this.hits = [];
-        this.$hits.next([]);
-      }
+      () => this.$hits.next([])
     );
   }
 
