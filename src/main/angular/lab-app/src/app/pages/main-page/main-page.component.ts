@@ -12,10 +12,6 @@ import {MessageService} from 'primeng/api';
 import {ErrorTranslateService} from '../../services/error-translate.service';
 import {DisplayModeService} from '../../services/display-mode.service';
 
-interface SubmitResult {
-  result: boolean;
-}
-
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -50,27 +46,25 @@ export class MainPageComponent implements OnInit {
   }
 
   submitHit(hit: Hit) {
-    console.log(`Submitting point with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`);
+    console.log(`Submitting hit with x = ${hit.x}, y = ${hit.y}, r = ${hit.r}`);
     this.pointService.postHit(hit).pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
-      response => {
-        this.hits.push(Object.assign({result: (response as SubmitResult).result}, hit));
-      }
+      () => this.getHits()
     );
   }
 
   getHits() {
+    console.log(`GET hits`);
     this.pointService.getHits().pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
-      hits => {
-        this.hits = hits as Hit[];
-      }
+      hits => this.hits = hits as Hit[]
     );
   }
 
   clearHits() {
+    console.log(`DELETE hits (clear)`);
     this.pointService.deleteHits().pipe(
       catchError(this.handleError.bind(this))
     ).subscribe(
@@ -87,7 +81,7 @@ export class MainPageComponent implements OnInit {
         key: 'main',
         life: 5 * 1000
       });
-    })
+    });
     return throwError(errorResp);
   }
 
