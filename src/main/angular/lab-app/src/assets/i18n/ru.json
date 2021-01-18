@@ -1,0 +1,57 @@
+{
+  "ERRORS": {
+    "USERNAME_TOO_SHORT": "Слишком короткое имя пользователя",
+    "USERNAME_TOO_LONG": "Слишком длинное имя пользователя",
+    "PASSWORD_TOO_SHORT": "Слишком короткий пароль",
+    "WRONG_PASSWORD": "Неверный пароль",
+    "USER_NOT_FOUND": "Пользователь не найден",
+    "USER_ALREADY_EXISTS": "Имя уже занято",
+    "MISSING_CREDENTIALS": "В запросе отсутствуют имя пользователя и пароль",
+    "USERNAME_MUST_NOT_BE_NULL_OR_EMPTY": "Имя пользователя не должно быть пустым",
+    "PASSWORD_MUST_NOT_BE_NULL_OR_EMPTY": "Пароль не должен быть пустым",
+
+    "MISSING_AUTHORIZATION_TOKEN": "Отсутствует токен",
+    "INVALID_TOKEN": "Недействительный токен",
+
+    "X_VALUE_NOT_ALLOWED": "Разрешенные значения X: {-5, -4, -3, -2, -1, 0, 1, 2, 3}",
+    "X_MUST_NOT_BE_NULL_OR_EMPTY": "X не должен быть null",
+
+    "Y_VALUE_NOT_ALLOWED": "Y должен быть в диапазоне (-5 ... 5)",
+    "Y_MUST_NOT_BE_NULL_OR_EMPTY": "Y не должен быть null",
+
+    "R_VALUE_NOT_ALLOWED": "Разрешенные значения R: {0, 1, 2, 3}",
+    "R_MUST_NOT_BE_NULL_OR_EMPTY": "R не должен быть null"
+  },
+  "HEADERS": {
+    "CANVAS": "Интерактивный элемент",
+    "MANUAL_INPUT": "Ручной ввод",
+    "TABLE": "Таблица результатов"
+  },
+  "TABLE": {
+    "RESULT": "Результат",
+    "HIT": "Попал",
+    "MISS": "Мимо"
+  },
+  "BUTTONS": {
+    "SIGN_OUT": "Выйти",
+    "GO_TO_AUTH_PAGE": "На страницу авторизации",
+    "GO_TO_MAIN_PAGE": "На основную страницу",
+    "SUBMIT": "Отправить",
+    "CLEAR_HITS": "Очистить",
+    "LOG_IN": "Войти",
+    "SIGN_UP": "Зарегистрироваться"
+  },
+  "OTHER": {
+    "MODE": "Режим",
+    "MATCHING_RADIUS": "Совпадающие радиусы",
+    "BROWSER_TITLE": "Лаба №4",
+    "AUTH_PAGE_TITLE": "Лабораторная работа №4, Кириенко Никита, группа P3212, вариант 72415",
+    "WELCOME": "Добро пожаловать",
+    "SIGNED_IN_AS": "Вы вошли как"
+  },
+  "MODES": {
+    "DESKTOP": "настольный",
+    "TABLET": "планшетный",
+    "MOBILE": "мобильный"
+  }
+}

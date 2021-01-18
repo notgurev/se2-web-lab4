@@ -12,7 +12,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {Hit} from '../../model/Hit';
-import {canvasRelativeX, canvasRelativeY} from '../../model/useful';
+import {canvasRelativeX, canvasRelativeY} from '../../model/functions';
 
 // Dimensions
 const R_OFFSET = 200; // from center // todo changeable

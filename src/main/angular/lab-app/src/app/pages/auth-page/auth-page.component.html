@@ -1,7 +1,10 @@
 <!--suppress HtmlFormInputWithoutLabel -->
 <p-toolbar>
   <div class="p-toolbar-group-left" style="padding: 10px">
-    Лабораторная работа №4, Кириенко Никита, группа P3212, вариант 72415 ({{dms.mode}} mode)
+    {{ 'OTHER.AUTH_PAGE_TITLE' | translate }} ({{ 'MODES.' + dms.mode | uppercase | translate }})
+  </div>
+  <div class="p-toolbar-group-right">
+    <app-language-switch></app-language-switch>
   </div>
 </p-toolbar>
 

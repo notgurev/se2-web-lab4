@@ -3,18 +3,19 @@
 <div>
   <p-toolbar>
     <div class="p-toolbar-group-left">
-      Mode: {{ dms.mode }}
+      {{'OTHER.MODE' | translate}}: {{ 'MODES.' + dms.mode | uppercase | translate }}
     </div>
     <div class="p-toolbar-group-right">
       <span style="margin-right: 0.5rem">{{ username }}</span>
-      <p-button (click)="signOut()">Sign out</p-button>
-      <p-button routerLink="/auth" [ngStyle]="{'margin-left':'0.5rem'}">Go to auth page</p-button>
+      <p-button (click)="signOut()">{{'BUTTONS.SIGN_OUT' | translate}}</p-button>
+      <p-button routerLink="/auth" style="margin-left: 0.5rem">{{ 'BUTTONS.GO_TO_AUTH_PAGE' | translate }}</p-button>
+      <app-language-switch style="margin-left: 0.5rem"></app-language-switch>
     </div>
   </p-toolbar>
   <div class="container">
 
     <!-- Canvas -->
-    <p-panel id="canvas-panel" header="Canvas">
+    <p-panel id="canvas-panel" [header]="'HEADERS.CANVAS' | translate">
       <app-canvas [radius]="canvasRadius" [widthHeight]="500" [data]="hits" [matching-radius]="matchingRadius"
                   (onSubmit)="submitHit($event)"
       ></app-canvas>
@@ -22,7 +23,7 @@
       <div style="max-width: 500px">
         <div class="p-field-checkbox">
           <p-checkbox [(ngModel)]="matchingRadius" [binary]="true" id="matching-radius"></p-checkbox>
-          <label for="matching-radius">Matching radius</label>
+          <label for="matching-radius">{{ "OTHER.MATCHING_RADIUS" | translate }}</label>
         </div>
         <div>
           <p>R = {{canvasRadius}}</p>
@@ -32,7 +33,7 @@
     </p-panel>
 
     <!-- Manual input -->
-    <p-panel id="manual-input-panel" header="Manual input">
+    <p-panel id="manual-input-panel" [header]="'HEADERS.MANUAL_INPUT' | translate">
       <form [formGroup]="pointForm" style="text-align: center">
 
         <div class="p-field">
@@ -72,15 +73,16 @@
 
         <div id="manual-input-buttons">
           <p-button id="submit" (click)="submitHit(pointForm.value)"
-                    [disabled]="pointForm.invalid || isNaN(yForm.value)">Submit</p-button>
-          <p-button id="clear" (click)="clearHits()" [ngStyle]="{'margin-left':'0.5rem'}">Clear hits</p-button>
+                    [disabled]="pointForm.invalid || isNaN(yForm.value)"> {{ 'BUTTONS.SUBMIT' | translate }} </p-button>
+          <p-button id="clear" (click)="clearHits()"
+                    [ngStyle]="{'margin-left':'0.5rem'}">{{"BUTTONS.CLEAR_HITS" | translate}}</p-button>
         </div>
 
       </form>
     </p-panel>
 
     <!-- Table -->
-    <p-panel id="table-panel" header="Table">
+    <p-panel id="table-panel" [header]="'HEADERS.TABLE' | translate">
       <app-table [value]="hits"></app-table>
     </p-panel>
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {route} from '../../model/useful';
+import {route} from '../../model/functions';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Hit} from '../../model/Hit';
 import {PointService} from '../../services/point.service';
@@ -9,7 +9,7 @@ import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
-import {ErrorMessageService} from '../../services/error-message.service';
+import {ErrorTranslateService} from '../../services/error-translate.service';
 import {DisplayModeService} from '../../services/display-mode.service';
 
 interface SubmitResult {
@@ -35,7 +35,7 @@ export class MainPageComponent implements OnInit {
               private fb: FormBuilder,
               private pointService: PointService,
               private messageService: MessageService,
-              private ems: ErrorMessageService,
+              private errorTranslateService: ErrorTranslateService,
               public dms: DisplayModeService) {
     this.pointForm = fb.group({
       x: ['', [Validators.required]],
@@ -79,14 +79,15 @@ export class MainPageComponent implements OnInit {
   }
 
   private handleError(errorResp: HttpErrorResponse) {
-    let error = errorResp.error;
-    this.messageService.add({
-      detail: (this.ems.any(error) ?? errorResp.statusText)!,
-      severity: 'error',
-      closable: true,
-      key: 'main',
-      life: 5 * 1000
-    });
+    this.errorTranslateService.getLocalizedErrorMessage(errorResp).then(message => {
+      this.messageService.add({
+        detail: message,
+        severity: 'error',
+        closable: true,
+        key: 'main',
+        life: 5 * 1000
+      });
+    })
     return throwError(errorResp);
   }
 

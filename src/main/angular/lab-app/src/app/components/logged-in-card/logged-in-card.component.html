@@ -1,6 +1,6 @@
 <p-card>
-  <h2>Welcome back</h2>
-  <p>Signed in as <b>{{ authService.username }}</b></p>
-  <p-button (click)="authService.signOut()">Sign out</p-button>
-  <p-button id="routerButton" routerLink="/">Go to main page</p-button>
+  <h2>{{'OTHER.WELCOME' | translate}}</h2>
+  <p> {{'OTHER.SIGNED_IN_AS' | translate }} <b>{{ authService.username }}</b></p>
+  <p-button (click)="authService.signOut()">{{'BUTTONS.SIGN_OUT' | translate}}</p-button>
+  <p-button id="routerButton" routerLink="/">{{ 'BUTTONS.GO_TO_MAIN_PAGE' | translate}}</p-button>
 </p-card>

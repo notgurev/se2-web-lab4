@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {ErrorMessageService} from './error-message.service';
+import {ErrorTranslateService} from './error-translate.service';
 
 
 interface AuthResponse {
@@ -23,7 +23,7 @@ export class AuthService {
 
   constructor(@Inject('loginUrl') private loginUrl: string,
               @Inject('registerUrl') private registerUrl: string,
-              public ems: ErrorMessageService,
+              public errorTranslateService: ErrorTranslateService,
               private http: HttpClient) {
   }
 
@@ -48,8 +48,10 @@ export class AuthService {
   }
 
   private handleError(errorResp: HttpErrorResponse) {
-    let error = errorResp.error;
-    this.error$.next(this.ems.any(error) ?? errorResp.statusText);
+    this.errorTranslateService.getLocalizedErrorMessage(errorResp)
+      .then(message => {
+        this.error$.next(message);
+      });
     return throwError(errorResp);
   }
 

@@ -29,6 +29,15 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {SliderModule} from 'primeng/slider';
 import {LoggedInCardComponent} from './components/logged-in-card/logged-in-card.component';
 import {TableComponent} from './components/table/table.component';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {LanguageSwitchComponent} from './components/language-switch/language-switch.component';
+import {DropdownModule} from 'primeng/dropdown';
+import {LanguageStorageService} from './services/language-storage.service';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -38,6 +47,7 @@ import {TableComponent} from './components/table/table.component';
     CanvasComponent,
     LoggedInCardComponent,
     TableComponent,
+    LanguageSwitchComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +70,18 @@ import {TableComponent} from './components/table/table.component';
     ToastModule,
     CheckboxModule,
     FormsModule,
-    SliderModule
+    SliderModule,
+    TranslateModule.forRoot({
+      // forRoot() provides and configures services at the same time
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en'
+    }),
+    DropdownModule,
+
   ],
   providers: [
     AuthService,
@@ -83,4 +104,10 @@ import {TableComponent} from './components/table/table.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(private translate: TranslateService, private languageStorage: LanguageStorageService) {
+    let lang = languageStorage.load();
+    if (lang) {
+      translate.use(lang);
+    }
+  }
 }
