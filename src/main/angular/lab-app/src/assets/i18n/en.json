@@ -42,6 +42,11 @@
     "LOG_IN": "Log in",
     "SIGN_UP": "Sign up"
   },
+  "AUTH": {
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "TITLE": "Log in / Sign up"
+  },
   "OTHER": {
     "MODE": "Mode",
     "MATCHING_RADIUS": "Matching radius",

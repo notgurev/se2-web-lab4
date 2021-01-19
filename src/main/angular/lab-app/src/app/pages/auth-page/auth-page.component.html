@@ -11,7 +11,7 @@
 <div class="page p-grid p-align-center p-justify-center vertical-container">
   <div class="login-div p-col p-col-align-center">
     <p-card [hidden]="authService.loggedIn">
-      <h2 style="text-align: center">Login / Signup</h2>
+      <h2 style="text-align: center">{{'AUTH.TITLE' | translate}}</h2>
       <!-- Error messages -->
       <div *ngIf="authService.error$ | async as error" style="text-align: center">
         <p-message [text]="error" severity="error"></p-message>
@@ -21,7 +21,7 @@
         <div class="p-field">
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-            <input type="text" pInputText placeholder="Username" formControlName="username">
+            <input type="text" pInputText [placeholder]="'AUTH.USERNAME' | translate" formControlName="username">
           </div>
           <div *ngIf="usernameForm?.invalid && usernameForm?.touched" class="p-invalid">
             <small *ngIf="usernameForm?.errors?.required">
@@ -35,7 +35,8 @@
         <div class="p-field">
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
-            <input type="password" pPassword pInputText placeholder="Password" formControlName="password">
+            <input type="password" pPassword pInputText
+                   [placeholder]="'AUTH.PASSWORD' | translate" formControlName="password">
           </div>
           <div *ngIf="passwordForm?.invalid && passwordForm?.touched" class="p-invalid">
             <small *ngIf="passwordForm?.errors?.required">
@@ -47,8 +48,8 @@
           </div>
         </div>
         <div class="p-grid p-justify-around">
-          <p-button (click)="login()" [disabled]="authForm.invalid">Log in</p-button>
-          <p-button (click)="register()" [disabled]="authForm.invalid">Sign up</p-button>
+          <p-button (click)="login()" [disabled]="authForm.invalid">{{'BUTTONS.LOG_IN' | translate}}</p-button>
+          <p-button (click)="register()" [disabled]="authForm.invalid">{{'BUTTONS.SIGN_UP' | translate}}</p-button>
           <p-button (click)="fillAdmin()">[Admin]</p-button>
           <p-button icon="pi pi-github"
                     (click)="window.open('https://github.com/notgurev/se2-web-lab4', '_blank')"></p-button>
