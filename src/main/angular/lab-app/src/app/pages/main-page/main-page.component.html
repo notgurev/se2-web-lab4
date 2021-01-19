@@ -54,7 +54,7 @@
           <!-- Y validation messages -->
           <div *ngIf="yForm.invalid && yForm.touched" class="p-invalid">
             <small *ngIf="yForm.errors?.min || yForm.errors?.max">
-              Y must be in range (-5...5)
+              {{'VALIDATION.Y_MUST_BE_IN_RANGE' | translate}} (-5...5)
             </small>
           </div>
         </div>
@@ -67,7 +67,7 @@
             <p-listbox [options]="rValues" formControlName="r" [listStyle]="{'max-height':'100px'}"></p-listbox>
             <!-- R validation messages -->
             <small *ngIf="rForm.value < 0" class="p-invalid" style="margin-left: 0.5rem">
-              Radius must be positive.
+              {{'VALIDATION.RADIUS_MUST_BE_POSITIVE' | translate}}
             </small>
           </div>
         </div>

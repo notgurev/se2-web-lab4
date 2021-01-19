@@ -59,5 +59,13 @@
     "DESKTOP": "desktop",
     "TABLET": "tablet",
     "MOBILE": "mobile"
+  },
+  "VALIDATION": {
+    "USERNAME_REQUIRED": "Username is required",
+    "USERNAME_WRONG_LENGTH": "Username must be {{value}} characters long",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_WRONG_LENGTH": "Password must be at least {{value}} characters long",
+    "RADIUS_MUST_BE_POSITIVE": "Radius must be positive",
+    "Y_MUST_BE_IN_RANGE": "Y must be in range"
   }
 }

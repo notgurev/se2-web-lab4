@@ -25,10 +25,10 @@
           </div>
           <div *ngIf="usernameForm?.invalid && usernameForm?.touched" class="p-invalid">
             <small *ngIf="usernameForm?.errors?.required">
-              Username is required.
+              {{'VALIDATION.USERNAME_REQUIRED' | translate}}
             </small>
             <small *ngIf="usernameForm?.errors?.minlength || usernameForm?.errors?.maxlength">
-              Username must be 4-15 characters long.
+              {{'VALIDATION.USERNAME_WRONG_LENGTH' | translate:{value:'4-15'} }}
             </small>
           </div>
         </div>
@@ -40,10 +40,10 @@
           </div>
           <div *ngIf="passwordForm?.invalid && passwordForm?.touched" class="p-invalid">
             <small *ngIf="passwordForm?.errors?.required">
-              Password is required.
+              {{'VALIDATION.PASSWORD_REQUIRED' | translate}}
             </small>
             <small *ngIf="passwordForm?.errors?.minlength">
-              Password must be at least {{ passwordForm?.errors?.minlength?.requiredLength }} characters long.
+              {{'VALIDATION.PASSWORD_WRONG_LENGTH' | translate:{value:'4'} }}
             </small>
           </div>
         </div>

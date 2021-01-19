@@ -59,5 +59,13 @@
     "DESKTOP": "настольный",
     "TABLET": "планшетный",
     "MOBILE": "мобильный"
+  },
+  "VALIDATION": {
+    "USERNAME_REQUIRED": "Необходимо имя пользователя",
+    "USERNAME_WRONG_LENGTH": "Имя пользователя должно быть длиной {{value}} символов",
+    "PASSWORD_REQUIRED": "Необходим пароль",
+    "PASSWORD_WRONG_LENGTH": "Пароль должен быть длиннее {{value}} символов",
+    "RADIUS_MUST_BE_POSITIVE": "Радиус должен быть положительным",
+    "Y_MUST_BE_IN_RANGE": "Y должен быть в диапазоне"
   }
 }
