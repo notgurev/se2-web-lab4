@@ -7,6 +7,7 @@ import {AuthService} from '../../services/auth.service';
   styleUrls: ['./logged-in-card.component.scss']
 })
 export class LoggedInCardComponent {
+  window = window;
   constructor(public authService: AuthService) {
   }
 }
