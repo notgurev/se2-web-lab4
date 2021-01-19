@@ -6,10 +6,10 @@
       {{'OTHER.MODE' | translate}}: {{ 'MODES.' + dms.mode | uppercase | translate }}
     </div>
     <div class="p-toolbar-group-right">
-      <span style="margin-right: 0.5rem">{{ username }}</span>
+      <span>{{ username }}</span>
       <p-button (click)="signOut()">{{'BUTTONS.SIGN_OUT' | translate}}</p-button>
-      <p-button routerLink="/auth" style="margin-left: 0.5rem">{{ 'BUTTONS.GO_TO_AUTH_PAGE' | translate }}</p-button>
-      <app-language-switch style="margin-left: 0.5rem"></app-language-switch> <!-- todo -->
+      <p-button routerLink="/auth">{{ 'BUTTONS.GO_TO_AUTH_PAGE' | translate }}</p-button>
+      <app-language-switch></app-language-switch>
     </div>
   </p-toolbar>
   <div class="container">
@@ -75,8 +75,7 @@
         <div id="manual-input-buttons">
           <p-button id="submit" (click)="submitHit(pointForm.value)"
                     [disabled]="pointForm.invalid || isNaN(yForm.value)"> {{ 'BUTTONS.SUBMIT' | translate }} </p-button>
-          <p-button id="clear" (click)="clearHits()"
-                    [ngStyle]="{'margin-left':'0.5rem'}">{{"BUTTONS.CLEAR_HITS" | translate}}</p-button>
+          <p-button id="clear" (click)="clearHits()">{{"BUTTONS.CLEAR_HITS" | translate}}</p-button>
         </div>
 
       </form>
